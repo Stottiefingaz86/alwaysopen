@@ -4,7 +4,7 @@ import { BOOK_MEETING_MAILTO } from "@/lib/contact";
 const links = [
   { href: "#services", label: "Services" },
   { href: "#pricing", label: "Pricing" },
-  { href: "#", label: "Case studies" },
+  { href: "#news", label: "News" },
   { href: "#phone-receptionist", label: "Phone line" },
   { href: "#about", label: "About" },
   { href: "#news", label: "News" },
@@ -25,6 +25,9 @@ export function Footer() {
               AlwaysOpen answers your business phone line with AI, helps you
               capture more customers, improve reviews, and understand what callers
               really want.
+            </p>
+            <p className="mt-3 text-sm text-google-gray-500">
+              Manilva, La Chullera, Spain · English &amp; Spanish
             </p>
           </div>
           <nav>

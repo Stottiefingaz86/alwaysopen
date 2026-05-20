@@ -7,9 +7,10 @@ import { ProblemSection } from "@/components/landing/problem-section";
 import { SolutionSection } from "@/components/landing/solution-section";
 import { PipelineSection } from "@/components/landing/pipeline";
 import { VocSection } from "@/components/landing/voc-section";
-import { UseCasesSection } from "@/components/landing/use-cases";
+import { NewsSection } from "@/components/landing/news-section";
 import { PricingSection } from "@/components/landing/pricing";
 import { AddOnsSection } from "@/components/landing/add-ons";
+import { AboutSection } from "@/components/landing/about-section";
 import { FaqsSection } from "@/components/landing/faqs-section";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Footer } from "@/components/landing/footer";
@@ -27,9 +28,10 @@ export default function Home() {
         <SolutionSection />
         <PipelineSection />
         <VocSection />
-        <UseCasesSection />
         <PricingSection />
         <AddOnsSection />
+        <NewsSection />
+        <AboutSection />
         <FaqsSection />
         <FinalCta />
       </main>

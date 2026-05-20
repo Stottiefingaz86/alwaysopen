@@ -56,13 +56,13 @@ const faqItems: {
     icon: Globe,
     question: "Who is AlwaysOpen for?",
     answer:
-      "Local businesses that live on the phone: salons, clinics, trades, shops, and practices that lose enquiries when no one picks up.",
+      "Local businesses that live on the phone: salons, clinics, trades, shops, and practices that lose enquiries when no one picks up. We're based in Manilva and support owners in English and Spanish.",
   },
 ];
 
 export function FaqsSection() {
   return (
-    <Section id="about" background="gray">
+    <Section id="faq" background="gray">
       <div className="mx-auto max-w-5xl px-0">
         <div className="flex flex-col gap-10 md:flex-row md:gap-16">
           <FadeIn className="md:w-1/3">
