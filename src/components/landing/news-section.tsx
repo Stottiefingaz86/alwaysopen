@@ -1,10 +1,11 @@
 "use client";
 
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
+import { useLocale } from "@/components/providers/locale-provider";
 import {
-  categoryLabels,
   formatNewsDate,
-  newsItems,
+  getCategoryLabel,
+  getNewsItems,
   type NewsItem,
 } from "@/lib/news-content";
 import { NewsCoverImage } from "@/components/landing/news-cover-image";
@@ -12,7 +13,13 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Calendar } from "lucide-react";
 import Link from "next/link";
 
-function CategoryBadge({ category }: { category: NewsItem["category"] }) {
+function CategoryBadge({
+  category,
+  locale,
+}: {
+  category: NewsItem["category"];
+  locale: "en" | "es";
+}) {
   const styles = {
     article: "bg-pastel-blue text-google-blue",
     update: "bg-google-green/10 text-google-green",
@@ -25,7 +32,7 @@ function CategoryBadge({ category }: { category: NewsItem["category"] }) {
         styles[category]
       )}
     >
-      {categoryLabels[category]}
+      {getCategoryLabel(category, locale)}
     </span>
   );
 }
@@ -34,10 +41,14 @@ function NewsCard({
   item,
   imageVersions,
   featured = false,
+  locale,
+  readMore,
 }: {
   item: NewsItem;
   imageVersions: Record<string, string>;
   featured?: boolean;
+  locale: "en" | "es";
+  readMore: string;
 }) {
   return (
     <Link
@@ -59,9 +70,9 @@ function NewsCard({
 
       <div className={cn("flex flex-1 flex-col p-5 md:p-6", featured && "justify-center")}>
         <div className="flex flex-wrap items-center gap-2">
-          <CategoryBadge category={item.category} />
+          <CategoryBadge category={item.category} locale={locale} />
           <time className="text-xs text-google-gray-500" dateTime={item.date}>
-            {formatNewsDate(item.date)}
+            {formatNewsDate(item.date, locale)}
           </time>
           <span className="text-xs text-google-gray-400">· {item.readTime}</span>
         </div>
@@ -93,7 +104,7 @@ function NewsCard({
         )}
 
         <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-google-blue">
-          Read more
+          {readMore}
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
         </span>
       </div>
@@ -106,26 +117,28 @@ export function NewsSection({
 }: {
   imageVersions: Record<string, string>;
 }) {
+  const { m, locale } = useLocale();
+  const newsItems = getNewsItems(locale);
   const [featured, ...rest] = newsItems;
 
   return (
     <Section id="news" background="pattern">
       <SectionHeader
-        eyebrow="News"
-        title="Updates and guides"
-        subtitle="Product news and practical tips for phone-first local businesses, from our team in Manilva, Spain."
+        eyebrow={m.news.eyebrow}
+        title={m.news.title}
+        subtitle={m.news.subtitle}
       />
 
       <div className="space-y-6">
         <FadeIn>
           <div className="flex items-end justify-between gap-4 border-b border-google-gray-200 pb-3">
-            <h3 className="text-lg font-medium text-foreground">Latest</h3>
+            <h3 className="text-lg font-medium text-foreground">{m.news.latest}</h3>
             <Link
               href="/news"
               className="hidden text-sm font-medium text-google-blue hover:underline sm:inline"
             >
               <Calendar className="mr-1.5 inline size-4 -translate-y-px" />
-              View all articles
+              {m.news.viewAll}
             </Link>
           </div>
         </FadeIn>
@@ -136,6 +149,8 @@ export function NewsSection({
               item={featured}
               imageVersions={imageVersions}
               featured
+              locale={locale}
+              readMore={m.news.readMore}
             />
           </FadeIn>
         )}
@@ -143,7 +158,12 @@ export function NewsSection({
         <div className="grid gap-5 md:grid-cols-2">
           {rest.map((item, i) => (
             <FadeIn key={item.id} delay={0.06 + i * 0.05}>
-              <NewsCard item={item} imageVersions={imageVersions} />
+              <NewsCard
+                item={item}
+                imageVersions={imageVersions}
+                locale={locale}
+                readMore={m.news.readMore}
+              />
             </FadeIn>
           ))}
         </div>
@@ -154,7 +174,7 @@ export function NewsSection({
               href="/news"
               className="text-sm font-medium text-google-blue hover:underline"
             >
-              View all articles →
+              {m.news.viewAllMobile}
             </Link>
           </p>
         </FadeIn>

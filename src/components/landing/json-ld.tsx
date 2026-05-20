@@ -1,4 +1,6 @@
-import { faqItems } from "@/lib/faq-content";
+import { en } from "@/lib/i18n/messages/en";
+
+const faqItems = en.faq.items;
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export function JsonLd() {

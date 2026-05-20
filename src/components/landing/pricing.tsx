@@ -9,89 +9,54 @@ import {
 } from "@/components/ui/card";
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn, Section } from "@/components/ui/section";
+import { useLocale } from "@/components/providers/locale-provider";
 import {
-  BOOK_MEETING_MAILTO,
-  TALK_OVER_COFFEE_CTA,
-  TALK_OVER_COFFEE_LINK,
+  getBookingMailto,
+  getTalkOverCoffeeCta,
+  getTalkOverCoffeeLink,
 } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 
-const plans = [
-  {
-    name: "Starter",
-    setup: "€750",
-    monthly: "€199",
-    minutes: "150 minutes/month",
-    overage: "€0.35/minute",
-    popular: false,
-    includes: [
-      "AI receptionist",
-      "Booking requests",
-      "Cancellation requests",
-      "Google Calendar",
-      "Email confirmations",
-      "FAQ knowledgebase",
-      "Basic monthly review summary",
-    ],
-  },
-  {
-    name: "Growth",
-    setup: "€1250",
-    monthly: "€399",
-    minutes: "400 minutes/month",
-    overage: "€0.30/minute",
-    popular: true,
-    includes: [
-      "Everything Starter",
-      "Better knowledgebase",
-      "Booking automation",
-      "Calendar links",
-      "Monthly customer feedback report",
-      "Google Business action plan",
-      "Monthly review call",
-    ],
-  },
-  {
-    name: "Premium",
-    setup: "€2500",
-    monthly: "€799",
-    minutes: "1000 minutes/month",
-    overage: "€0.25/minute",
-    popular: false,
-    includes: [
-      "Everything Growth",
-      "Multi-calendar support",
-      "In-depth feedback report + Google strategy",
-      "Competitor benchmarking",
-      "Quarterly CX audit",
-      "Strategy calls",
-      "Priority support",
-    ],
-  },
-];
+const planKeys = ["starter", "growth", "premium"] as const;
 
 export function PricingSection() {
+  const { m, locale } = useLocale();
+  const mailto = getBookingMailto(locale);
+
+  const plans = planKeys.map((key, i) => ({
+    key,
+    name: m.pricing.plans[key].name,
+    setup: m.pricing.prices[key].setup,
+    monthly: m.pricing.prices[key].monthly,
+    minutes: m.pricing.minutes[key],
+    overage: m.pricing.overageRates[key],
+    includes: m.pricing.plans[key].includes,
+    popular: key === "growth",
+    delay: i * 0.08,
+  }));
+
   return (
     <Section id="pricing" background="pattern">
       <div className="mx-auto max-w-6xl px-0">
         <FadeIn>
           <div className="mx-auto max-w-2xl space-y-4 text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-google-blue">
-              Pricing
+              {m.pricing.eyebrow}
             </p>
             <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
-              Simple pricing
+              {m.pricing.title}
             </h2>
-            <p className="text-google-gray-500">
-              Three plans. Clear outcomes. No surprises.
+            <p className="text-google-gray-500">{m.pricing.subtitle}</p>
+            <p className="text-sm font-medium text-google-gray-600">
+              {m.pricing.cancelAnytime}
             </p>
           </div>
         </FadeIn>
 
         <div className="mt-10 grid gap-6 pt-4 md:mt-16 md:grid-cols-3 md:items-stretch">
-          {plans.map((plan, i) => (
-            <FadeIn key={plan.name} delay={i * 0.08} className="min-h-0">
+          {plans.map((plan) => (
+            <FadeIn key={plan.key} delay={plan.delay} className="min-h-0">
               <Card
                 className={cn(
                   "relative flex h-full flex-col overflow-visible border-google-gray-200 shadow-google-card",
@@ -100,7 +65,7 @@ export function PricingSection() {
               >
                 {plan.popular && (
                   <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-google-blue px-3 py-1 text-xs font-medium text-white shadow-google">
-                    Most popular
+                    {m.pricing.popular}
                   </span>
                 )}
                 <CardHeader className={cn("pb-4", plan.popular && "pt-7")}>
@@ -108,27 +73,25 @@ export function PricingSection() {
                     {plan.name}
                   </CardTitle>
                   <p className="mt-3 text-sm text-google-gray-500">
-                    Setup{" "}
-                    <span className="text-lg font-medium text-foreground">
-                      {plan.setup}
-                    </span>
+                    {m.pricing.setup}{" "}
+                    <span className="text-lg font-medium text-foreground">{plan.setup}</span>
                   </p>
                   <span className="mt-2 block text-3xl font-semibold tracking-tight">
                     {plan.monthly}
                     <span className="text-base font-normal text-google-gray-500">
-                      /mo
+                      {m.pricing.perMonth}
                     </span>
                   </span>
                   <CardDescription className="mt-3 rounded-lg bg-google-gray-50 px-3 py-2 text-sm">
                     {plan.minutes}
                   </CardDescription>
                   <CtaButton
-                    href={BOOK_MEETING_MAILTO}
+                    href={mailto}
                     variant={plan.popular ? "primary" : "secondary"}
                     size="default"
                     className="mt-4 w-full"
                   >
-                    {TALK_OVER_COFFEE_CTA}
+                    {getTalkOverCoffeeCta(locale)}
                   </CtaButton>
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col space-y-4">
@@ -142,7 +105,7 @@ export function PricingSection() {
                     ))}
                   </ul>
                   <p className="text-xs text-google-gray-500">
-                    Overage: {plan.overage}
+                    {m.pricing.overage} {plan.overage}
                   </p>
                 </CardContent>
               </Card>
@@ -151,8 +114,8 @@ export function PricingSection() {
         </div>
 
         <FadeIn delay={0.2} className="mt-8 text-center">
-          <CtaButton href={BOOK_MEETING_MAILTO} variant="secondary">
-            Questions? {TALK_OVER_COFFEE_LINK}
+          <CtaButton href={mailto} variant="secondary">
+            {m.pricing.questions} {getTalkOverCoffeeLink(locale)}
           </CtaButton>
         </FadeIn>
       </div>

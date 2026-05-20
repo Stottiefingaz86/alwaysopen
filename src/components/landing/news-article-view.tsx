@@ -1,32 +1,17 @@
+"use client";
+
 import { CtaButton } from "@/components/landing/cta-button";
 import { NewsCoverImage } from "@/components/landing/news-cover-image";
+import { useLocale } from "@/components/providers/locale-provider";
 import {
-  categoryLabels,
   formatNewsDate,
+  getCategoryLabel,
   type NewsItem,
 } from "@/lib/news-content";
-import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
+import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, FileText, Sparkles } from "lucide-react";
 import Link from "next/link";
-
-function CategoryBadge({ category }: { category: NewsItem["category"] }) {
-  const styles = {
-    article: "bg-pastel-blue text-google-blue",
-    update: "bg-google-green/10 text-google-green",
-  };
-
-  return (
-    <span
-      className={cn(
-        "inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium",
-        styles[category]
-      )}
-    >
-      {categoryLabels[category]}
-    </span>
-  );
-}
 
 export function NewsArticleView({
   article,
@@ -35,6 +20,14 @@ export function NewsArticleView({
   article: NewsItem;
   imageVersions: Record<string, string>;
 }) {
+  const { m, locale } = useLocale();
+  const mailto = getBookingMailto(locale);
+
+  const categoryClass =
+    article.category === "article"
+      ? "bg-pastel-blue text-google-blue"
+      : "bg-google-green/10 text-google-green";
+
   return (
     <article>
       <NewsCoverImage
@@ -51,12 +44,19 @@ export function NewsArticleView({
             className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-google-blue hover:underline"
           >
             <ArrowLeft className="size-4" />
-            All news
+            {m.news.allNews}
           </Link>
           <div className="flex flex-wrap items-center gap-2">
-            <CategoryBadge category={article.category} />
+            <span
+              className={cn(
+                "inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium",
+                categoryClass
+              )}
+            >
+              {getCategoryLabel(article.category, locale)}
+            </span>
             <time className="text-xs text-google-gray-500" dateTime={article.date}>
-              {formatNewsDate(article.date)}
+              {formatNewsDate(article.date, locale)}
             </time>
             <span className="text-xs text-google-gray-400">· {article.readTime}</span>
           </div>
@@ -94,10 +94,10 @@ export function NewsArticleView({
             ) : (
               <FileText className="size-4 text-google-blue" />
             )}
-            From the RingsAway team
+            {m.news.fromTeam}
           </p>
-          <CtaButton href={BOOK_MEETING_MAILTO} size="default">
-            {TALK_OVER_COFFEE_CTA}
+          <CtaButton href={mailto} size="default">
+            {getTalkOverCoffeeCta(locale)}
           </CtaButton>
         </div>
       </footer>

@@ -9,6 +9,7 @@ import {
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ReviewCardMock } from "@/components/landing/illustrations";
 import { FadeIn } from "@/components/ui/section";
+import { useLocale } from "@/components/providers/locale-provider";
 import {
   Heart,
   ListChecks,
@@ -21,7 +22,7 @@ import {
   Users,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 const GOOGLE_BUSINESS_ICON = "/google-my-business-icon.svg";
@@ -35,74 +36,44 @@ type PanelKey =
   | "google"
   | "actions";
 
-const explainers = [
-  {
-    title: "What is VoC?",
-    icon: MessageSquare,
-    body: "Voice of the Customer (VoC) means listening to what people say about your business: Google reviews, your website, surveys, and feedback after visits. Then we help you make sense of it together.",
-  },
-  {
-    title: "Why it matters",
-    icon: TrendingUp,
-    body: "Star ratings alone do not tell you what to fix. VoC shows the real themes (wait times, staff, pricing, quality) so you improve what customers actually care about, not what you guess.",
-  },
-  {
-    title: "Action + Google",
-    icon: MapPin,
-    body: "Each month we turn feedback into clear next steps: what to change in the business, how to reply on Google, and a practical Google Business strategy so your listing works harder for you.",
-  },
-] as const;
+const panelIcons = {
+  complaints: ThumbsDown,
+  praise: ThumbsUp,
+  sentiment: Heart,
+  competitors: Users,
+  suggestions: PenLine,
+  google: MapPin,
+  actions: ListChecks,
+} as const;
 
-const panels: Record<
-  PanelKey,
-  { title: string; icon: typeof ThumbsDown; description: string }
-> = {
-  complaints: {
-    title: "Top complaints",
-    icon: ThumbsDown,
-    description:
-      "We read your Google reviews, website feedback, and surveys, then call out what people complain about most so you fix the right thing first.",
-  },
-  praise: {
-    title: "Top praise themes",
-    icon: ThumbsUp,
-    description:
-      "We highlight what customers love in their own words: the phrases and experiences that show up again and again in five-star reviews.",
-  },
-  sentiment: {
-    title: "Customer sentiment",
-    icon: Heart,
-    description:
-      "We track whether mood is improving month to month from your reviews and satisfaction feedback, not just your star average.",
-  },
-  competitors: {
-    title: "Competitor comparison",
-    icon: Users,
-    description:
-      "When reviewers mention rivals, we note why, and where you are already winning in their eyes.",
-  },
-  suggestions: {
-    title: "Review response ideas",
-    icon: PenLine,
-    description:
-      "Optional wording we suggest for Google replies. You choose what to post, in your voice.",
-  },
-  google: {
-    title: "Google Business strategy",
-    icon: MapPin,
-    description:
-      "Practical guidance for your Google Business profile: which reviews to answer, what to post, what to highlight in photos or offers, and how feedback should shape how you show up in local search.",
-  },
-  actions: {
-    title: "Monthly action plan",
-    icon: ListChecks,
-    description:
-      "A short, human-written priority list for this month: fixes in the business, reputation tasks, and Google steps ranked by what will help you most.",
-  },
-};
+const explainerIcons = [MessageSquare, TrendingUp, MapPin] as const;
 
 export function VocSection() {
+  const { m, locale } = useLocale();
+  const v = m.voc;
   const [activeItem, setActiveItem] = useState<PanelKey>("google");
+
+  const explainers = useMemo(
+    () => [
+      { title: v.whatTitle, icon: explainerIcons[0], body: v.whatBody },
+      { title: v.whyTitle, icon: explainerIcons[1], body: v.whyBody },
+      { title: v.actionTitle, icon: explainerIcons[2], body: v.actionBody },
+    ],
+    [v]
+  );
+
+  const panels = useMemo(
+    () =>
+      (Object.keys(panelIcons) as PanelKey[]).map((key) => ({
+        key,
+        icon: panelIcons[key],
+        title: v.panels[key].title,
+        description: v.panels[key].description,
+      })),
+    [v]
+  );
+
+  const activePanel = panels.find((p) => p.key === activeItem)!;
 
   return (
     <section id="voc" className="relative overflow-x-clip bg-pastel-blue/30 py-16 md:py-24">
@@ -110,18 +81,25 @@ export function VocSection() {
         <FadeIn>
           <div className="mx-auto max-w-3xl space-y-5 text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-google-blue">
-              Customer feedback reports
+              {v.eyebrow}
             </p>
             <h2 className="text-balance text-3xl font-medium tracking-tight md:text-4xl lg:text-5xl">
-              Voice of the Customer, explained in plain English
+              {v.title}
             </h2>
             <p className="text-base leading-relaxed text-google-gray-500 md:text-lg">
-              <strong className="font-medium text-foreground">VoC</strong> is not
-              jargon for big corporations. It is listening to what customers say,
-              understanding the patterns, and{" "}
-              <strong className="font-medium text-foreground">doing something about it</strong>,
-              including your Google Business profile, where many people decide
-              whether to call you.
+              {locale === "es" ? (
+                <>
+                  {v.introBefore}{" "}
+                  <strong className="font-medium text-foreground">{v.introEmphasis}</strong>
+                  {v.introAfter}
+                </>
+              ) : (
+                <>
+                  <strong className="font-medium text-foreground">VoC</strong> {v.introBefore}{" "}
+                  <strong className="font-medium text-foreground">{v.introEmphasis}</strong>
+                  {v.introAfter}
+                </>
+              )}
             </p>
           </div>
         </FadeIn>
@@ -136,12 +114,8 @@ export function VocSection() {
                 <span className="flex size-10 items-center justify-center rounded-xl bg-pastel-blue text-google-blue">
                   <item.icon className="size-5" strokeWidth={1.75} />
                 </span>
-                <h3 className="mt-4 text-base font-medium text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-google-gray-500">
-                  {item.body}
-                </p>
+                <h3 className="mt-4 text-base font-medium text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-google-gray-500">{item.body}</p>
               </div>
             ))}
           </div>
@@ -149,18 +123,13 @@ export function VocSection() {
 
         <FadeIn delay={0.08}>
           <p className="mx-auto max-w-2xl text-center text-sm leading-relaxed text-google-gray-500">
-            Each month our team prepares your report by hand. We read Google
-            Business reviews, your website, surveys, and customer satisfaction
-            feedback, so you get themes, actions, and a Google plan you can
-            actually follow.
+            {v.monthlyNote}
           </p>
         </FadeIn>
 
         <div className="grid gap-10 md:grid-cols-2 md:gap-14 lg:gap-20">
           <FadeIn delay={0.1}>
-            <p className="mb-4 text-sm font-medium text-foreground">
-              What goes into your monthly report
-            </p>
+            <p className="mb-4 text-sm font-medium text-foreground">{v.accordionHeading}</p>
             <Accordion
               value={[activeItem]}
               onValueChange={(value) => {
@@ -169,22 +138,19 @@ export function VocSection() {
               }}
               className="w-full"
             >
-              {(Object.keys(panels) as PanelKey[]).map((key) => {
-                const panel = panels[key];
-                return (
-                  <AccordionItem key={key} value={key}>
-                    <AccordionTrigger className="text-base hover:no-underline">
-                      <span className="flex items-center gap-2">
-                        <panel.icon className="size-4 text-google-blue" />
-                        {panel.title}
-                      </span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-sm text-google-gray-500">
-                      {panel.description}
-                    </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
+              {panels.map((panel) => (
+                <AccordionItem key={panel.key} value={panel.key}>
+                  <AccordionTrigger className="text-base hover:no-underline">
+                    <span className="flex items-center gap-2">
+                      <panel.icon className="size-4 text-google-blue" />
+                      {panel.title}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-google-gray-500">
+                    {panel.description}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
           </FadeIn>
 
@@ -203,27 +169,22 @@ export function VocSection() {
                     {activeItem === "google" ? (
                       <Image
                         src={GOOGLE_BUSINESS_ICON}
-                        alt="Google Business Profile"
+                        alt={v.panels.google.imageAlt}
                         width={160}
                         height={140}
                         className="h-28 w-auto max-w-[200px] object-contain sm:h-32"
                       />
                     ) : (
-                      (() => {
-                        const Icon = panels[activeItem].icon;
-                        return (
-                          <span className="flex size-16 items-center justify-center rounded-2xl bg-pastel-blue/80">
-                            <Icon
-                              className="size-8 text-google-blue"
-                              strokeWidth={1.5}
-                            />
-                          </span>
-                        );
-                      })()
+                      <span className="flex size-16 items-center justify-center rounded-2xl bg-pastel-blue/80">
+                        <activePanel.icon
+                          className="size-8 text-google-blue"
+                          strokeWidth={1.5}
+                        />
+                      </span>
                     )}
                     <ReviewCardMock className="w-full max-w-[220px] shrink-0" />
                     <p className="text-center text-sm font-medium text-google-gray-700">
-                      {panels[activeItem].title}
+                      {activePanel.title}
                     </p>
                   </motion.div>
                 </AnimatePresence>

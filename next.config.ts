@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       {
         pathname: "/news/**",
       },
+      {
+        pathname: "/flags/**",
+      },
     ],
   },
 };

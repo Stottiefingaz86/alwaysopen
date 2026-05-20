@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "@/components/providers/locale-provider";
 import { motion } from "framer-motion";
 
 export function GrowthChartIllustration({ className }: { className?: string }) {
@@ -30,6 +31,9 @@ export function GrowthChartIllustration({ className }: { className?: string }) {
 }
 
 export function ReviewCardMock({ className }: { className?: string }) {
+  const { m } = useLocale();
+  const r = m.reviewCard;
+
   return (
     <div className={`rounded-2xl border border-google-gray-200 bg-white p-5 shadow-google-card ${className ?? ""}`}>
       <div className="flex items-center gap-3">
@@ -37,7 +41,7 @@ export function ReviewCardMock({ className }: { className?: string }) {
           SM
         </div>
         <div>
-          <p className="text-sm font-medium text-foreground">Sarah M.</p>
+          <p className="text-sm font-medium text-foreground">{r.author}</p>
           <div className="mt-0.5 flex gap-0.5">
             {[1, 2, 3, 4, 5].map((i) => (
               <svg key={i} className="size-3.5 fill-google-yellow text-google-yellow" viewBox="0 0 20 20">
@@ -46,14 +50,16 @@ export function ReviewCardMock({ className }: { className?: string }) {
             ))}
           </div>
         </div>
-        <span className="ml-auto text-xs text-google-gray-500">Google</span>
+        <span className="ml-auto text-xs text-google-gray-500">{r.source}</span>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-google-gray-700">
-        &ldquo;Called after hours and got booked straight away. Wish they&apos;d done this years ago.&rdquo;
-      </p>
+      <p className="mt-3 text-sm leading-relaxed text-google-gray-700">&ldquo;{r.quote}&rdquo;</p>
       <div className="mt-3 flex flex-wrap gap-2">
-        <span className="rounded-full bg-pastel-mint px-2.5 py-0.5 text-xs text-google-green">Booking ease</span>
-        <span className="rounded-full bg-pastel-lavender px-2.5 py-0.5 text-xs text-google-blue">After hours</span>
+        <span className="rounded-full bg-pastel-mint px-2.5 py-0.5 text-xs text-google-green">
+          {r.tags[0]}
+        </span>
+        <span className="rounded-full bg-pastel-lavender px-2.5 py-0.5 text-xs text-google-blue">
+          {r.tags[1]}
+        </span>
       </div>
     </div>
   );

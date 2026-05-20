@@ -2,6 +2,7 @@
 
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { useLocale } from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -24,39 +25,6 @@ type Stage = {
   items: StageItem[];
   highlight?: boolean;
 };
-
-const stages: Stage[] = [
-  {
-    label: "In",
-    items: [
-      { text: "Calls to your number", icon: Phone },
-      { text: "Customer reviews", icon: Star },
-      { text: "Enquiries", icon: MessageCircle },
-    ],
-  },
-  {
-    label: "RingsAway",
-    highlight: true,
-    items: [{ text: "AI answers & books", icon: Sparkles }],
-  },
-  {
-    label: "Out",
-    items: [
-      { text: "Bookings captured", icon: Calendar },
-      { text: "Feedback report prepared", icon: Star },
-      { text: "Google plan & actions", icon: FileBarChart },
-    ],
-  },
-  {
-    label: "You get",
-    items: [
-      { text: "Calendar updates", icon: Calendar },
-      { text: "Email confirmations", icon: Mail },
-      { text: "Monthly feedback report", icon: FileBarChart },
-      { text: "Google Business strategy", icon: Lightbulb },
-    ],
-  },
-];
 
 function FlowConnector({ index }: { index: number }) {
   return (
@@ -181,12 +149,47 @@ function StageCard({ stage, index }: { stage: Stage; index: number }) {
 }
 
 export function PipelineSection() {
+  const { m } = useLocale();
+
+  const stages: Stage[] = [
+    {
+      label: m.pipeline.inLabel,
+      items: [
+        { text: m.pipeline.inItems[0], icon: Phone },
+        { text: m.pipeline.inItems[1], icon: Star },
+        { text: m.pipeline.inItems[2], icon: MessageCircle },
+      ],
+    },
+    {
+      label: m.pipeline.brandLabel,
+      highlight: true,
+      items: [{ text: m.pipeline.brandItems[0], icon: Sparkles }],
+    },
+    {
+      label: m.pipeline.outLabel,
+      items: [
+        { text: m.pipeline.outItems[0], icon: Calendar },
+        { text: m.pipeline.outItems[1], icon: Star },
+        { text: m.pipeline.outItems[2], icon: FileBarChart },
+      ],
+    },
+    {
+      label: m.pipeline.youLabel,
+      items: [
+        { text: m.pipeline.youItems[0], icon: Calendar },
+        { text: m.pipeline.youItems[1], icon: Mail },
+        { text: m.pipeline.youItems[2], icon: FileBarChart },
+        { text: m.pipeline.youItems[3], icon: Lightbulb },
+      ],
+    },
+  ];
+
   return (
     <Section background="pattern">
       <SectionHeader
-        eyebrow="How it works"
-        title="How RingsAway works for your business"
-        subtitle="From every customer touchpoint to clear actions, in one connected flow."
+        eyebrow={m.pipeline.eyebrow}
+        title={m.pipeline.title}
+        subtitle={m.pipeline.subtitle}
       />
 
       <FadeIn>

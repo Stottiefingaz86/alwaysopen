@@ -1,6 +1,7 @@
 "use client";
 
 import { FadeIn } from "@/components/ui/section";
+import { useLocale } from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
 import {
   Calendar,
@@ -11,13 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const items: { icon: LucideIcon; label: string }[] = [
-  { icon: Phone, label: "Never miss enquiries" },
-  { icon: Clock, label: "Available 24/7" },
-  { icon: MessageSquare, label: "Customer feedback reports" },
-  { icon: Star, label: "Hand-prepared reports" },
-  { icon: Calendar, label: "Booking automation" },
-];
+const icons: LucideIcon[] = [Phone, Clock, MessageSquare, Star, Calendar];
 
 function TrustCard({
   children,
@@ -50,6 +45,11 @@ function TrustCard({
 }
 
 export function TrustBar() {
+  const { m } = useLocale();
+  const items = m.trust.items.map((label, i) => ({
+    icon: icons[i] ?? Phone,
+    label,
+  }));
   const row1 = items.slice(0, 2);
   const row2 = items.slice(2, 4);
   const row3 = items.slice(4, 5);
@@ -96,11 +96,10 @@ export function TrustBar() {
 
           <div className="mx-auto mt-10 max-w-lg space-y-3 text-center">
             <h2 className="text-balance text-2xl font-medium tracking-tight md:text-3xl">
-              Everything your front desk should handle
+              {m.trust.title}
             </h2>
             <p className="text-sm leading-relaxed text-google-gray-500 md:text-base">
-              AI on the phone, human-written monthly reports, without hiring another
-              person to cover the desk.
+              {m.trust.subtitle}
             </p>
             <ul className="flex flex-wrap justify-center gap-2 pt-2">
               {items.map((item) => (

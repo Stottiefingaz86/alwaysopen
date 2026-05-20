@@ -6,7 +6,9 @@ import { CtaButton } from "@/components/landing/cta-button";
 import { PhoneRingPulse } from "@/components/landing/decorations";
 import { ReviewCardMock } from "@/components/landing/illustrations";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
+import { useLocale } from "@/components/providers/locale-provider";
+import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import type { Messages } from "@/lib/i18n/messages/en";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -22,37 +24,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const receptionistFeatures = [
-  "Answers your real phone line",
-  "Books appointments & handles FAQs",
-  "Sends confirmations automatically",
-];
-
-const pillars = [
-  {
-    title: "Review & feedback reports",
-    tagline: "Human insight, not auto-scores",
-    description:
-      "We read your Google Business profile, website comments, and any surveys, then summarise complaints, praise, and trends in plain language.",
-    icon: BarChart3,
-    href: "#voc",
-    cta: "See how reports work",
-    visual: "reviews" as const,
-    highlights: ["Google & web reviews", "Survey feedback", "Written by our team"],
-  },
-  {
-    title: "Customer feedback (VoC)",
-    tagline: "Listen, act, grow on Google",
-    description:
-      "Voice of the Customer in plain terms: we read what people say, explain why it matters, and send a monthly action plan plus Google Business strategy, prepared by our team, not software.",
-    icon: FileText,
-    href: "#voc",
-    cta: "What is VoC?",
-    visual: "voc" as const,
-    highlights: ["Plain-English reports", "Google Business plan", "Ranked actions"],
-  },
-];
-
 function CornerMarks() {
   return (
     <>
@@ -64,7 +35,7 @@ function CornerMarks() {
   );
 }
 
-function ReceptionistVisual() {
+function ReceptionistVisual({ s }: { s: Messages["solution"] }) {
   return (
     <div className="relative flex h-full min-h-[220px] flex-col items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br from-pastel-blue/80 via-white to-google-gray-50 p-6 md:min-h-0">
       <div
@@ -105,7 +76,7 @@ function ReceptionistVisual() {
         transition={{ delay: 0.2 }}
       >
         <PhoneRingPulse />
-        Live on your line
+        {s.liveOnLine}
       </motion.div>
       <motion.div
         className="absolute bottom-5 left-5 flex items-center gap-2 rounded-xl border border-google-gray-200 bg-white/95 px-3 py-2 shadow-google-card"
@@ -115,7 +86,7 @@ function ReceptionistVisual() {
         transition={{ delay: 0.3 }}
       >
         <Phone className="size-4 text-google-blue" />
-        <span className="text-xs font-medium text-google-gray-700">24/7 pickup</span>
+        <span className="text-xs font-medium text-google-gray-700">{s.pickup}</span>
       </motion.div>
       <motion.div
         className="absolute bottom-5 right-5 flex items-center gap-1.5 rounded-xl border border-google-gray-200 bg-white/95 px-3 py-2 shadow-google-card"
@@ -125,19 +96,19 @@ function ReceptionistVisual() {
         transition={{ delay: 0.35 }}
       >
         <Sparkles className="size-4 text-google-blue" />
-        <span className="text-xs font-medium text-google-gray-700">AI trained</span>
+        <span className="text-xs font-medium text-google-gray-700">{s.aiTrained}</span>
       </motion.div>
     </div>
   );
 }
 
-function VocVisual() {
+function VocVisual({ s }: { s: Messages["solution"] }) {
   const bars = [40, 65, 45, 80, 55, 72];
   return (
     <div className="mt-5 rounded-xl border border-dashed border-google-gray-200 bg-google-gray-50/80 p-4">
       <div className="mb-3 flex items-center justify-between text-xs text-google-gray-500">
-        <span>Monthly themes</span>
-        <span className="font-medium text-google-green">↑ Improving</span>
+        <span>{s.chartLabel}</span>
+        <span className="font-medium text-google-green">{s.chartTrend}</span>
       </div>
       <div className="flex h-20 items-end justify-between gap-1.5">
         {bars.map((h, i) => (
@@ -152,7 +123,7 @@ function VocVisual() {
         ))}
       </div>
       <ul className="mt-4 space-y-2">
-        {["Reply to 3-star reviews", "Post about evening slots"].map((action) => (
+        {s.sampleActions.map((action) => (
           <li
             key={action}
             className="flex items-center gap-2 text-xs text-google-gray-700"
@@ -167,15 +138,41 @@ function VocVisual() {
 }
 
 export function SolutionSection() {
+  const { m, locale } = useLocale();
+  const s = m.solution;
+  const mailto = getBookingMailto(locale);
+
+  const pillars = [
+    {
+      title: s.pillar1Title,
+      tagline: s.pillar1Tagline,
+      description: s.pillar1Desc,
+      icon: BarChart3,
+      href: "#voc",
+      cta: s.pillar1Cta,
+      visual: "reviews" as const,
+      highlights: s.pillar1Highlights,
+    },
+    {
+      title: s.pillar2Title,
+      tagline: s.pillar2Tagline,
+      description: s.pillar2Desc,
+      icon: FileText,
+      href: "#voc",
+      cta: s.pillar2Cta,
+      visual: "voc" as const,
+      highlights: s.pillar2Highlights,
+    },
+  ];
+
   return (
     <Section id="services" background="pattern">
       <SectionHeader
-        eyebrow="The solution"
-        title="One system for phone calls, reviews and customer insight"
-        subtitle="AI on your phone line, plus monthly customer feedback reports with clear actions and a Google Business plan."
+        eyebrow={s.eyebrow}
+        title={s.title}
+        subtitle={s.subtitle}
       />
 
-      {/* AI Receptionist — hero feature */}
       <FadeIn>
         <article className="group relative overflow-hidden rounded-3xl border border-google-gray-200 bg-white shadow-google-elevated">
           <CornerMarks />
@@ -191,16 +188,14 @@ export function SolutionSection() {
             <div className="flex flex-col justify-center p-7 md:p-10 lg:p-12">
               <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-pastel-blue px-3 py-1 text-xs font-semibold uppercase tracking-wider text-google-blue">
                 <Bot className="size-3.5" />
-                Core product
+                {s.coreBadge}
               </span>
               <h3 className="text-2xl font-medium tracking-tight text-foreground md:text-3xl lg:text-[2rem]">
-                AI Receptionist
+                {s.coreTitle}
               </h3>
-              <p className="mt-2 text-lg text-google-gray-500">
-                Your business number, answered 24/7
-              </p>
+              <p className="mt-2 text-lg text-google-gray-500">{s.coreTagline}</p>
               <ul className="mt-6 space-y-3">
-                {receptionistFeatures.map((feature) => (
+                {s.coreFeatures.map((feature) => (
                   <li
                     key={feature}
                     className="flex items-center gap-3 text-sm text-google-gray-700 md:text-[15px]"
@@ -213,27 +208,27 @@ export function SolutionSection() {
                 ))}
               </ul>
               <p className="mt-6 max-w-md text-sm leading-relaxed text-google-gray-500">
-                The core of RingsAway: every caller reaches a trained agent on{" "}
-                <strong className="font-medium text-foreground">your</strong> number.
+                {s.coreNoteBefore}{" "}
+                <strong className="font-medium text-foreground">{s.coreNoteEmphasis}</strong>{" "}
+                {s.coreNoteAfter}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <CtaButton href="#phone-receptionist" size="default">
-                  How it works
+                  {s.howItWorks}
                 </CtaButton>
-                <CtaButton href={BOOK_MEETING_MAILTO} variant="secondary" size="default">
-                  {TALK_OVER_COFFEE_CTA}
+                <CtaButton href={mailto} variant="secondary" size="default">
+                  {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
               </div>
             </div>
 
             <div className="border-t border-google-gray-100 p-4 lg:border-l lg:border-t-0 lg:p-6">
-              <ReceptionistVisual />
+              <ReceptionistVisual s={s} />
             </div>
           </div>
         </article>
       </FadeIn>
 
-      {/* Review + VoC pillars */}
       <div className="mt-6 grid gap-6 md:grid-cols-2 lg:mt-8">
         {pillars.map((pillar, i) => (
           <FadeIn key={pillar.title} delay={0.08 + i * 0.06}>
@@ -274,11 +269,11 @@ export function SolutionSection() {
                   <ReviewCardMock className="transition-transform group-hover:-translate-y-0.5" />
                   <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-white px-2 py-1 text-xs font-medium text-google-yellow shadow-google">
                     <Star className="size-3 fill-google-yellow" />
-                    4.8
+                    {s.rating}
                   </div>
                 </div>
               ) : (
-                <VocVisual />
+                <VocVisual s={s} />
               )}
 
               <Link

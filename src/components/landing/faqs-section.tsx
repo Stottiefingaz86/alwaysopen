@@ -7,8 +7,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FadeIn, Section } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_LINK } from "@/lib/contact";
-import { faqItems } from "@/lib/faq-content";
+import { useLocale } from "@/components/providers/locale-provider";
+import { getBookingMailto, getTalkOverCoffeeLink } from "@/lib/contact";
 import {
   Calendar,
   Clock,
@@ -29,6 +29,9 @@ const faqIcons: Record<string, LucideIcon> = {
 };
 
 export function FaqsSection() {
+  const { m, locale } = useLocale();
+  const mailto = getBookingMailto(locale);
+
   return (
     <Section id="faq" background="gray">
       <div className="mx-auto max-w-5xl px-0">
@@ -36,45 +39,43 @@ export function FaqsSection() {
           <FadeIn className="md:w-1/3">
             <div className="md:sticky md:top-24">
               <p className="text-sm font-medium uppercase tracking-wider text-google-blue">
-                FAQ
+                {m.faq.eyebrow}
               </p>
-              <h2 className="mt-3 text-3xl font-medium tracking-tight">
-                Common questions
-              </h2>
+              <h2 className="mt-3 text-3xl font-medium tracking-tight">{m.faq.title}</h2>
               <p className="mt-4 text-sm text-google-gray-500">
-                Can&apos;t find what you need?{" "}
+                {m.faq.introBefore}{" "}
                 <a
-                  href={BOOK_MEETING_MAILTO}
+                  href={mailto}
                   className="font-medium text-google-blue hover:underline"
                 >
-                  {TALK_OVER_COFFEE_LINK}
+                  {getTalkOverCoffeeLink(locale)}
                 </a>{" "}
-                and we&apos;ll walk you through setup.
+                {m.faq.introAfter}
               </p>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.08} className="md:w-2/3">
             <Accordion className="w-full space-y-2">
-              {faqItems.map((item) => {
+              {m.faq.items.map((item) => {
                 const Icon = faqIcons[item.id] ?? Phone;
                 return (
-                <AccordionItem
-                  key={item.id}
-                  value={item.id}
-                  className="rounded-xl border border-google-gray-200 bg-white px-4 shadow-google last:border-b"
-                >
-                  <AccordionTrigger className="cursor-pointer items-center py-5 hover:no-underline">
-                    <span className="flex items-center gap-3 text-left text-base">
-                      <Icon className="size-4 shrink-0 text-google-blue" />
-                      {item.question}
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5 text-sm text-google-gray-500">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              );
+                  <AccordionItem
+                    key={item.id}
+                    value={item.id}
+                    className="rounded-xl border border-google-gray-200 bg-white px-4 shadow-google last:border-b"
+                  >
+                    <AccordionTrigger className="cursor-pointer items-center py-5 hover:no-underline">
+                      <span className="flex items-center gap-3 text-left text-base">
+                        <Icon className="size-4 shrink-0 text-google-blue" />
+                        {item.question}
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-5 text-sm text-google-gray-500">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                );
               })}
             </Accordion>
           </FadeIn>

@@ -1,7 +1,7 @@
 "use client";
 
 import { SiriOrb } from "@/components/ui/siri-orb";
-import { AGENT_PROMPTS } from "@/lib/agent-prompts";
+import { useLocale } from "@/components/providers/locale-provider";
 import {
   AI_AGENT_PHONE_DISPLAY,
   AI_AGENT_PHONE_TEL,
@@ -11,12 +11,13 @@ import { Loader2, Phone, PhoneOff } from "lucide-react";
 import { useState } from "react";
 
 function AgentInterface() {
+  const { m } = useLocale();
   const [error, setError] = useState<string | null>(null);
 
   const { startSession, endSession, status, isSpeaking, isListening } =
     useConversation({
       onConnect: () => setError(null),
-      onError: (msg) => setError(msg ?? "Connection error. Please try again."),
+      onError: (msg) => setError(msg ?? m.agent.errorConnection),
     });
 
   const isConnected = status === "connected";
@@ -29,7 +30,7 @@ function AgentInterface() {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       startSession({ connectionType: "webrtc" });
     } catch {
-      setError("Allow microphone access to speak with our AI agent.");
+      setError(m.agent.errorMic);
     }
   };
 
@@ -55,10 +56,10 @@ function AgentInterface() {
         {isConnected && (
           <p className="relative z-10 mt-5 text-sm text-google-gray-500">
             {isSpeaking
-              ? "Speaking…"
+              ? m.agent.speaking
               : isListening
-                ? "Listening…"
-                : "Connected"}
+                ? m.agent.listening
+                : m.agent.connected}
           </p>
         )}
       </div>
@@ -66,9 +67,9 @@ function AgentInterface() {
       <div className="border-t border-google-gray-200 bg-google-gray-50/50 px-4 py-4 sm:px-5 sm:py-5">
         {!isConnected ? (
           <>
-            <p className="mb-3 text-xs text-google-gray-500">Try saying</p>
+            <p className="mb-3 text-xs text-google-gray-500">{m.agent.trySaying}</p>
             <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {AGENT_PROMPTS.map((phrase) => (
+              {m.agent.prompts.map((phrase) => (
                 <li key={phrase}>
                   <button
                     type="button"
@@ -92,17 +93,17 @@ function AgentInterface() {
               ) : (
                 <Phone className="size-4" />
               )}
-              {isConnecting ? "Connecting…" : "Start a call"}
+              {isConnecting ? m.agent.connecting : m.agent.startCall}
             </button>
             <p className="mt-3 text-center text-sm text-google-gray-500">
-              or call{" "}
+              {m.agent.callOr}{" "}
               <a
                 href={`tel:${AI_AGENT_PHONE_TEL}`}
                 className="font-medium text-google-blue hover:underline"
               >
                 {AI_AGENT_PHONE_DISPLAY}
               </a>{" "}
-              to talk to the AI Agent
+              {m.agent.callSuffix}
             </p>
           </>
         ) : (
@@ -112,7 +113,7 @@ function AgentInterface() {
             className="btn-call inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-medium transition-all"
           >
             <PhoneOff className="size-4" />
-            End call
+            {m.agent.endCall}
           </button>
         )}
 

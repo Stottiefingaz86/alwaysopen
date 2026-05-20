@@ -2,40 +2,29 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn, Section } from "@/components/ui/section";
+import { useLocale } from "@/components/providers/locale-provider";
 import { MessageSquareOff, PhoneMissed, Workflow } from "lucide-react";
 
-const problems = [
-  {
-    title: "Missed enquiries",
-    text: "Customers call while staff are busy and go to someone who answers.",
-    icon: PhoneMissed,
-  },
-  {
-    title: "Unseen customer feedback",
-    text: "Reviews contain valuable insight but rarely get turned into a clear monthly plan.",
-    icon: MessageSquareOff,
-  },
-  {
-    title: "Poor follow-up",
-    text: "Leads and opportunities fall through the cracks after the first contact.",
-    icon: Workflow,
-  },
-];
+const icons = [PhoneMissed, MessageSquareOff, Workflow] as const;
 
 export function ProblemSection() {
+  const { m } = useLocale();
+  const problems = m.problem.cards.map((card, i) => ({
+    ...card,
+    icon: icons[i] ?? PhoneMissed,
+  }));
+
   return (
     <Section id="problems" background="pattern">
       <FadeIn>
         <div className="mx-auto max-w-2xl space-y-4 text-center">
           <p className="text-sm font-medium uppercase tracking-wider text-google-blue">
-            The problem
+            {m.problem.eyebrow}
           </p>
           <h2 className="text-balance text-3xl font-medium tracking-tight md:text-4xl">
-            Local businesses lose customers in two ways
+            {m.problem.title}
           </h2>
-          <p className="text-google-gray-500">
-            Missed calls, ignored reviews, and follow-up that never happens.
-          </p>
+          <p className="text-google-gray-500">{m.problem.subtitle}</p>
         </div>
       </FadeIn>
 

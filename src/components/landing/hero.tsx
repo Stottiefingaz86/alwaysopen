@@ -4,16 +4,14 @@ import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
 import { DotGrid, PhoneRingPulse } from "@/components/landing/decorations";
 import { AgentShowcase } from "@/components/landing/agent-showcase";
-import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
+import { useLocale } from "@/components/providers/locale-provider";
+import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 import { Check } from "lucide-react";
 
-const bullets = [
-  "Answer your real business number 24/7",
-  "Capture bookings automatically",
-  "Monthly customer feedback reports (VoC)",
-];
-
 export function Hero() {
+  const { m, locale } = useLocale();
+  const mailto = getBookingMailto(locale);
+
   return (
     <section className="relative overflow-hidden bg-white pb-6 pt-4 md:pb-12 md:pt-8">
       <DotGrid className="opacity-35" />
@@ -24,29 +22,26 @@ export function Hero() {
             <FadeIn>
               <p className="mb-4 inline-flex items-center gap-2 text-sm text-google-gray-500">
                 <PhoneRingPulse />
-                For salons, clinics, trades &amp; local shops
+                {m.hero.eyebrow}
               </p>
             </FadeIn>
 
             <FadeIn delay={0.05}>
               <h1 className="max-w-lg text-balance text-[1.75rem] font-normal leading-[1.15] tracking-tight text-foreground sm:text-[2.125rem] lg:text-[2.5rem]">
-                Your phone line, answered{" "}
-                <span className="text-google-blue">24/7</span>
+                {m.hero.title}{" "}
+                <span className="text-google-blue">{m.hero.titleHighlight}</span>
               </h1>
             </FadeIn>
 
             <FadeIn delay={0.08}>
               <p className="mt-3 max-w-md text-[0.9375rem] leading-relaxed text-google-gray-500 sm:text-base">
-                Customers ring your normal business number. RingsAway picks up and
-                books appointments. Each month we prepare a customer feedback
-                report (VoC): what people are saying, what to fix, and how to act on
-                Google.
+                {m.hero.subtitle}
               </p>
             </FadeIn>
 
             <FadeIn delay={0.09}>
               <ul className="mt-4 flex flex-col gap-2">
-                {bullets.map((item) => (
+                {m.hero.bullets.map((item) => (
                   <li
                     key={item}
                     className="flex items-start gap-2.5 text-sm text-google-gray-700"
@@ -63,11 +58,11 @@ export function Hero() {
 
             <FadeIn delay={0.1}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <CtaButton href={BOOK_MEETING_MAILTO} size="lg">
-                  {TALK_OVER_COFFEE_CTA}
+                <CtaButton href={mailto} size="lg">
+                  {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
                 <CtaButton href="#pricing" variant="secondary" size="lg">
-                  View pricing
+                  {m.hero.viewPricing}
                 </CtaButton>
               </div>
             </FadeIn>

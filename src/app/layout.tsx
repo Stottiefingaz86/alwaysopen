@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
+import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -68,8 +69,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable, fraunces.variable)}>
       <body className="min-h-screen overflow-x-clip bg-background font-sans text-foreground antialiased">
-        <JsonLd />
-        {children}
+        <LocaleProvider>
+          <JsonLd />
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

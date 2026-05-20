@@ -1,17 +1,23 @@
-import { Logo } from "@/components/landing/logo";
-import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
+"use client";
 
-const links = [
-  { href: "#services", label: "Services" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "/news", label: "News" },
-  { href: "#phone-receptionist", label: "Phone line" },
-  { href: "#about", label: "About" },
-  { href: "#faq", label: "FAQ" },
-  { href: BOOK_MEETING_MAILTO, label: TALK_OVER_COFFEE_CTA },
-];
+import { Logo } from "@/components/landing/logo";
+import { useLocale } from "@/components/providers/locale-provider";
+import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 
 export function Footer() {
+  const { m, locale } = useLocale();
+  const mailto = getBookingMailto(locale);
+
+  const links = [
+    { href: "#services", label: m.nav.services },
+    { href: "#pricing", label: m.nav.pricing },
+    { href: "/news", label: m.nav.news },
+    { href: "#phone-receptionist", label: m.nav.phoneLine },
+    { href: "#about", label: m.nav.about },
+    { href: "#faq", label: m.faq.eyebrow },
+    { href: mailto, label: getTalkOverCoffeeCta(locale) },
+  ];
+
   return (
     <footer className="border-t border-google-gray-200 bg-google-gray-50">
       <div className="gradient-brand h-1 w-full" />
@@ -20,13 +26,9 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-google-gray-500">
-              RingsAway answers your business phone line with AI and helps you
-              capture more bookings, plus monthly customer feedback reports (VoC) with
-              clear actions and a Google Business plan.
+              {m.footer.description}
             </p>
-            <p className="mt-3 text-sm text-google-gray-500">
-              Based in Manilva, La Chullera, Spain · English &amp; Spanish · clients worldwide
-            </p>
+            <p className="mt-3 text-sm text-google-gray-500">{m.footer.location}</p>
           </div>
           <nav>
             <ul className="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-3">
@@ -44,8 +46,10 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t border-google-gray-200 pt-8 text-sm text-google-gray-500 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} RingsAway. All rights reserved.</p>
-          <p>Helping local businesses get more customers.</p>
+          <p>
+            © {new Date().getFullYear()} RingsAway. {m.footer.copyright}
+          </p>
+          <p>{m.footer.tagline}</p>
         </div>
       </div>
     </footer>

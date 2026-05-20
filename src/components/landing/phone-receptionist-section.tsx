@@ -7,6 +7,7 @@ import {
   PhoneRingPulse,
 } from "@/components/landing/decorations";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
+import { useLocale } from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -20,35 +21,19 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const steps = [
-  {
-    title: "Customers call your number",
-    text: "They ring the same number on Google, your website, or shop sign. A normal phone call.",
-    icon: PhoneIncoming,
-  },
-  {
-    title: "Your AI receptionist answers",
-    text: "RingsAway picks up, handles enquiries, books appointments, and answers FAQs.",
-    icon: Sparkles,
-  },
-  {
-    title: "You stay in the loop",
-    text: "Bookings hit your calendar and you get summaries of what callers asked for.",
-    icon: CalendarCheck,
-  },
-];
+const stepIcons = [PhoneIncoming, Sparkles, CalendarCheck] as const;
 
-const clarifiers = [
-  "Works with your existing business phone number",
-  "Callers use any phone, mobile or landline",
-  "Not a website chatbot or app your customers install",
-];
-
-function PhoneFlowDiagram() {
+function PhoneFlowDiagram({
+  labels,
+  badge,
+}: {
+  labels: [string, string, string];
+  badge: string;
+}) {
   const nodes = [
-    { label: "Google", icon: Globe },
-    { label: "Your line", icon: Phone },
-    { label: "RingsAway", icon: Sparkles },
+    { label: labels[0], icon: Globe },
+    { label: labels[1], icon: Phone },
+    { label: labels[2], icon: Sparkles },
   ];
 
   return (
@@ -81,7 +66,7 @@ function PhoneFlowDiagram() {
         transition={{ delay: 0.35 }}
       >
         <PhoneRingPulse />
-        Line active 24/7
+        {badge}
       </motion.div>
     </div>
   );
@@ -99,16 +84,21 @@ function CardCorner() {
 }
 
 export function PhoneReceptionistSection() {
+  const { m } = useLocale();
+  const steps = m.phone.steps.map((step, i) => ({
+    ...step,
+    icon: stepIcons[i] ?? PhoneIncoming,
+  }));
+
   return (
     <Section id="phone-receptionist" background="gray">
       <SectionHeader
-        eyebrow="How it works"
-        title="Real phone calls. Answered by AI."
-        subtitle="RingsAway is built for the way local customers actually reach you: by dialling your business number."
+        eyebrow={m.phone.eyebrow}
+        title={m.phone.title}
+        subtitle={m.phone.subtitle}
       />
 
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.95fr)_1.05fr] lg:gap-16">
-        {/* Business line card */}
         <FadeIn className="pt-5">
           <Card className="relative overflow-visible rounded-2xl border-google-gray-200 bg-white shadow-google-elevated">
             <div
@@ -126,7 +116,7 @@ export function PhoneReceptionistSection() {
             </div>
             <FloatingBadge className="right-3 -top-2.5 z-20 sm:right-5" delay={0.3}>
               <PhoneRingPulse />
-              Your real number
+              {m.phone.badge}
             </FloatingBadge>
 
             <CardContent className="relative p-7 md:p-8">
@@ -136,21 +126,22 @@ export function PhoneReceptionistSection() {
                 </span>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-google-gray-500">
-                    Your business line
+                    {m.phone.lineLabel}
                   </p>
                   <p className="mt-1 font-mono text-2xl font-medium tracking-tight text-foreground md:text-[1.75rem]">
                     (01) 234 5678
                   </p>
-                  <p className="mt-1 text-xs text-google-gray-500">
-                    Same number on Google, website &amp; signage
-                  </p>
+                  <p className="mt-1 text-xs text-google-gray-500">{m.phone.lineCaption}</p>
                 </div>
               </div>
 
-              <PhoneFlowDiagram />
+              <PhoneFlowDiagram
+                labels={[m.phone.flowGoogle, m.phone.flowLine, m.phone.flowBrand]}
+                badge={m.phone.flowBadge}
+              />
 
               <ul className="mt-6 space-y-3">
-                {clarifiers.map((item, i) => (
+                {m.phone.clarifiers.map((item, i) => (
                   <motion.li
                     key={item}
                     className="flex gap-3 text-sm leading-relaxed text-google-gray-700"
@@ -170,7 +161,6 @@ export function PhoneReceptionistSection() {
           </Card>
         </FadeIn>
 
-        {/* Step timeline */}
         <div className="relative lg:pt-2">
           <div
             className="absolute left-[1.375rem] top-4 bottom-4 hidden w-px bg-linear-to-b from-google-blue/20 via-google-blue to-google-blue/20 md:block"
@@ -197,7 +187,7 @@ export function PhoneReceptionistSection() {
 
                   <article className="flex-1 rounded-2xl border border-google-gray-200 bg-white p-5 shadow-google-card transition-all group-hover:border-google-blue/30 group-hover:shadow-google-elevated md:p-6">
                     <p className="text-xs font-semibold uppercase tracking-widest text-google-gray-400">
-                      Step {i + 1}
+                      {m.phone.step} {i + 1}
                     </p>
                     <h3 className="mt-1.5 text-lg font-medium text-foreground md:text-xl">
                       {step.title}
@@ -205,10 +195,10 @@ export function PhoneReceptionistSection() {
                     <p className="mt-2 text-sm leading-relaxed text-google-gray-500">
                       {step.text}
                     </p>
-                    {i === 1 && (
+                    {i === 1 && "badge" in step && step.badge && (
                       <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-pastel-blue px-2.5 py-1 text-xs font-medium text-google-blue">
                         <Sparkles className="size-3" />
-                        AI receptionist on your line
+                        {step.badge}
                       </p>
                     )}
                   </article>
