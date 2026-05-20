@@ -1,12 +1,6 @@
-import { MetadataRoute } from "next";
+import { getSitemapEntries } from "@/lib/sitemap-urls";
+import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://ringsaway.com",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  return getSitemapEntries();
 }

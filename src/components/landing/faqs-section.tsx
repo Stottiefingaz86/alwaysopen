@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { FadeIn, Section } from "@/components/ui/section";
 import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_LINK } from "@/lib/contact";
+import { faqItems } from "@/lib/faq-content";
 import {
   Calendar,
   Clock,
@@ -18,55 +19,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const faqItems: {
-  id: string;
-  icon: LucideIcon;
-  question: string;
-  answer: string;
-}[] = [
-  {
-    id: "item-1",
-    icon: Phone,
-    question: "Does it use my existing business number?",
-    answer:
-      "Yes. Customers dial the same number they already use on Google, your website, or shop signage. RingsAway answers that line; it's not a separate app or chat widget.",
-  },
-  {
-    id: "item-2",
-    icon: Clock,
-    question: "Is it really available 24/7?",
-    answer:
-      "Your AI receptionist answers whenever you can't: evenings, weekends, and busy periods. You choose when to hand off to a person.",
-  },
-  {
-    id: "item-3",
-    icon: Calendar,
-    question: "How do bookings reach my calendar?",
-    answer:
-      "Confirmed appointments sync to Google Calendar (and more on higher plans). You and your team get email confirmations with caller details.",
-  },
-  {
-    id: "item-4",
-    icon: Star,
-    question: "What is Voice of the Customer (VoC)?",
-    answer:
-      "VoC means listening to what customers actually say in Google reviews, on your website, in surveys, and after visits, then turning that into insight you can use. Star ratings alone do not tell you whether to fix wait times, staff training, pricing, or your Google listing. A good VoC report answers: what are people saying, why does it matter for my business, and what should I do this month?",
-  },
-  {
-    id: "item-5",
-    icon: MapPin,
-    question: "What is in the monthly report and Google Business plan?",
-    answer:
-      "Our team prepares this by hand each month. We read your Google Business reviews, website feedback, surveys, and satisfaction notes, then send themes, competitor mentions, review reply ideas, a ranked action plan, and practical Google Business guidance (what to post, what to reply to, how to show up better locally). This is not AI-generated analysis.",
-  },
-  {
-    id: "item-6",
-    icon: Globe,
-    question: "Who is RingsAway for?",
-    answer:
-      "Phone-first local businesses: salons, clinics, trades, shops, and practices that lose enquiries when no one picks up. We're based in Manilva, Spain, and work with owners in English and Spanish. You don't need to be on the Costa del Sol.",
-  },
-];
+const faqIcons: Record<string, LucideIcon> = {
+  "item-1": Phone,
+  "item-2": Clock,
+  "item-3": Calendar,
+  "item-4": Star,
+  "item-5": MapPin,
+  "item-6": Globe,
+};
 
 export function FaqsSection() {
   return (
@@ -96,7 +56,9 @@ export function FaqsSection() {
 
           <FadeIn delay={0.08} className="md:w-2/3">
             <Accordion className="w-full space-y-2">
-              {faqItems.map((item) => (
+              {faqItems.map((item) => {
+                const Icon = faqIcons[item.id] ?? Phone;
+                return (
                 <AccordionItem
                   key={item.id}
                   value={item.id}
@@ -104,7 +66,7 @@ export function FaqsSection() {
                 >
                   <AccordionTrigger className="cursor-pointer items-center py-5 hover:no-underline">
                     <span className="flex items-center gap-3 text-left text-base">
-                      <item.icon className="size-4 shrink-0 text-google-blue" />
+                      <Icon className="size-4 shrink-0 text-google-blue" />
                       {item.question}
                     </span>
                   </AccordionTrigger>
@@ -112,7 +74,8 @@ export function FaqsSection() {
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
-              ))}
+              );
+              })}
             </Accordion>
           </FadeIn>
         </div>

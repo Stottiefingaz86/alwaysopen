@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -13,35 +14,49 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "RingsAway | More bookings, better reviews, happier customers",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} | 24/7 AI receptionist for local businesses`,
+    template: `%s | ${SITE_NAME}`,
+  },
   description:
     "RingsAway answers your business phone line with a 24/7 AI receptionist, plus hand-prepared customer feedback reports (VoC) with actions and a Google Business plan.",
   keywords: [
-    "local business",
     "AI receptionist",
-    "booking automation",
+    "24/7 phone answering",
+    "local business",
+    "missed calls",
+    "Google Business Profile",
     "Google reviews",
     "voice of customer",
-    "customer experience",
+    "booking automation",
   ],
-  authors: [{ name: "RingsAway" }],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "RingsAway | Get more bookings. Improve reviews.",
+    title: `${SITE_NAME} | Get more bookings. Improve reviews.`,
     description:
       "Real phone line answered 24/7 by AI, with monthly customer feedback reports and Google Business guidance.",
     type: "website",
     locale: "en_IE",
-    siteName: "RingsAway",
+    siteName: SITE_NAME,
+    url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: "RingsAway | Local business growth system",
+    title: `${SITE_NAME} | 24/7 AI receptionist for local businesses`,
     description:
       "Stop missing calls. Get more bookings. Understand your customers.",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 

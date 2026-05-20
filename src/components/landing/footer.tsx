@@ -4,13 +4,11 @@ import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 const links = [
   { href: "#services", label: "Services" },
   { href: "#pricing", label: "Pricing" },
-  { href: "#news", label: "News" },
+  { href: "/news", label: "News" },
   { href: "#phone-receptionist", label: "Phone line" },
   { href: "#about", label: "About" },
-  { href: "#news", label: "News" },
+  { href: "#faq", label: "FAQ" },
   { href: BOOK_MEETING_MAILTO, label: TALK_OVER_COFFEE_CTA },
-  { href: "#", label: "Privacy" },
-  { href: "#", label: "Contact" },
 ];
 
 export function Footer() {

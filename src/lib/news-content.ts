@@ -97,3 +97,7 @@ export const categoryLabels: Record<NewsCategory, string> = {
 export function getNewsItemBySlug(slug: string): NewsItem | undefined {
   return newsItems.find((item) => item.slug === slug);
 }
+
+export function getAllNewsSlugs(): string[] {
+  return newsItems.map((item) => item.slug);
+}
