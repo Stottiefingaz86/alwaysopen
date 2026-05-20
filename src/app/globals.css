@@ -165,6 +165,79 @@ body {
   }
 }
 
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Continues logo_icon.png gradient through “Away.” (offset by icon + gap) */
+.logo-wordmark {
+  --logo-gradient-offset: calc(1em + 0.5rem);
+}
+
+@media (min-width: 40rem) {
+  .logo-wordmark {
+    --logo-gradient-offset: calc(1em + 0.625rem);
+  }
+}
+
+/* Same rotating conic layers as SiriOrb — darker brand blues, clipped to text */
+.logo-away-gradient {
+  --logo-c1: #2f6fc0;
+  --logo-c2: #3b7fd4;
+  --logo-c3: #2a8ec8;
+  background-image: conic-gradient(
+      from calc(var(--angle) * 2) at 25% 70%,
+      var(--logo-c3),
+      transparent 20% 80%,
+      var(--logo-c3)
+    ),
+    conic-gradient(
+      from calc(var(--angle) * 2) at 45% 75%,
+      var(--logo-c2),
+      transparent 30% 60%,
+      var(--logo-c2)
+    ),
+    conic-gradient(
+      from calc(var(--angle) * -3) at 80% 20%,
+      var(--logo-c1),
+      transparent 40% 60%,
+      var(--logo-c1)
+    ),
+    conic-gradient(
+      from calc(var(--angle) * 2) at 15% 5%,
+      var(--logo-c2),
+      transparent 10% 90%,
+      var(--logo-c2)
+    ),
+    conic-gradient(
+      from calc(var(--angle) * 1) at 20% 80%,
+      var(--logo-c1),
+      transparent 10% 90%,
+      var(--logo-c1)
+    ),
+    conic-gradient(
+      from calc(var(--angle) * -2) at 85% 10%,
+      var(--logo-c3),
+      transparent 20% 80%,
+      var(--logo-c3)
+    ),
+    linear-gradient(90deg, #398ffe 0%, #2caafe 42%, #12c2fe 78%, #00d3fe 100%);
+  filter: contrast(1.12);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: logo-siri-rotate 20s linear infinite;
+}
+
+@keyframes logo-siri-rotate {
+  to {
+    --angle: 360deg;
+  }
+}
+
 .logo-blink {
   animation: logo-blink 1.15s ease-in-out infinite;
 }
@@ -204,6 +277,20 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .logo-away-gradient {
+    animation: none;
+    background-image: linear-gradient(
+      90deg,
+      #398ffe 0%,
+      #2caafe 40%,
+      #12c2fe 72%,
+      #00d3fe 100%
+    );
+    background-size: calc(var(--logo-gradient-offset) + 100%) 100%;
+    background-position: calc(-1 * var(--logo-gradient-offset)) 50%;
+    background-repeat: no-repeat;
+  }
+
   .logo-blink {
     animation: none;
   }
