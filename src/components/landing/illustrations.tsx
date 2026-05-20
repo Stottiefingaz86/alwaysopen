@@ -2,49 +2,6 @@
 
 import { motion } from "framer-motion";
 
-export function StorefrontIllustration({ className }: { className?: string }) {
-  return (
-    <motion.svg
-      viewBox="0 0 280 220"
-      fill="none"
-      className={className}
-      aria-hidden
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
-      <rect width="280" height="220" rx="20" fill="#F8F9FA" />
-      <rect x="30" y="80" width="220" height="120" rx="12" fill="#E8F0FE" />
-      <rect x="30" y="80" width="220" height="32" rx="12" fill="#3b7fd4" />
-      <rect x="60" y="125" width="55" height="60" rx="6" fill="#fff" stroke="#DADCE0" />
-      <rect x="130" y="125" width="95" height="38" rx="6" fill="#fff" stroke="#DADCE0" />
-      <circle cx="87" cy="155" r="6" fill="#FBBC05" />
-      <path d="M140 50 L140 80" stroke="#34A853" strokeWidth="5" strokeLinecap="round" />
-      <circle cx="140" cy="38" r="16" fill="#34A853" opacity="0.2" />
-      <circle cx="140" cy="38" r="10" fill="#34A853" />
-      <circle cx="140" cy="38" r="4" fill="white" />
-      {/* Floating review stars */}
-      <g transform="translate(180, 28)">
-        <rect width="80" height="44" rx="10" fill="white" stroke="#E8EAED" />
-        {[0, 1, 2, 3, 4].map((i) => (
-          <polygon
-            key={i}
-            points={`${12 + i * 14},28 ${14 + i * 14},22 ${16 + i * 14},28 ${14 + i * 14},26 ${12 + i * 14},28`}
-            fill="#FBBC05"
-            transform={`translate(0, -2)`}
-          />
-        ))}
-      </g>
-      {/* Calendar booking */}
-      <rect x="200" y="130" width="48" height="48" rx="8" fill="#fff" stroke="#34A853" strokeWidth="1.5" />
-      <rect x="200" y="130" width="48" height="14" rx="8" fill="#34A853" />
-      <rect x="208" y="152" width="12" height="8" rx="2" fill="#E6F4EA" />
-      <rect x="224" y="152" width="12" height="8" rx="2" fill="#E6F4EA" />
-      <rect x="208" y="164" width="12" height="8" rx="2" fill="#34A853" opacity="0.4" />
-    </motion.svg>
-  );
-}
-
 export function GrowthChartIllustration({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 200 100" fill="none" className={className} aria-hidden>

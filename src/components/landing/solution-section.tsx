@@ -1,6 +1,7 @@
 "use client";
 
 import { BorderBeam } from "@/components/ui/border-beam";
+import { SiriOrb } from "@/components/ui/siri-orb";
 import { CtaButton } from "@/components/landing/cta-button";
 import { PhoneRingPulse } from "@/components/landing/decorations";
 import { ReviewCardMock } from "@/components/landing/illustrations";
@@ -76,11 +77,25 @@ function ReceptionistVisual() {
         aria-hidden
       />
       <motion.div
-        className="relative z-10 flex size-24 items-center justify-center rounded-3xl border border-white/80 bg-white shadow-google-elevated sm:size-28"
+        className="relative z-10 flex items-center justify-center"
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >
-        <Bot className="size-12 text-google-blue sm:size-14" strokeWidth={1.25} />
+        <div
+          className="pointer-events-none absolute size-32 rounded-full bg-google-blue/20 blur-2xl sm:size-36"
+          aria-hidden
+        />
+        <SiriOrb
+          size="112px"
+          animationDuration={12}
+          colors={{
+            bg: "oklch(98% 0.008 240)",
+            c1: "oklch(55% 0.14 240)",
+            c2: "oklch(72% 0.12 220)",
+            c3: "oklch(65% 0.1 235)",
+          }}
+          className="relative shadow-google-elevated"
+        />
       </motion.div>
       <motion.div
         className="absolute right-4 top-4 flex items-center gap-2 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-gray-700 shadow-google"

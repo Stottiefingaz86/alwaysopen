@@ -1,9 +1,6 @@
-"use client";
-
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
 import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
-import { Mail, SendHorizonal } from "lucide-react";
 
 export function FinalCta() {
   return (
@@ -27,30 +24,6 @@ export function FinalCta() {
                 View pricing
               </CtaButton>
             </div>
-
-            <form
-              action={BOOK_MEETING_MAILTO}
-              className="mx-auto mt-10 max-w-sm lg:mt-12"
-            >
-              <div className="relative grid grid-cols-[1fr_auto] items-center rounded-2xl border border-google-gray-200 bg-white pr-2 shadow-google-card focus-within:ring-2 focus-within:ring-google-blue/30">
-                <Mail className="pointer-events-none absolute inset-y-0 left-4 my-auto size-5 text-google-gray-400" />
-                <input
-                  name="email"
-                  placeholder="Your email for a callback"
-                  className="h-12 w-full bg-transparent pl-12 text-sm focus:outline-none"
-                  type="email"
-                  aria-label="Email address"
-                />
-                <button
-                  type="submit"
-                  className="btn-primary mr-1 inline-flex min-h-10 items-center justify-center rounded-xl px-4 text-sm font-medium"
-                  aria-label="Request callback"
-                >
-                  <span className="hidden md:inline">Get in touch</span>
-                  <SendHorizonal className="size-4 md:hidden" strokeWidth={2} />
-                </button>
-              </div>
-            </form>
           </div>
         </FadeIn>
       </div>

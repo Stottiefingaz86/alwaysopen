@@ -7,13 +7,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BorderBeam } from "@/components/ui/border-beam";
-import {
-  ReviewCardMock,
-  StorefrontIllustration,
-} from "@/components/landing/illustrations";
+import { ReviewCardMock } from "@/components/landing/illustrations";
 import { FadeIn } from "@/components/ui/section";
 import {
-  BarChart3,
   Heart,
   ListChecks,
   MapPin,
@@ -24,8 +20,11 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+
+const GOOGLE_BUSINESS_ICON = "/google-my-business-icon.svg";
 
 type PanelKey =
   | "complaints"
@@ -199,14 +198,33 @@ export function VocSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.2 }}
-                    className="flex h-full min-h-[280px] flex-col items-center justify-center gap-4 p-5 sm:min-h-[300px] sm:p-6"
+                    className="flex h-full min-h-[280px] flex-col items-center justify-center gap-5 p-5 sm:min-h-[300px] sm:p-6"
                   >
-                    <StorefrontIllustration className="h-28 w-full max-w-[200px] shrink-0 opacity-90 sm:h-32" />
+                    {activeItem === "google" ? (
+                      <Image
+                        src={GOOGLE_BUSINESS_ICON}
+                        alt="Google Business Profile"
+                        width={160}
+                        height={140}
+                        className="h-28 w-auto max-w-[200px] object-contain sm:h-32"
+                      />
+                    ) : (
+                      (() => {
+                        const Icon = panels[activeItem].icon;
+                        return (
+                          <span className="flex size-16 items-center justify-center rounded-2xl bg-pastel-blue/80">
+                            <Icon
+                              className="size-8 text-google-blue"
+                              strokeWidth={1.5}
+                            />
+                          </span>
+                        );
+                      })()
+                    )}
                     <ReviewCardMock className="w-full max-w-[220px] shrink-0" />
                     <p className="text-center text-sm font-medium text-google-gray-700">
                       {panels[activeItem].title}
                     </p>
-                    <BarChart3 className="size-8 shrink-0 text-google-blue/60" />
                   </motion.div>
                 </AnimatePresence>
               </div>
