@@ -5,7 +5,7 @@ import { CtaButton } from "@/components/landing/cta-button";
 import { PhoneRingPulse } from "@/components/landing/decorations";
 import { ReviewCardMock } from "@/components/landing/illustrations";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -206,7 +206,7 @@ export function SolutionSection() {
                   How it works
                 </CtaButton>
                 <CtaButton href={BOOK_MEETING_MAILTO} variant="secondary" size="default">
-                  Book Meeting
+                  {TALK_OVER_COFFEE_CTA}
                 </CtaButton>
               </div>
             </div>

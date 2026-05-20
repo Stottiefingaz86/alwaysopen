@@ -2,7 +2,7 @@
 
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 import { Mail, SendHorizonal } from "lucide-react";
 
 export function FinalCta() {
@@ -21,7 +21,7 @@ export function FinalCta() {
 
             <div className="mx-auto mt-10 flex max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
               <CtaButton href={BOOK_MEETING_MAILTO} size="lg">
-                Book Meeting
+                {TALK_OVER_COFFEE_CTA}
               </CtaButton>
               <CtaButton href="#pricing" variant="secondary" size="lg">
                 View pricing

@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FadeIn, Section } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_LINK } from "@/lib/contact";
 import {
   Calendar,
   Clock,
@@ -87,7 +87,7 @@ export function FaqsSection() {
                   href={BOOK_MEETING_MAILTO}
                   className="font-medium text-google-blue hover:underline"
                 >
-                  Book a meeting
+                  {TALK_OVER_COFFEE_LINK}
                 </a>{" "}
                 and we&apos;ll walk you through setup.
               </p>

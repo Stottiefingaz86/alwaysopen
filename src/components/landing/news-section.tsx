@@ -8,8 +8,9 @@ import {
   newsItems,
   type NewsItem,
 } from "@/lib/news-content";
+import { NewsCoverImage } from "@/components/landing/news-cover-image";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Calendar, FileText, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { useState } from "react";
 
 function CategoryBadge({ category }: { category: NewsItem["category"] }) {
@@ -32,10 +33,12 @@ function CategoryBadge({ category }: { category: NewsItem["category"] }) {
 
 function NewsCard({
   item,
+  imageVersions,
   featured = false,
   onOpen,
 }: {
   item: NewsItem;
+  imageVersions: Record<string, string>;
   featured?: boolean;
   onOpen: (item: NewsItem) => void;
 }) {
@@ -56,18 +59,15 @@ function NewsCard({
       tabIndex={0}
       aria-label={`Read article: ${item.title}`}
     >
-      <div
+      <NewsCoverImage
+        item={item}
+        imageVersions={imageVersions}
+        featured={featured}
         className={cn(
-          "flex shrink-0 items-center justify-center bg-linear-to-br from-pastel-blue/60 via-white to-google-gray-50",
-          featured ? "md:w-48 lg:w-56" : "h-36"
+          "shrink-0",
+          featured ? "h-48 w-full md:h-auto md:w-48 lg:w-56" : "h-40 w-full"
         )}
-      >
-        {item.category === "update" ? (
-          <Sparkles className="size-10 text-google-green/80" strokeWidth={1.25} />
-        ) : (
-          <FileText className="size-10 text-google-blue/70" strokeWidth={1.25} />
-        )}
-      </div>
+      />
 
       <div className={cn("flex flex-1 flex-col p-5 md:p-6", featured && "justify-center")}>
         <div className="flex flex-wrap items-center gap-2">
@@ -113,7 +113,11 @@ function NewsCard({
   );
 }
 
-export function NewsSection() {
+export function NewsSection({
+  imageVersions,
+}: {
+  imageVersions: Record<string, string>;
+}) {
   const [featured, ...rest] = newsItems;
   const [activeArticle, setActiveArticle] = useState<NewsItem | null>(null);
 
@@ -138,14 +142,23 @@ export function NewsSection() {
 
         {featured && (
           <FadeIn>
-            <NewsCard item={featured} featured onOpen={setActiveArticle} />
+            <NewsCard
+              item={featured}
+              imageVersions={imageVersions}
+              featured
+              onOpen={setActiveArticle}
+            />
           </FadeIn>
         )}
 
         <div className="grid gap-5 md:grid-cols-2">
           {rest.map((item, i) => (
             <FadeIn key={item.id} delay={0.06 + i * 0.05}>
-              <NewsCard item={item} onOpen={setActiveArticle} />
+              <NewsCard
+                item={item}
+                imageVersions={imageVersions}
+                onOpen={setActiveArticle}
+              />
             </FadeIn>
           ))}
         </div>
@@ -153,6 +166,7 @@ export function NewsSection() {
 
       <ArticleDialog
         article={activeArticle}
+        imageVersions={imageVersions}
         onClose={() => setActiveArticle(null)}
       />
     </Section>

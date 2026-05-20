@@ -1,5 +1,5 @@
 import { Logo } from "@/components/landing/logo";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 
 const links = [
   { href: "#services", label: "Services" },
@@ -8,7 +8,7 @@ const links = [
   { href: "#phone-receptionist", label: "Phone line" },
   { href: "#about", label: "About" },
   { href: "#news", label: "News" },
-  { href: BOOK_MEETING_MAILTO, label: "Book Meeting" },
+  { href: BOOK_MEETING_MAILTO, label: TALK_OVER_COFFEE_CTA },
   { href: "#", label: "Privacy" },
   { href: "#", label: "Contact" },
 ];

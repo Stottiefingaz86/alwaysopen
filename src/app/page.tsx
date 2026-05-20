@@ -8,6 +8,7 @@ import { SolutionSection } from "@/components/landing/solution-section";
 import { PipelineSection } from "@/components/landing/pipeline";
 import { VocSection } from "@/components/landing/voc-section";
 import { NewsSection } from "@/components/landing/news-section";
+import { getNewsImageVersions } from "@/lib/news-image-versions";
 import { PricingSection } from "@/components/landing/pricing";
 import { AddOnsSection } from "@/components/landing/add-ons";
 import { AboutSection } from "@/components/landing/about-section";
@@ -15,7 +16,12 @@ import { FaqsSection } from "@/components/landing/faqs-section";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Footer } from "@/components/landing/footer";
 
+/** Re-read public/news mtimes when you replace an image file */
+export const revalidate = 0;
+
 export default function Home() {
+  const newsImageVersions = getNewsImageVersions();
+
   return (
     <>
       <Navbar />
@@ -30,7 +36,7 @@ export default function Home() {
         <VocSection />
         <PricingSection />
         <AddOnsSection />
-        <NewsSection />
+        <NewsSection imageVersions={newsImageVersions} />
         <AboutSection />
         <FaqsSection />
         <FinalCta />

@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/card";
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn, Section } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import {
+  BOOK_MEETING_MAILTO,
+  TALK_OVER_COFFEE_CTA,
+  TALK_OVER_COFFEE_LINK,
+} from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 
@@ -124,7 +128,7 @@ export function PricingSection() {
                     size="default"
                     className="mt-4 w-full"
                   >
-                    Book Meeting
+                    {TALK_OVER_COFFEE_CTA}
                   </CtaButton>
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col space-y-4">
@@ -148,7 +152,7 @@ export function PricingSection() {
 
         <FadeIn delay={0.2} className="mt-8 text-center">
           <CtaButton href={BOOK_MEETING_MAILTO} variant="secondary">
-            Questions? Book a call
+            Questions? {TALK_OVER_COFFEE_LINK}
           </CtaButton>
         </FadeIn>
       </div>

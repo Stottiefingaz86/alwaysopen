@@ -2,7 +2,7 @@
 
 import { CtaButton } from "@/components/landing/cta-button";
 import { Logo } from "@/components/landing/logo";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -55,7 +55,7 @@ export function Navbar() {
             Pricing
           </CtaButton>
           <CtaButton href={BOOK_MEETING_MAILTO} size="sm">
-            Book Meeting
+            {TALK_OVER_COFFEE_CTA}
           </CtaButton>
         </div>
         <button
@@ -91,7 +91,7 @@ export function Navbar() {
                 <CtaButton href="#pricing" variant="secondary">
                   Pricing
                 </CtaButton>
-                <CtaButton href={BOOK_MEETING_MAILTO}>Book Meeting</CtaButton>
+                <CtaButton href={BOOK_MEETING_MAILTO}>{TALK_OVER_COFFEE_CTA}</CtaButton>
               </li>
             </ul>
           </motion.div>

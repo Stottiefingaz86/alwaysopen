@@ -8,6 +8,9 @@ export type NewsItem = {
   date: string;
   readTime: string;
   slug: string;
+  /** Cover image in /public/news */
+  image: string;
+  imageAlt: string;
   tags?: string[];
   /** Full article body — paragraphs shown in the modal */
   body: string[];
@@ -18,6 +21,8 @@ export const newsItems: NewsItem[] = [
     id: "1",
     category: "article",
     slug: "google-listing-phone-line",
+    image: "/news/google-post.jpg",
+    imageAlt: "Google listing on a phone with an incoming call",
     title: "Your Google listing phone line is your busiest storefront",
     excerpt:
       "Most local customers still call before they book online. If that number rings out, you're losing jobs to whoever answers first.",
@@ -36,6 +41,8 @@ export const newsItems: NewsItem[] = [
     id: "2",
     category: "article",
     slug: "bilingual-receptionist",
+    image: "/news/bilingual-benefits.jpg",
+    imageAlt: "English and Spanish callers on one business phone line",
     title: "English and Spanish callers on one business number",
     excerpt:
       "Mixed-language enquiries are common in many markets. Here's how we train RingsAway to handle both without awkward handoffs.",
@@ -55,6 +62,8 @@ export const newsItems: NewsItem[] = [
     id: "3",
     category: "update",
     slug: "voc-reports-march",
+    image: "/news/voc-news.webp",
+    imageAlt: "Monthly customer feedback and VoC report",
     title: "What's new in monthly customer feedback reports",
     excerpt:
       "Clearer VoC explainers, action lists, competitor mentions, and Google Business guidance, all prepared by our team from owner feedback.",

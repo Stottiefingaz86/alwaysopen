@@ -4,7 +4,7 @@ import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
 import { DotGrid, PhoneRingPulse } from "@/components/landing/decorations";
 import { AgentShowcase } from "@/components/landing/agent-showcase";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 import { Check } from "lucide-react";
 
 const bullets = [
@@ -64,7 +64,7 @@ export function Hero() {
             <FadeIn delay={0.1}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <CtaButton href={BOOK_MEETING_MAILTO} size="lg">
-                  Book Meeting
+                  {TALK_OVER_COFFEE_CTA}
                 </CtaButton>
                 <CtaButton href="#pricing" variant="secondary" size="lg">
                   View pricing

@@ -3,7 +3,7 @@
 import { BorderBeam } from "@/components/ui/border-beam";
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn, Section } from "@/components/ui/section";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 import {
   Clock,
   Heart,
@@ -63,7 +63,7 @@ export function AboutSection() {
 
               <div className="mt-8 flex flex-col gap-3">
                 <CtaButton href={BOOK_MEETING_MAILTO} size="default">
-                  Book Meeting
+                  {TALK_OVER_COFFEE_CTA}
                 </CtaButton>
                 <CtaButton href="#faq" variant="secondary" size="default">
                   Common questions

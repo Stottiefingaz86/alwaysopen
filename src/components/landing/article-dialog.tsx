@@ -7,12 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BOOK_MEETING_MAILTO } from "@/lib/contact";
+import { BOOK_MEETING_MAILTO, TALK_OVER_COFFEE_CTA } from "@/lib/contact";
 import {
   categoryLabels,
   formatNewsDate,
   type NewsItem,
 } from "@/lib/news-content";
+import { NewsCoverImage } from "@/components/landing/news-cover-image";
 import { cn } from "@/lib/utils";
 import { FileText, Sparkles } from "lucide-react";
 
@@ -36,10 +37,15 @@ function CategoryBadge({ category }: { category: NewsItem["category"] }) {
 
 type ArticleDialogProps = {
   article: NewsItem | null;
+  imageVersions: Record<string, string>;
   onClose: () => void;
 };
 
-export function ArticleDialog({ article, onClose }: ArticleDialogProps) {
+export function ArticleDialog({
+  article,
+  imageVersions,
+  onClose,
+}: ArticleDialogProps) {
   return (
     <Dialog
       open={article !== null}
@@ -53,6 +59,12 @@ export function ArticleDialog({ article, onClose }: ArticleDialogProps) {
       >
         {article && (
           <>
+            <NewsCoverImage
+              item={article}
+              imageVersions={imageVersions}
+              className="h-44 w-full shrink-0 sm:h-52"
+              priority
+            />
             <div className="border-b border-google-gray-100 bg-google-gray-50/80 px-6 py-5 sm:px-8">
               <DialogHeader className="gap-3 text-left">
                 <div className="flex flex-wrap items-center gap-2">
@@ -100,7 +112,7 @@ export function ArticleDialog({ article, onClose }: ArticleDialogProps) {
                 From the RingsAway team
               </p>
               <CtaButton href={BOOK_MEETING_MAILTO} size="default">
-                Book Meeting
+                {TALK_OVER_COFFEE_CTA}
               </CtaButton>
             </div>
           </>
