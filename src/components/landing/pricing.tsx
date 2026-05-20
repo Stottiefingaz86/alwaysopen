@@ -28,7 +28,7 @@ const plans = [
       "Google Calendar",
       "Email confirmations",
       "FAQ knowledgebase",
-      "Basic review summary",
+      "Basic monthly review summary",
     ],
   },
   {
@@ -43,8 +43,8 @@ const plans = [
       "Better knowledgebase",
       "Booking automation",
       "Calendar links",
-      "Review intelligence",
-      "Monthly VoC summary",
+      "Monthly customer feedback report",
+      "Google Business action plan",
       "Monthly review call",
     ],
   },
@@ -58,7 +58,7 @@ const plans = [
     includes: [
       "Everything Growth",
       "Multi-calendar support",
-      "Advanced VoC report",
+      "In-depth feedback report + Google strategy",
       "Competitor benchmarking",
       "Quarterly CX audit",
       "Strategy calls",
@@ -85,21 +85,21 @@ export function PricingSection() {
           </div>
         </FadeIn>
 
-        <div className="mt-10 grid gap-6 md:mt-16 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 pt-4 md:mt-16 md:grid-cols-3 md:items-stretch">
           {plans.map((plan, i) => (
-            <FadeIn key={plan.name} delay={i * 0.08}>
+            <FadeIn key={plan.name} delay={i * 0.08} className="min-h-0">
               <Card
                 className={cn(
-                  "relative flex h-full flex-col border-google-gray-200 shadow-google-card",
-                  plan.popular && "border-google-blue shadow-google-elevated md:-mt-2"
+                  "relative flex h-full flex-col overflow-visible border-google-gray-200 shadow-google-card",
+                  plan.popular && "z-[1] border-google-blue shadow-google-elevated md:-mt-2"
                 )}
               >
                 {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-google-blue px-3 py-1 text-xs font-medium text-white">
+                  <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-google-blue px-3 py-1 text-xs font-medium text-white shadow-google">
                     Most popular
                   </span>
                 )}
-                <CardHeader className="pb-4">
+                <CardHeader className={cn("pb-4", plan.popular && "pt-7")}>
                   <CardTitle className="text-sm font-medium uppercase tracking-wider text-google-gray-500">
                     {plan.name}
                   </CardTitle>

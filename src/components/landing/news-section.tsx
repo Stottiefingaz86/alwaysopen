@@ -1,5 +1,6 @@
 "use client";
 
+import { ArticleDialog } from "@/components/landing/article-dialog";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import {
   categoryLabels,
@@ -9,7 +10,7 @@ import {
 } from "@/lib/news-content";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Calendar, FileText, Sparkles } from "lucide-react";
-import Link from "next/link";
+import { useState } from "react";
 
 function CategoryBadge({ category }: { category: NewsItem["category"] }) {
   const styles = {
@@ -32,19 +33,28 @@ function CategoryBadge({ category }: { category: NewsItem["category"] }) {
 function NewsCard({
   item,
   featured = false,
+  onOpen,
 }: {
   item: NewsItem;
   featured?: boolean;
+  onOpen: (item: NewsItem) => void;
 }) {
-  const href = `#news-${item.slug}`;
-
   return (
     <article
-      id={`news-${item.slug}`}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-2xl border border-google-gray-200 bg-white shadow-google-card transition-all hover:border-google-blue/30 hover:shadow-google-elevated",
+        "group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-google-gray-200 bg-white text-left shadow-google-card transition-all hover:border-google-blue/30 hover:shadow-google-elevated",
         featured && "md:flex-row md:items-stretch"
       )}
+      onClick={() => onOpen(item)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen(item);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Read article: ${item.title}`}
     >
       <div
         className={cn(
@@ -94,13 +104,10 @@ function NewsCard({
           </ul>
         )}
 
-        <Link
-          href={href}
-          className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-google-blue transition-colors hover:text-[var(--pastel-blue-hover)]"
-        >
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-google-blue">
           Read more
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-        </Link>
+        </span>
       </div>
     </article>
   );
@@ -108,13 +115,14 @@ function NewsCard({
 
 export function NewsSection() {
   const [featured, ...rest] = newsItems;
+  const [activeArticle, setActiveArticle] = useState<NewsItem | null>(null);
 
   return (
     <Section id="news" background="pattern">
       <SectionHeader
         eyebrow="News"
         title="Updates and guides"
-        subtitle="Product news and practical tips from our team in Manilva — for local businesses on the Costa del Sol."
+        subtitle="Product news and practical tips for phone-first local businesses, from our team in Manilva, Spain."
       />
 
       <div className="space-y-6">
@@ -130,18 +138,23 @@ export function NewsSection() {
 
         {featured && (
           <FadeIn>
-            <NewsCard item={featured} featured />
+            <NewsCard item={featured} featured onOpen={setActiveArticle} />
           </FadeIn>
         )}
 
         <div className="grid gap-5 md:grid-cols-2">
           {rest.map((item, i) => (
             <FadeIn key={item.id} delay={0.06 + i * 0.05}>
-              <NewsCard item={item} />
+              <NewsCard item={item} onOpen={setActiveArticle} />
             </FadeIn>
           ))}
         </div>
       </div>
+
+      <ArticleDialog
+        article={activeArticle}
+        onClose={() => setActiveArticle(null)}
+      />
     </Section>
   );
 }

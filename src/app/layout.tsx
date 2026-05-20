@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Geist } from "next/font/google";
+import { Fraunces, Geist } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const fraunces = Fraunces({
+  variable: "--font-logo",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600"],
 });
 
 export const metadata: Metadata = {
   title: "AlwaysOpen | More bookings, better reviews, happier customers",
   description:
-    "AlwaysOpen answers your business phone line with a 24/7 AI receptionist — plus booking automation, review intelligence and Voice of Customer reports for local businesses.",
+    "AlwaysOpen answers your business phone line with a 24/7 AI receptionist, plus hand-prepared customer feedback reports (VoC) with actions and a Google Business plan.",
   keywords: [
     "local business",
     "AI receptionist",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "AlwaysOpen" }],
   openGraph: {
-    title: "AlwaysOpen — Get more bookings. Improve reviews.",
+    title: "AlwaysOpen | Get more bookings. Improve reviews.",
     description:
-      "Real phone line answered 24/7 by AI, with review intelligence and Voice of Customer reports.",
+      "Real phone line answered 24/7 by AI, with monthly customer feedback reports and Google Business guidance.",
     type: "website",
     locale: "en_IE",
     siteName: "AlwaysOpen",
@@ -51,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={cn("font-sans", geist.variable, fraunces.variable)}>
       <body className="min-h-screen overflow-x-clip bg-background font-sans text-foreground antialiased">
         <JsonLd />
         {children}

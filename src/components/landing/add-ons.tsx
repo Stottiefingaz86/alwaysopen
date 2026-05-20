@@ -4,7 +4,7 @@ import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { FileText, Search, Zap, UserPlus, Phone } from "lucide-react";
 
 const addOns = [
-  { title: "Extra VoC reporting", price: "€299/month", icon: FileText },
+  { title: "Extra customer feedback reporting", price: "€299/month", icon: FileText },
   { title: "Digital CX audit", price: "€499", icon: Search },
   { title: "Extra automation", price: "From €250", icon: Zap },
   { title: "Extra user/calendar", price: "€50/month", icon: UserPlus },

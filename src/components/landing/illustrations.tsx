@@ -15,7 +15,7 @@ export function StorefrontIllustration({ className }: { className?: string }) {
     >
       <rect width="280" height="220" rx="20" fill="#F8F9FA" />
       <rect x="30" y="80" width="220" height="120" rx="12" fill="#E8F0FE" />
-      <rect x="30" y="80" width="220" height="32" rx="12" fill="#9aa8ef" />
+      <rect x="30" y="80" width="220" height="32" rx="12" fill="#3b7fd4" />
       <rect x="60" y="125" width="55" height="60" rx="6" fill="#fff" stroke="#DADCE0" />
       <rect x="130" y="125" width="95" height="38" rx="6" fill="#fff" stroke="#DADCE0" />
       <circle cx="87" cy="155" r="6" fill="#FBBC05" />
@@ -49,10 +49,10 @@ export function GrowthChartIllustration({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 200 100" fill="none" className={className} aria-hidden>
       <rect width="200" height="100" rx="12" fill="#F8F9FA" stroke="#E8EAED" />
-      <rect x="16" y="58" width="24" height="28" rx="6" fill="#9aa8ef" opacity="0.35" />
+      <rect x="16" y="58" width="24" height="28" rx="6" fill="#3b7fd4" opacity="0.35" />
       <rect x="52" y="42" width="24" height="44" rx="6" fill="#34A853" opacity="0.45" />
       <rect x="88" y="28" width="24" height="58" rx="6" fill="#FBBC05" opacity="0.55" />
-      <rect x="124" y="12" width="24" height="74" rx="6" fill="#9aa8ef" />
+      <rect x="124" y="12" width="24" height="74" rx="6" fill="#3b7fd4" />
       <motion.path
         d="M28 68 L56 52 L92 38 L128 22"
         stroke="#34A853"

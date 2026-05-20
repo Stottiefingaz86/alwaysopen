@@ -14,8 +14,8 @@ import {
 const items: { icon: LucideIcon; label: string }[] = [
   { icon: Phone, label: "Never miss enquiries" },
   { icon: Clock, label: "Available 24/7" },
-  { icon: MessageSquare, label: "VoC reporting" },
-  { icon: Star, label: "Review intelligence" },
+  { icon: MessageSquare, label: "Customer feedback reports" },
+  { icon: Star, label: "Hand-prepared reports" },
   { icon: Calendar, label: "Booking automation" },
 ];
 
@@ -58,10 +58,10 @@ export function TrustBar() {
     <section className="bg-google-gray-50 py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
-          <div className="relative mx-auto w-fit">
+          <div className="relative mx-auto w-full max-w-md overflow-visible px-2 py-2 sm:max-w-lg sm:px-4">
             <div
               role="presentation"
-              className="pointer-events-none absolute inset-0 z-10 bg-radial from-transparent to-google-gray-50 to-75%"
+              className="pointer-events-none absolute -inset-x-4 inset-y-0 z-10 bg-radial from-transparent via-transparent to-google-gray-50 to-90%"
             />
             <div className="mx-auto mb-2 flex w-fit justify-center gap-2">
               {row1.map((item) => (
@@ -99,8 +99,8 @@ export function TrustBar() {
               Everything your front desk should handle
             </h2>
             <p className="text-sm leading-relaxed text-google-gray-500 md:text-base">
-              Calls, bookings, reviews and monthly insight — without hiring another
-              person to cover the phone.
+              AI on the phone, human-written monthly reports, without hiring another
+              person to cover the desk.
             </p>
             <ul className="flex flex-wrap justify-center gap-2 pt-2">
               {items.map((item) => (

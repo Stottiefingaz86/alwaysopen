@@ -15,7 +15,7 @@ const backgrounds = {
   white: "bg-white",
   gray: "bg-google-gray-50",
   blue: "bg-pastel-blue",
-  pattern: "bg-google-gray-50 relative overflow-hidden",
+  pattern: "bg-google-gray-50 relative overflow-x-clip",
 };
 
 export function Section({

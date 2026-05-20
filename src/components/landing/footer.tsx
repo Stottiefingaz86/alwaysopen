@@ -22,12 +22,12 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-google-gray-500">
-              AlwaysOpen answers your business phone line with AI, helps you
-              capture more customers, improve reviews, and understand what callers
-              really want.
+              AlwaysOpen answers your business phone line with AI and helps you
+              capture more bookings, plus monthly customer feedback reports (VoC) with
+              clear actions and a Google Business plan.
             </p>
             <p className="mt-3 text-sm text-google-gray-500">
-              Manilva, La Chullera, Spain · English &amp; Spanish
+              Based in Manilva, La Chullera, Spain · English &amp; Spanish · clients worldwide
             </p>
           </div>
           <nav>

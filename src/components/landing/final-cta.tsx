@@ -15,7 +15,7 @@ export function FinalCta() {
               One missed call can pay for itself
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-google-gray-500">
-              Your phone line answered around the clock — capture more enquiries,
+              Your phone line answered around the clock. Capture more enquiries,
               improve reviews, and grow your business.
             </p>
 

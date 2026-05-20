@@ -7,12 +7,12 @@ import { MessageSquareOff, PhoneMissed, Workflow } from "lucide-react";
 const problems = [
   {
     title: "Missed enquiries",
-    text: "Customers call while staff are busy — and go to someone who answers.",
+    text: "Customers call while staff are busy and go to someone who answers.",
     icon: PhoneMissed,
   },
   {
     title: "Unseen customer feedback",
-    text: "Reviews contain valuable insight but rarely get analysed into action.",
+    text: "Reviews contain valuable insight but rarely get turned into a clear monthly plan.",
     icon: MessageSquareOff,
   },
   {

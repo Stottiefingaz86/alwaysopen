@@ -1,7 +1,7 @@
 export const BOOK_MEETING_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@alwaysopen.ie";
 
-const subject = "Book a meeting — AlwaysOpen";
+const subject = "Book a meeting - AlwaysOpen";
 const body = [
   "Hi,",
   "",

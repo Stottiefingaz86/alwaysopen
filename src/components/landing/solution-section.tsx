@@ -29,26 +29,26 @@ const receptionistFeatures = [
 
 const pillars = [
   {
-    title: "Review Intelligence",
-    tagline: "Turn reviews into insight",
+    title: "Review & feedback reports",
+    tagline: "Human insight, not auto-scores",
     description:
-      "Spot themes in Google reviews before they cost you customers — complaints, praise, and trends in one view.",
+      "We read your Google Business profile, website comments, and any surveys, then summarise complaints, praise, and trends in plain language.",
     icon: BarChart3,
     href: "#voc",
-    cta: "See review insights",
+    cta: "See how reports work",
     visual: "reviews" as const,
-    highlights: ["Theme detection", "Sentiment trends", "Response drafts"],
+    highlights: ["Google & web reviews", "Survey feedback", "Written by our team"],
   },
   {
-    title: "Voice of Customer",
-    tagline: "Know what to fix next",
+    title: "Customer feedback (VoC)",
+    tagline: "Listen, act, grow on Google",
     description:
-      "Monthly summaries with ranked actions — what to fix this week, not another spreadsheet to ignore.",
+      "Voice of the Customer in plain terms: we read what people say, explain why it matters, and send a monthly action plan plus Google Business strategy, prepared by our team, not software.",
     icon: FileText,
     href: "#voc",
-    cta: "See VoC reports",
+    cta: "What is VoC?",
     visual: "voc" as const,
-    highlights: ["Monthly action plan", "Competitor context", "Owner-friendly"],
+    highlights: ["Plain-English reports", "Google Business plan", "Ranked actions"],
   },
 ];
 
@@ -137,7 +137,7 @@ function VocVisual() {
         ))}
       </div>
       <ul className="mt-4 space-y-2">
-        {["Fix wait times", "Promote evening slots"].map((action) => (
+        {["Reply to 3-star reviews", "Post about evening slots"].map((action) => (
           <li
             key={action}
             className="flex items-center gap-2 text-xs text-google-gray-700"
@@ -157,7 +157,7 @@ export function SolutionSection() {
       <SectionHeader
         eyebrow="The solution"
         title="One system for phone calls, reviews and customer insight"
-        subtitle="Telephone reception, review intelligence, and monthly insight — connected in one place."
+        subtitle="AI on your phone line, plus monthly customer feedback reports with clear actions and a Google Business plan."
       />
 
       {/* AI Receptionist — hero feature */}
@@ -167,7 +167,7 @@ export function SolutionSection() {
           <BorderBeam
             size={140}
             duration={10}
-            colorFrom="#6b9ae8"
+            colorFrom="#3b7fd4"
             colorTo="#4a9b73"
             className="from-transparent via-google-blue/60 to-transparent"
           />
@@ -198,7 +198,7 @@ export function SolutionSection() {
                 ))}
               </ul>
               <p className="mt-6 max-w-md text-sm leading-relaxed text-google-gray-500">
-                The core of AlwaysOpen — every caller reaches a trained agent on{" "}
+                The core of AlwaysOpen: every caller reaches a trained agent on{" "}
                 <strong className="font-medium text-foreground">your</strong> number.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -224,7 +224,7 @@ export function SolutionSection() {
           <FadeIn key={pillar.title} delay={0.08 + i * 0.06}>
             <article
               className={cn(
-                "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-google-gray-200 bg-white p-6 shadow-google-card transition-all",
+                "group relative flex h-full flex-col overflow-visible rounded-2xl border border-google-gray-200 bg-white p-6 shadow-google-card transition-all",
                 "hover:border-google-blue/35 hover:shadow-google-elevated md:p-7"
               )}
             >
@@ -257,7 +257,7 @@ export function SolutionSection() {
               {pillar.visual === "reviews" ? (
                 <div className="relative mt-5">
                   <ReviewCardMock className="transition-transform group-hover:-translate-y-0.5" />
-                  <div className="absolute -right-1 -top-2 flex items-center gap-1 rounded-full bg-white px-2 py-1 text-xs font-medium text-google-yellow shadow-google">
+                  <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-white px-2 py-1 text-xs font-medium text-google-yellow shadow-google">
                     <Star className="size-3 fill-google-yellow" />
                     4.8
                   </div>

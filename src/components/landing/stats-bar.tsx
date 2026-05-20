@@ -5,11 +5,11 @@ import { FadeIn } from "@/components/ui/section";
 const stats = [
   { value: "24/7", label: "Phone line coverage" },
   { value: "3×", label: "More booking capture" },
-  { value: "100+", label: "Reviews analysed monthly" },
+  { value: "100+", label: "Reviews read per report" },
 ];
 
 const quote = {
-  text: "We stopped losing evening calls. Bookings come through while we're still with clients — the phone just works now.",
+  text: "We stopped losing evening calls. Bookings come through while we're still with clients. The phone just works now.",
   author: "Sarah M., salon owner",
 };
 
@@ -23,8 +23,8 @@ export function StatsBar() {
               Built for how local customers actually call you
             </h2>
             <p className="text-google-gray-500">
-              Your real business number, answered around the clock — with insight
-              from every conversation and review.
+              Your real business number, answered around the clock, plus monthly
+              reports our team writes from your reviews and feedback.
             </p>
           </div>
         </FadeIn>
@@ -34,7 +34,7 @@ export function StatsBar() {
             <div>
               <p className="text-sm leading-relaxed text-google-gray-500">
                 Salons, clinics, trades and shops use AlwaysOpen on the line
-                customers already trust — not a separate app or chat widget.
+                customers already trust, not a separate app or chat widget.
               </p>
               <div className="mt-10 grid grid-cols-2 gap-6 md:mt-12">
                 {stats.map((stat) => (

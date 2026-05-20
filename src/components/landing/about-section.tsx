@@ -36,27 +36,28 @@ export function AboutSection() {
                 About us
               </p>
               <h2 className="mt-3 text-3xl font-medium tracking-tight md:text-4xl">
-                Local family business, Costa del Sol
+                Family business, based in Spain
               </h2>
 
               <div className="mt-6 space-y-4 text-sm leading-relaxed text-google-gray-500 md:text-base">
                 <p>
                   AlwaysOpen is built and supported from{" "}
-                  <strong className="font-medium text-foreground">Manilva, La Chullera</strong> —
-                  we&apos;re neighbours, not a remote call centre. A family business with a background
-                  in <strong className="font-medium text-foreground">UX and technology</strong>,
+                  <strong className="font-medium text-foreground">Manilva, La Chullera</strong> on
+                  the Costa del Sol. We are a family business, not a faceless call centre. We have a
+                  background in <strong className="font-medium text-foreground">UX and technology</strong>,
                   and <strong className="font-medium text-foreground">16 years in the industry</strong>{" "}
                   making software and services that real people enjoy using.
                 </p>
                 <p>
-                  We set up AI phone reception for local shops, salons, clinics, and trades —
-                  businesses that lose customers when nobody picks up. Every setup is handled in{" "}
-                  <strong className="font-medium text-foreground">English or Spanish</strong>, with
-                  clear handover and support from people who understand how the Costa del Sol works.
+                  We set up AI phone reception for shops, salons, clinics, and trades that lose
+                  customers when nobody picks up,{" "}
+                  <strong className="font-medium text-foreground">wherever you are</strong>. Every
+                  setup is handled in <strong className="font-medium text-foreground">English or Spanish</strong>,
+                  with clear handover and support from our team (remote onboarding works fine).
                 </p>
                 <p>
-                  If you want your real business number answered properly — without hiring another
-                  full-time receptionist — we&apos;d love to hear from you.
+                  If you want your real business number answered properly, without hiring another
+                  full-time receptionist, we&apos;d love to hear from you.
                 </p>
               </div>
 
@@ -77,14 +78,14 @@ export function AboutSection() {
               <BorderBeam
                 size={100}
                 duration={12}
-                colorFrom="#6b9ae8"
+                colorFrom="#3b7fd4"
                 colorTo="#4a9b73"
                 className="from-transparent via-google-blue/50 to-transparent"
               />
 
               <div className="relative aspect-[4/3] w-full min-h-[240px] sm:min-h-[280px]">
                 <iframe
-                  title="AlwaysOpen location — Manilva, La Chullera, Spain"
+                  title="AlwaysOpen location, Manilva, La Chullera, Spain"
                   src={MAP_EMBED}
                   className="absolute inset-0 size-full border-0"
                   loading="lazy"
@@ -128,7 +129,7 @@ export function AboutSection() {
 
             <p className="mt-5 flex items-center gap-2 text-sm text-google-gray-500">
               <Heart className="size-4 shrink-0 text-google-red" strokeWidth={1.75} />
-              Proudly serving local businesses across Manilva and the Costa del Sol.
+              Based in Manilva. Working with phone-first businesses in English and Spanish, near or far.
             </p>
           </FadeIn>
         </div>

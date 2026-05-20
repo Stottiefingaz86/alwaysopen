@@ -41,10 +41,10 @@ function AgentInterface() {
             size="180px"
             animationDuration={orbSpeed}
             colors={{
-              bg: "oklch(98% 0.005 264)",
-              c1: "oklch(58% 0.17 252)",
-              c2: "oklch(75% 0.14 210)",
-              c3: "oklch(68% 0.12 285)",
+              bg: "oklch(98% 0.008 240)",
+              c1: "oklch(55% 0.14 240)",
+              c2: "oklch(72% 0.12 220)",
+              c3: "oklch(65% 0.1 235)",
             }}
           />
         </div>

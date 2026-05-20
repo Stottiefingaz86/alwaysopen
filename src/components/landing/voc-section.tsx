@@ -16,15 +16,43 @@ import {
   BarChart3,
   Heart,
   ListChecks,
+  MapPin,
+  MessageSquare,
   PenLine,
   ThumbsDown,
   ThumbsUp,
+  TrendingUp,
   Users,
 } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
-type PanelKey = "complaints" | "praise" | "sentiment" | "competitors" | "suggestions" | "actions";
+type PanelKey =
+  | "complaints"
+  | "praise"
+  | "sentiment"
+  | "competitors"
+  | "suggestions"
+  | "google"
+  | "actions";
+
+const explainers = [
+  {
+    title: "What is VoC?",
+    icon: MessageSquare,
+    body: "Voice of the Customer (VoC) means listening to what people say about your business: Google reviews, your website, surveys, and feedback after visits. Then we help you make sense of it together.",
+  },
+  {
+    title: "Why it matters",
+    icon: TrendingUp,
+    body: "Star ratings alone do not tell you what to fix. VoC shows the real themes (wait times, staff, pricing, quality) so you improve what customers actually care about, not what you guess.",
+  },
+  {
+    title: "Action + Google",
+    icon: MapPin,
+    body: "Each month we turn feedback into clear next steps: what to change in the business, how to reply on Google, and a practical Google Business strategy so your listing works harder for you.",
+  },
+] as const;
 
 const panels: Record<
   PanelKey,
@@ -34,63 +62,106 @@ const panels: Record<
     title: "Top complaints",
     icon: ThumbsDown,
     description:
-      "See what customers complain about most — wait times, pricing, staff — so you can fix the right thing first.",
+      "We read your Google reviews, website feedback, and surveys, then call out what people complain about most so you fix the right thing first.",
   },
   praise: {
     title: "Top praise themes",
     icon: ThumbsUp,
     description:
-      "Double down on what people love. Spot the phrases that show up in five-star reviews.",
+      "We highlight what customers love in their own words: the phrases and experiences that show up again and again in five-star reviews.",
   },
   sentiment: {
     title: "Customer sentiment",
     icon: Heart,
     description:
-      "Track whether mood is improving month to month, not just your star average.",
+      "We track whether mood is improving month to month from your reviews and satisfaction feedback, not just your star average.",
   },
   competitors: {
     title: "Competitor comparison",
     icon: Users,
     description:
-      "Understand why customers mention rivals — and where you're already winning.",
+      "When reviewers mention rivals, we note why, and where you are already winning in their eyes.",
   },
   suggestions: {
-    title: "Review suggestions",
+    title: "Review response ideas",
     icon: PenLine,
     description:
-      "Draft responses that sound like you, tuned to each review's tone and topic.",
+      "Optional wording we suggest for Google replies. You choose what to post, in your voice.",
+  },
+  google: {
+    title: "Google Business strategy",
+    icon: MapPin,
+    description:
+      "Practical guidance for your Google Business profile: which reviews to answer, what to post, what to highlight in photos or offers, and how feedback should shape how you show up in local search.",
   },
   actions: {
-    title: "Monthly action plans",
+    title: "Monthly action plan",
     icon: ListChecks,
     description:
-      "A short list of fixes to make this month — ranked by impact on revenue and reputation.",
+      "A short, human-written priority list for this month: fixes in the business, reputation tasks, and Google steps ranked by what will help you most.",
   },
 };
 
 export function VocSection() {
-  const [activeItem, setActiveItem] = useState<PanelKey>("complaints");
+  const [activeItem, setActiveItem] = useState<PanelKey>("google");
 
   return (
-    <section id="voc" className="relative overflow-hidden bg-pastel-blue/30 py-16 md:py-24">
-      <div className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6 md:space-y-16">
+    <section id="voc" className="relative overflow-x-clip bg-pastel-blue/30 py-16 md:py-24">
+      <div className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6 md:space-y-14">
         <FadeIn>
-          <div className="mx-auto max-w-2xl space-y-4 text-center">
+          <div className="mx-auto max-w-3xl space-y-5 text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-google-blue">
-              Voice of Customer
+              Customer feedback reports
             </p>
             <h2 className="text-balance text-3xl font-medium tracking-tight md:text-4xl lg:text-5xl">
-              Know what customers are really saying
+              Voice of the Customer, explained in plain English
             </h2>
-            <p className="text-google-gray-500">
-              AlwaysOpen analyses reviews and feedback to uncover the themes affecting
-              your reputation and revenue.
+            <p className="text-base leading-relaxed text-google-gray-500 md:text-lg">
+              <strong className="font-medium text-foreground">VoC</strong> is not
+              jargon for big corporations. It is listening to what customers say,
+              understanding the patterns, and{" "}
+              <strong className="font-medium text-foreground">doing something about it</strong>,
+              including your Google Business profile, where many people decide
+              whether to call you.
             </p>
           </div>
         </FadeIn>
 
+        <FadeIn delay={0.05}>
+          <div className="grid gap-4 md:grid-cols-3">
+            {explainers.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-google-gray-200 bg-white p-5 shadow-google-card"
+              >
+                <span className="flex size-10 items-center justify-center rounded-xl bg-pastel-blue text-google-blue">
+                  <item.icon className="size-5" strokeWidth={1.75} />
+                </span>
+                <h3 className="mt-4 text-base font-medium text-foreground">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-google-gray-500">
+                  {item.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.08}>
+          <p className="mx-auto max-w-2xl text-center text-sm leading-relaxed text-google-gray-500">
+            Each month our team prepares your report by hand. We read Google
+            Business reviews, your website, surveys, and customer satisfaction
+            feedback, so you get themes, actions, and a Google plan you can
+            actually follow.
+          </p>
+        </FadeIn>
+
         <div className="grid gap-10 md:grid-cols-2 md:gap-14 lg:gap-20">
-          <FadeIn delay={0.06}>
+          <FadeIn delay={0.1}>
+            <p className="mb-4 text-sm font-medium text-foreground">
+              What goes into your monthly report
+            </p>
             <Accordion
               value={[activeItem]}
               onValueChange={(value) => {
@@ -118,9 +189,9 @@ export function VocSection() {
             </Accordion>
           </FadeIn>
 
-          <FadeIn delay={0.1}>
-            <div className="relative flex overflow-hidden rounded-3xl border border-google-gray-200 bg-white p-2 shadow-google-card">
-              <div className="relative aspect-[4/3] w-full rounded-2xl bg-google-gray-50">
+          <FadeIn delay={0.12}>
+            <div className="relative overflow-visible rounded-3xl border border-google-gray-200 bg-white p-2 shadow-google-card">
+              <div className="relative min-h-[280px] w-full overflow-hidden rounded-2xl bg-google-gray-50 sm:min-h-[300px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeItem}
@@ -128,16 +199,14 @@ export function VocSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute inset-0 flex flex-col items-center justify-center p-6"
+                    className="flex h-full min-h-[280px] flex-col items-center justify-center gap-4 p-5 sm:min-h-[300px] sm:p-6"
                   >
-                    <StorefrontIllustration className="h-32 w-full max-w-xs opacity-90" />
-                    <div className="absolute right-4 top-4 w-44">
-                      <ReviewCardMock />
-                    </div>
-                    <p className="mt-4 text-center text-sm font-medium text-google-gray-700">
+                    <StorefrontIllustration className="h-28 w-full max-w-[200px] shrink-0 opacity-90 sm:h-32" />
+                    <ReviewCardMock className="w-full max-w-[220px] shrink-0" />
+                    <p className="text-center text-sm font-medium text-google-gray-700">
                       {panels[activeItem].title}
                     </p>
-                    <BarChart3 className="mt-3 size-8 text-google-blue/60" />
+                    <BarChart3 className="size-8 shrink-0 text-google-blue/60" />
                   </motion.div>
                 </AnimatePresence>
               </div>

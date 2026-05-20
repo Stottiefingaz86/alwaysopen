@@ -23,7 +23,7 @@ import {
 const steps = [
   {
     title: "Customers call your number",
-    text: "They ring the same number on Google, your website, or shop sign — a normal phone call.",
+    text: "They ring the same number on Google, your website, or shop sign. A normal phone call.",
     icon: PhoneIncoming,
   },
   {
@@ -40,7 +40,7 @@ const steps = [
 
 const clarifiers = [
   "Works with your existing business phone number",
-  "Callers use any phone — mobile or landline",
+  "Callers use any phone, mobile or landline",
   "Not a website chatbot or app your customers install",
 ];
 
@@ -100,26 +100,31 @@ function CardCorner() {
 
 export function PhoneReceptionistSection() {
   return (
-    <Section id="phone-receptionist" background="gray" className="overflow-hidden">
+    <Section id="phone-receptionist" background="gray">
       <SectionHeader
         eyebrow="How it works"
         title="Real phone calls. Answered by AI."
-        subtitle="AlwaysOpen is built for the way local customers actually reach you — by dialling your business number."
+        subtitle="AlwaysOpen is built for the way local customers actually reach you: by dialling your business number."
       />
 
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.95fr)_1.05fr] lg:gap-16">
         {/* Business line card */}
-        <FadeIn>
-          <Card className="relative overflow-hidden rounded-2xl border-google-gray-200 bg-white shadow-google-elevated">
-            <CardCorner />
-            <BorderBeam
-              size={120}
-              duration={8}
-              colorFrom="#6b9ae8"
-              colorTo="#4a9b73"
-              className="from-transparent via-google-blue/70 to-transparent"
-            />
-            <FloatingBadge className="-right-2 -top-3 sm:right-4" delay={0.3}>
+        <FadeIn className="pt-5">
+          <Card className="relative overflow-visible rounded-2xl border-google-gray-200 bg-white shadow-google-elevated">
+            <div
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"
+              aria-hidden
+            >
+              <CardCorner />
+              <BorderBeam
+                size={120}
+                duration={8}
+                colorFrom="#3b7fd4"
+                colorTo="#4a9b73"
+                className="from-transparent via-google-blue/70 to-transparent"
+              />
+            </div>
+            <FloatingBadge className="right-3 -top-2.5 z-20 sm:right-5" delay={0.3}>
               <PhoneRingPulse />
               Your real number
             </FloatingBadge>
