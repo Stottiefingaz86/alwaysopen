@@ -240,11 +240,24 @@ export const es = {
     readArticle: "Leer artículo",
     fromTeam: "Del equipo RingsAway",
     allNews: "Todas las noticias",
+    backToHomepage: "Volver al inicio",
     backHome: "← Volver al inicio",
     indexTitle: "Actualizaciones y guías",
     indexSubtitle:
       "Noticias del producto y consejos prácticos para negocios locales que viven del teléfono, desde nuestro equipo en Manilva, España.",
     items: [
+      {
+        slug: "best-bars-sotogrande",
+        category: "article",
+        title:
+          "Mejores bares en Sotogrande: guía local de copas, deporte, cócteles y vistas en la marina",
+        excerpt:
+          "Guía práctica de bares en Sotogrande, desde terrazas en la marina y cócteles en azoteas hasta pubs deportivos y locales nocturnos, con enlaces a cada venue y categoría en Sotogrande Guide.",
+        readTime: "6 min de lectura",
+        tags: ["SEO local", "Sotogrande", "Hostelería"],
+        imageAlt: "Cócteles y terrazas de bares en la marina de Sotogrande",
+        body: [],
+      },
       {
         slug: "google-listing-phone-line",
         category: "article",

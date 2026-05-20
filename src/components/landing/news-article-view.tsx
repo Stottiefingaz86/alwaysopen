@@ -10,6 +10,7 @@ import {
 } from "@/lib/news-content";
 import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
+import { NewsArticleContent } from "@/components/landing/news-article-content";
 import { ArrowLeft, FileText, Sparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -39,13 +40,24 @@ export function NewsArticleView({
 
       <header className="border-b border-google-gray-100 bg-google-gray-50/80 px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <Link
-            href="/news"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-google-blue hover:underline"
+          <nav
+            aria-label="Article navigation"
+            className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4"
           >
-            <ArrowLeft className="size-4" />
-            {m.news.allNews}
-          </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-google-blue hover:underline"
+            >
+              <ArrowLeft className="size-4 shrink-0" aria-hidden />
+              {m.news.backToHomepage}
+            </Link>
+            <Link
+              href="/news"
+              className="text-sm text-google-gray-600 transition-colors hover:text-google-blue sm:pl-4 sm:border-l sm:border-google-gray-200"
+            >
+              {m.news.allNews}
+            </Link>
+          </nav>
           <div className="flex flex-wrap items-center gap-2">
             <span
               className={cn(
@@ -79,11 +91,15 @@ export function NewsArticleView({
       </header>
 
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-        <div className="space-y-4 text-[15px] leading-relaxed text-google-gray-700">
-          {article.body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
+        {article.blocks && article.blocks.length > 0 ? (
+          <NewsArticleContent blocks={article.blocks} />
+        ) : (
+          <div className="space-y-4 text-[15px] leading-relaxed text-google-gray-700">
+            {article.body.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        )}
       </div>
 
       <footer className="border-t border-google-gray-100 bg-white">

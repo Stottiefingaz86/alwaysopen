@@ -1,8 +1,18 @@
 import { en } from "@/lib/i18n/messages/en";
 import { es } from "@/lib/i18n/messages/es";
 import type { Locale } from "@/lib/i18n/types";
+import { getNewsBlocks } from "@/lib/news-articles";
 
 export type NewsCategory = "article" | "update";
+
+export type NewsTextSegment =
+  | { type: "text"; value: string }
+  | { type: "link"; label: string; href: string };
+
+export type NewsBodyBlock =
+  | { type: "paragraph"; segments: NewsTextSegment[] }
+  | { type: "heading"; level: 2 | 3; text: string; href?: string }
+  | { type: "list"; items: { label: string; href: string }[] };
 
 export type NewsItem = {
   id: string;
@@ -16,9 +26,15 @@ export type NewsItem = {
   imageAlt: string;
   tags?: string[];
   body: string[];
+  blocks?: NewsBodyBlock[];
 };
 
 const NEWS_META = [
+  {
+    slug: "best-bars-sotogrande",
+    image: "/news/sotogrande-bars.jpg",
+    date: "2026-05-20",
+  },
   {
     slug: "google-listing-phone-line",
     image: "/news/google-post.jpg",
@@ -53,6 +69,7 @@ function buildNewsItems(locale: Locale): NewsItem[] {
       imageAlt: item.imageAlt,
       tags: item.tags ? [...item.tags] : undefined,
       body: [...item.body],
+      blocks: getNewsBlocks(item.slug, locale),
     };
   });
 }

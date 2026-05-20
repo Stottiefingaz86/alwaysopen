@@ -8,7 +8,7 @@ import {
 } from "@/lib/news-content";
 import { NewsCoverImage } from "@/components/landing/news-cover-image";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export function NewsIndexContent({
@@ -21,6 +21,13 @@ export function NewsIndexContent({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <Link
+        href="/"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-google-blue hover:underline"
+      >
+        <ArrowLeft className="size-4 shrink-0" aria-hidden />
+        {m.news.backToHomepage}
+      </Link>
       <header className="max-w-2xl">
         <p className="text-sm font-medium uppercase tracking-wider text-google-blue">
           {m.news.eyebrow}

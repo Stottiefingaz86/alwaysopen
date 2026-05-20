@@ -240,11 +240,24 @@ export const en = {
     readArticle: "Read article",
     fromTeam: "From the RingsAway team",
     allNews: "All news",
+    backToHomepage: "Back to homepage",
     backHome: "← Back to homepage",
     indexTitle: "Updates and guides",
     indexSubtitle:
       "Product news and practical tips for phone-first local businesses, from our team in Manilva, Spain.",
     items: [
+      {
+        slug: "best-bars-sotogrande",
+        category: "article" as const,
+        title:
+          "Best Bars in Sotogrande: A Local Guide to Drinks, Sport, Cocktails and Marina Views",
+        excerpt:
+          "A practical guide to Sotogrande bars, from marina terraces and rooftop cocktails to sports pubs and late-night venues, with links to every venue and category on Sotogrande Guide.",
+        readTime: "6 min read",
+        tags: ["Local SEO", "Sotogrande", "Hospitality"],
+        imageAlt: "Cocktails and marina bar terraces in Sotogrande",
+        body: [],
+      },
       {
         slug: "google-listing-phone-line",
         category: "article" as const,

@@ -7,20 +7,25 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
   const { m, locale } = useLocale();
+  const pathname = usePathname();
+  const onHome = pathname === "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const sectionLink = (hash: string) => (onHome ? hash : `/${hash}`);
+
   const links = [
-    { href: "#phone-receptionist", label: m.nav.phoneLine },
-    { href: "#services", label: m.nav.services },
-    { href: "#pricing", label: m.nav.pricing },
-    { href: "#about", label: m.nav.about },
-    { href: "#news", label: m.nav.news },
+    { href: sectionLink("#phone-receptionist"), label: m.nav.phoneLine },
+    { href: sectionLink("#services"), label: m.nav.services },
+    { href: sectionLink("#pricing"), label: m.nav.pricing },
+    { href: sectionLink("#about"), label: m.nav.about },
+    { href: sectionLink("#news"), label: m.nav.news },
   ];
 
   const mailto = getBookingMailto(locale);
@@ -57,7 +62,7 @@ export function Navbar() {
           ))}
         </ul>
         <div className="hidden items-center gap-3 md:flex">
-          <CtaButton href="#pricing" variant="secondary" size="sm">
+          <CtaButton href={sectionLink("#pricing")} variant="secondary" size="sm">
             {m.nav.ctaPricing}
           </CtaButton>
           <CtaButton href={mailto} size="sm">
@@ -98,7 +103,7 @@ export function Navbar() {
                 </li>
               ))}
               <li className="flex flex-col gap-2 border-t border-google-gray-100 pt-4">
-                <CtaButton href="#pricing" variant="secondary">
+                <CtaButton href={sectionLink("#pricing")} variant="secondary">
                   {m.nav.ctaPricing}
                 </CtaButton>
                 <CtaButton href={mailto}>{talkCta}</CtaButton>
