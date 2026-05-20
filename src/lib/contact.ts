@@ -18,3 +18,7 @@ const body = [
 ].join("\n");
 
 export const BOOK_MEETING_MAILTO = `mailto:${BOOK_MEETING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+/** Demo line to speak with the RingsAway AI agent by phone */
+export const AI_AGENT_PHONE_DISPLAY = "+34 919 93 52 38";
+export const AI_AGENT_PHONE_TEL = "+34919935238";

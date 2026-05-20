@@ -2,6 +2,10 @@
 
 import { SiriOrb } from "@/components/ui/siri-orb";
 import { AGENT_PROMPTS } from "@/lib/agent-prompts";
+import {
+  AI_AGENT_PHONE_DISPLAY,
+  AI_AGENT_PHONE_TEL,
+} from "@/lib/contact";
 import { useConversation } from "@elevenlabs/react";
 import { Loader2, Phone, PhoneOff } from "lucide-react";
 import { useState } from "react";
@@ -90,6 +94,16 @@ function AgentInterface() {
               )}
               {isConnecting ? "Connecting…" : "Start a call"}
             </button>
+            <p className="mt-3 text-center text-sm text-google-gray-500">
+              or call{" "}
+              <a
+                href={`tel:${AI_AGENT_PHONE_TEL}`}
+                className="font-medium text-google-blue hover:underline"
+              >
+                {AI_AGENT_PHONE_DISPLAY}
+              </a>{" "}
+              to talk to the AI Agent
+            </p>
           </>
         ) : (
           <button
