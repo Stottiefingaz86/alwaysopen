@@ -10,15 +10,15 @@ export function Logo({ size = "default" }: { size?: "default" | "large" }) {
     <Link
       href="/"
       className={cn(
-        "font-logo inline-flex items-baseline leading-none transition-opacity hover:opacity-85",
+        "font-logo inline-flex items-baseline overflow-visible leading-none transition-opacity hover:opacity-85",
         textSize
       )}
-      aria-label="AlwaysOpen home"
+      aria-label="RingsAway home"
     >
       <span className="font-medium tracking-[-0.03em] text-google-gray-700">
-        Always
+        Rings
       </span>
-      <span className="font-semibold tracking-[-0.03em] text-google-blue">Open</span>
+      <span className="font-semibold tracking-[-0.03em] text-google-blue">Away</span>
       <span
         className={cn(
           "logo-blink ml-0.5 font-semibold leading-none text-google-blue",

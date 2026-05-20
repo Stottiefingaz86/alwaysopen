@@ -28,7 +28,7 @@ const steps = [
   },
   {
     title: "Your AI receptionist answers",
-    text: "AlwaysOpen picks up, handles enquiries, books appointments, and answers FAQs.",
+    text: "RingsAway picks up, handles enquiries, books appointments, and answers FAQs.",
     icon: Sparkles,
   },
   {
@@ -48,7 +48,7 @@ function PhoneFlowDiagram() {
   const nodes = [
     { label: "Google", icon: Globe },
     { label: "Your line", icon: Phone },
-    { label: "AlwaysOpen", icon: Sparkles },
+    { label: "RingsAway", icon: Sparkles },
   ];
 
   return (
@@ -104,7 +104,7 @@ export function PhoneReceptionistSection() {
       <SectionHeader
         eyebrow="How it works"
         title="Real phone calls. Answered by AI."
-        subtitle="AlwaysOpen is built for the way local customers actually reach you: by dialling your business number."
+        subtitle="RingsAway is built for the way local customers actually reach you: by dialling your business number."
       />
 
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.95fr)_1.05fr] lg:gap-16">

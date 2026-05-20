@@ -1,11 +1,11 @@
 export const BOOK_MEETING_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@alwaysopen.ie";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@ringsaway.com";
 
-const subject = "Book a meeting - AlwaysOpen";
+const subject = "Book a meeting - RingsAway";
 const body = [
   "Hi,",
   "",
-  "I'd like to book a meeting to learn more about AlwaysOpen.",
+  "I'd like to book a meeting to learn more about RingsAway.",
   "",
   "Name:",
   "Business:",

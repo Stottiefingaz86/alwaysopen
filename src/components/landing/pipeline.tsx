@@ -35,7 +35,7 @@ const stages: Stage[] = [
     ],
   },
   {
-    label: "AlwaysOpen",
+    label: "RingsAway",
     highlight: true,
     items: [{ text: "AI answers & books", icon: Sparkles }],
   },
@@ -99,7 +99,7 @@ function StageNode({ label, highlight }: { label: string; highlight?: boolean })
       )}
     >
       <span className="text-[10px] font-bold uppercase tracking-wide">
-        {highlight ? "AO" : label.charAt(0)}
+        {highlight ? "RA" : label.charAt(0)}
       </span>
     </div>
   );
@@ -185,7 +185,7 @@ export function PipelineSection() {
     <Section background="pattern">
       <SectionHeader
         eyebrow="How it works"
-        title="How AlwaysOpen works for your business"
+        title="How RingsAway works for your business"
         subtitle="From every customer touchpoint to clear actions, in one connected flow."
       />
 

@@ -198,7 +198,7 @@ export function SolutionSection() {
                 ))}
               </ul>
               <p className="mt-6 max-w-md text-sm leading-relaxed text-google-gray-500">
-                The core of AlwaysOpen: every caller reaches a trained agent on{" "}
+                The core of RingsAway: every caller reaches a trained agent on{" "}
                 <strong className="font-medium text-foreground">your</strong> number.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

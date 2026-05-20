@@ -33,7 +33,7 @@ export function StatsBar() {
           <FadeIn delay={0.06}>
             <div>
               <p className="text-sm leading-relaxed text-google-gray-500">
-                Salons, clinics, trades and shops use AlwaysOpen on the line
+                Salons, clinics, trades and shops use RingsAway on the line
                 customers already trust, not a separate app or chat widget.
               </p>
               <div className="mt-10 grid grid-cols-2 gap-6 md:mt-12">

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alwaysopen.ie/sitemap.xml
+Sitemap: https://ringsaway.com/sitemap.xml

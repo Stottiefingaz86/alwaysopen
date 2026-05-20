@@ -41,7 +41,7 @@ export function AboutSection() {
 
               <div className="mt-6 space-y-4 text-sm leading-relaxed text-google-gray-500 md:text-base">
                 <p>
-                  AlwaysOpen is built and supported from{" "}
+                  RingsAway is built and supported from{" "}
                   <strong className="font-medium text-foreground">Manilva, La Chullera</strong> on
                   the Costa del Sol. We are a family business, not a faceless call centre. We have a
                   background in <strong className="font-medium text-foreground">UX and technology</strong>,
@@ -85,7 +85,7 @@ export function AboutSection() {
 
               <div className="relative aspect-[4/3] w-full min-h-[240px] sm:min-h-[280px]">
                 <iframe
-                  title="AlwaysOpen location, Manilva, La Chullera, Spain"
+                  title="RingsAway location, Manilva, La Chullera, Spain"
                   src={MAP_EMBED}
                   className="absolute inset-0 size-full border-0"
                   loading="lazy"

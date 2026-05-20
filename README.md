@@ -1,6 +1,6 @@
-# AlwaysOpen Landing Page
+# RingsAway Landing Page
 
-Premium marketing site for **AlwaysOpen** — a local business growth system combining AI receptionist, booking automation, and review intelligence.
+Premium marketing site for **RingsAway** — a local business growth system combining AI receptionist, booking automation, and customer feedback reporting.
 
 ## Stack
 

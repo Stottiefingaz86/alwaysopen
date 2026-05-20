@@ -97,7 +97,7 @@ export function ArticleDialog({ article, onClose }: ArticleDialogProps) {
                 ) : (
                   <FileText className="size-4 text-google-blue" />
                 )}
-                From the AlwaysOpen team
+                From the RingsAway team
               </p>
               <CtaButton href={BOOK_MEETING_MAILTO} size="default">
                 Book Meeting

@@ -37,7 +37,7 @@ export function Hero() {
 
             <FadeIn delay={0.08}>
               <p className="mt-3 max-w-md text-[0.9375rem] leading-relaxed text-google-gray-500 sm:text-base">
-                Customers ring your normal business number. AlwaysOpen picks up and
+                Customers ring your normal business number. RingsAway picks up and
                 books appointments. Each month we prepare a customer feedback
                 report (VoC): what people are saying, what to fix, and how to act on
                 Google.

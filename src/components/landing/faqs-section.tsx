@@ -29,7 +29,7 @@ const faqItems: {
     icon: Phone,
     question: "Does it use my existing business number?",
     answer:
-      "Yes. Customers dial the same number they already use on Google, your website, or shop signage. AlwaysOpen answers that line; it's not a separate app or chat widget.",
+      "Yes. Customers dial the same number they already use on Google, your website, or shop signage. RingsAway answers that line; it's not a separate app or chat widget.",
   },
   {
     id: "item-2",
@@ -62,7 +62,7 @@ const faqItems: {
   {
     id: "item-6",
     icon: Globe,
-    question: "Who is AlwaysOpen for?",
+    question: "Who is RingsAway for?",
     answer:
       "Phone-first local businesses: salons, clinics, trades, shops, and practices that lose enquiries when no one picks up. We're based in Manilva, Spain, and work with owners in English and Spanish. You don't need to be on the Costa del Sol.",
   },

@@ -27,7 +27,7 @@ export const newsItems: NewsItem[] = [
     body: [
       "For most local businesses, the phone number on your Google listing gets more serious enquiries than your contact form. Someone ready to book a haircut, a dental check-up, or an emergency plumber does not want to wait until Monday morning.",
       "When that call goes to voicemail or rings out while you are with a client, they rarely leave a message. They call the next result on Google. That is not a branding problem; it is lost revenue you never see in your analytics.",
-      "AlwaysOpen answers on your existing business number, so the experience stays familiar for callers. They dial the same digits they already trust from your shop sign, website, or Maps listing.",
+      "RingsAway answers on your existing business number, so the experience stays familiar for callers. They dial the same digits they already trust from your shop sign, website, or Maps listing.",
       "You still get summaries, bookings in your calendar, and confirmation emails. The difference is that your line is covered when you cannot physically pick up: evenings, weekends, and busy hours included.",
       "If you are investing in local SEO and Google reviews, treating your listed phone line as a first-class channel is the highest-leverage fix most owners skip.",
     ],
@@ -38,13 +38,13 @@ export const newsItems: NewsItem[] = [
     slug: "bilingual-receptionist",
     title: "English and Spanish callers on one business number",
     excerpt:
-      "Mixed-language enquiries are common in many markets. Here's how we train AlwaysOpen to handle both without awkward handoffs.",
+      "Mixed-language enquiries are common in many markets. Here's how we train RingsAway to handle both without awkward handoffs.",
     date: "2026-02-28",
     readTime: "5 min read",
     tags: ["Bilingual", "Setup"],
     body: [
       "Walk into many salons, clinics, and trade businesses in bilingual areas and you will hear both English and Spanish in the same afternoon. Your phone line should reflect that reality, not force callers to press 1 for a language they may not speak.",
-      "We configure AlwaysOpen with your preferred greeting, FAQs, and booking rules in both languages. The agent detects which language the caller uses and stays in that language for the rest of the conversation unless they switch.",
+      "We configure RingsAway with your preferred greeting, FAQs, and booking rules in both languages. The agent detects which language the caller uses and stays in that language for the rest of the conversation unless they switch.",
       "That matters for tone as much as comprehension. A nervous new patient or a holiday homeowner calling about a leak wants to feel understood, not routed through a generic script.",
       "During setup we capture how you actually speak to customers: your services, your hours, what you need before confirming a booking, and what counts as urgent. That knowledge lives in both languages from day one.",
       "Owners tell us the biggest relief is not translating everything themselves. It is knowing evening and weekend calls are handled properly whether the caller starts in English or Spanish.",

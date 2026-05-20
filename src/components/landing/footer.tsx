@@ -22,7 +22,7 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-google-gray-500">
-              AlwaysOpen answers your business phone line with AI and helps you
+              RingsAway answers your business phone line with AI and helps you
               capture more bookings, plus monthly customer feedback reports (VoC) with
               clear actions and a Google Business plan.
             </p>
@@ -46,7 +46,7 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t border-google-gray-200 pt-8 text-sm text-google-gray-500 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} AlwaysOpen. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} RingsAway. All rights reserved.</p>
           <p>Helping local businesses get more customers.</p>
         </div>
       </div>

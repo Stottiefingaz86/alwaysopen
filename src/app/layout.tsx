@@ -13,9 +13,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "AlwaysOpen | More bookings, better reviews, happier customers",
+  title: "RingsAway | More bookings, better reviews, happier customers",
   description:
-    "AlwaysOpen answers your business phone line with a 24/7 AI receptionist, plus hand-prepared customer feedback reports (VoC) with actions and a Google Business plan.",
+    "RingsAway answers your business phone line with a 24/7 AI receptionist, plus hand-prepared customer feedback reports (VoC) with actions and a Google Business plan.",
   keywords: [
     "local business",
     "AI receptionist",
@@ -24,18 +24,18 @@ export const metadata: Metadata = {
     "voice of customer",
     "customer experience",
   ],
-  authors: [{ name: "AlwaysOpen" }],
+  authors: [{ name: "RingsAway" }],
   openGraph: {
-    title: "AlwaysOpen | Get more bookings. Improve reviews.",
+    title: "RingsAway | Get more bookings. Improve reviews.",
     description:
       "Real phone line answered 24/7 by AI, with monthly customer feedback reports and Google Business guidance.",
     type: "website",
     locale: "en_IE",
-    siteName: "AlwaysOpen",
+    siteName: "RingsAway",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AlwaysOpen | Local business growth system",
+    title: "RingsAway | Local business growth system",
     description:
       "Stop missing calls. Get more bookings. Understand your customers.",
   },
