@@ -163,6 +163,13 @@ export function ThemeReviewsBlock({
 
   const pool = buildReviewPool({ tone, featured, moreReviews, reviewCorpus });
   const hasCorpus = Boolean(reviewCorpus?.length);
+
+  const visibleThemes = themes
+    .map((theme) => ({
+      theme,
+      count: countThemeMentionsInPool(pool, theme),
+    }))
+    .filter((item) => item.count > 0);
   const poolLabel =
     scrapedReviewTotal != null && scrapedReviewTotal > (reviewsInPeriod ?? 0)
       ? `${pool.length} in Google sample`
@@ -187,9 +194,13 @@ export function ThemeReviewsBlock({
   return (
     <div className="space-y-3">
       <ul className="flex flex-wrap gap-2">
-        {themes.map((theme) => {
+        {visibleThemes.length === 0 ? (
+          <li className="text-xs text-google-gray-500">
+            No verified themes in this sample — regenerate the report to refresh counts.
+          </li>
+        ) : null}
+        {visibleThemes.map(({ theme, count }) => {
           const active = selectedTheme === theme;
-          const count = countThemeMentionsInPool(pool, theme);
           return (
             <li key={theme}>
               <button

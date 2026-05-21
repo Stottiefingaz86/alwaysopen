@@ -44,14 +44,75 @@ export function themeLabelWithoutCount(theme: string): string {
 function normalizeMatchText(text: string): string {
   return text
     .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
     .replace(/crossaints?/gi, "croissant")
     .replace(/croissants/gi, "croissant");
+}
+
+function labelKeywords(label: string): string[] {
+  return themeLabelWithoutCount(label)
+    .toLowerCase()
+    .split(/\W+/)
+    .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
+}
+
+function multilingualThemePatterns(label: string): RegExp[] {
+  const l = label.toLowerCase();
+  const patterns: RegExp[] = [];
+  if (/\bdissatisf|disappoint|unhappy\b/.test(l)) {
+    patterns.push(
+      /\b(decepci[oó]n|decepcionante|insatisf|disappoint|unhappy|malo|no recommend)\b/i
+    );
+  }
+  if (/\bhair|colour|color|mechas|highlights|balayage|tinte\b/.test(l)) {
+    patterns.push(
+      /\b(pelo|cabello|mechas|highlights|balayage|tinte|coloraci[oó]n|color|colour|tratamiento)\b/i
+    );
+  }
+  if (/\btreatment|result|outcome\b/.test(l)) {
+    patterns.push(/\b(tratamiento|resultado|quedado|qued[oó]|igual|esperaba|outcome)\b/i);
+  }
+  if (/\bfollow|aftercare|outcome\b/.test(l)) {
+    patterns.push(/\b(seguimiento|follow[\s-]?up|aftercare|despu[eé]s|resultado)\b/i);
+  }
+  if (/\bcommunication|expectation\b/.test(l)) {
+    patterns.push(/\b(comunicaci[oó]n|expectativa|expectation|explicar)\b/i);
+  }
+  if (/\bstaff|attitude|rude|friendly\b/.test(l)) {
+    patterns.push(/\b(personal|staff|atenci[oó]n|amable|rude|grosero)\b/i);
+  }
+  if (/\bprice|value|expensive|cost\b/.test(l)) {
+    patterns.push(/\b(precio|caro|expensive|value|bill|cuenta)\b/i);
+  }
+  if (/\bwait|delay|slow|speed\b/.test(l)) {
+    patterns.push(/\b(espera|esperar|lento|delay|demora|minutos|hora)\b/i);
+  }
+  if (/\bfood|quality|taste|meal\b/.test(l)) {
+    patterns.push(/\b(comida|plato|menu|sabor|taste|quality|calidad)\b/i);
+  }
+  return patterns;
+}
+
+function tagOverlapsTheme(tag: string, themeLine: string): boolean {
+  const t = normalizeMatchText(tag);
+  const label = themeLabelWithoutCount(themeLine).toLowerCase();
+  if (!t || !label) return false;
+  if (t.includes(label) || label.includes(t)) return true;
+  const tagKeys = labelKeywords(tag);
+  const themeKeys = labelKeywords(themeLine);
+  if (!tagKeys.length || !themeKeys.length) return false;
+  return tagKeys.some((tk) =>
+    themeKeys.some(
+      (wk) => tk === wk || tk.includes(wk) || wk.includes(tk)
+    )
+  );
 }
 
 function keywordHit(hay: string, key: string): boolean {
   if (hay.includes(key)) return true;
   if (key === "unavailable" || key.startsWith("unavail")) {
-    return /\b(unavail|sold out|run out|out of|dont have|don't have|no longer|anymore|not have)\b/.test(
+    return /\b(unavail|sold out|run out|out of|agotad|sin |dont have|don't have|no longer|anymore|not have|no qued)\b/.test(
       hay
     );
   }
@@ -112,29 +173,35 @@ export function themeMatchRegex(themeLine: string): RegExp | null {
     return /\b(order|ordered|wrong order|incorrect|missing item|got the wrong|mistake|accura\w*|delivered wrong)\b/i;
   }
   if (/\bdelay|slow|wait\b/.test(label)) {
-    return /\b(wait|waiting|waited|slow|delay|delayed|queue|minute|hour|rush|long time|took forever)\b/i;
+    return /\b(wait|waiting|waited|slow|delay|delayed|queue|minute|hour|rush|long time|took forever|espera|demora)\b/i;
+  }
+  if (/\bdissatisf|disappoint|treatment|hair|result|outcome|follow\b/.test(label)) {
+    return null;
   }
 
   return null;
 }
 
 function keywordFallbackMatch(text: string, themeLine: string): boolean {
-  const keys = themeLabelWithoutCount(themeLine)
-    .toLowerCase()
-    .split(/\W+/)
-    .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
+  const keys = labelKeywords(themeLine);
   if (!keys.length) return false;
   const hay = normalizeMatchText(text);
   const hits = keys.filter((k) => keywordHit(hay, k));
-  const hasStrongProduct = keys.some((k) => /\bcroiss|pastry\b/.test(k));
-  if (hasStrongProduct && hits.length >= 1) return true;
+  const hasStrong = keys.some((k) => /\bcroiss|pastry|hair|treatment\b/.test(k));
+  if (hasStrong && hits.length >= 1) return true;
   return hits.length >= Math.min(2, keys.length);
 }
 
 export function reviewMatchesTheme(review: ReviewSnippetData, theme: string): boolean {
-  const hay = normalizeMatchText(`${review.quote} ${review.tags.join(" ")}`);
+  if (review.tags.length) {
+    if (review.tags.some((tag) => tagOverlapsTheme(tag, theme))) return true;
+  }
+  const hay = normalizeMatchText(review.quote);
   const re = themeMatchRegex(theme);
   if (re?.test(hay)) return true;
+  for (const mre of multilingualThemePatterns(theme)) {
+    if (mre.test(hay)) return true;
+  }
   return keywordFallbackMatch(hay, theme);
 }
 
@@ -251,16 +318,23 @@ export function buildReviewPool(input: {
   moreReviews?: readonly ReviewSnippetData[];
   reviewCorpus?: readonly ReviewSnippetData[];
 }): ReviewSnippetData[] {
-  if (input.reviewCorpus?.length) {
-    return filterCorpusByTone(input.reviewCorpus, input.tone);
+  const extras: ReviewSnippetData[] = [];
+  if (input.featured) extras.push(input.featured);
+  for (const r of input.moreReviews ?? []) extras.push(r);
+
+  const corpusTone = input.reviewCorpus?.length
+    ? filterCorpusByTone(input.reviewCorpus, input.tone)
+    : [];
+
+  const seen = new Set<string>();
+  const out: ReviewSnippetData[] = [];
+  for (const r of [...extras, ...corpusTone]) {
+    const k = reviewKey(r);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(r);
   }
-  if (input.featured != null) {
-    return collectSectionReviews({
-      review: input.featured,
-      moreReviews: input.moreReviews,
-    });
-  }
-  return [...(input.moreReviews ?? [])];
+  return out;
 }
 
 type ScrapedReviewRow = {

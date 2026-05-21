@@ -17,7 +17,8 @@ import {
   computeSectionThemesFromReviews,
   PRAISE_THEME_SEEDS,
   resolveReportThemes,
-  reviewTextMatchesTheme,
+  reviewMatchesTheme,
+  type TagHint,
 } from "./theme-match.ts";
 
 export { DEMO_REPORT_EXAMPLE, VOC_UX_RESEARCHER_SYSTEM };
@@ -196,7 +197,7 @@ export function normalizeVocReport(
     const searchPool = preferLow && lowStar.length ? lowStar : withText;
     if (themeLine) {
       const match = searchPool.find((r) =>
-        reviewTextMatchesTheme(r.text, themeLine)
+        reviewMatchesTheme({ text: r.text, author: r.author, stars: r.stars }, themeLine)
       );
       if (match) {
         return {
@@ -227,6 +228,23 @@ export function normalizeVocReport(
   const complaintReview = (complaints.review ?? {}) as Record<string, unknown>;
   const praiseReview = (praise.review ?? {}) as Record<string, unknown>;
 
+  const tagHints: TagHint[] = [];
+  const pushTagHints = (review: Record<string, unknown>) => {
+    const quote = String(review.quote ?? "").trim();
+    const tags = stringArray(review.tags, 0).slice(0, 4);
+    if (quote.length > 12 && tags.length) tagHints.push({ quote, tags });
+  };
+  pushTagHints(complaintReview);
+  pushTagHints(praiseReview);
+  for (const row of Array.isArray(complaints.moreReviews) ? complaints.moreReviews : []) {
+    if (row && typeof row === "object") pushTagHints(row as Record<string, unknown>);
+  }
+  for (const row of Array.isArray(praise.moreReviews) ? praise.moreReviews : []) {
+    if (row && typeof row === "object") pushTagHints(row as Record<string, unknown>);
+  }
+
+  const reviewCorpus = buildReviewCorpus(input.reviews, tagHints);
+
   const reviewDate = (r: Record<string, unknown>, fallback?: { date: string | null }) =>
     typeof r.date === "string" && r.date.trim()
       ? r.date
@@ -254,7 +272,6 @@ export function normalizeVocReport(
   );
   const praiseFallback = pickQuoteForTheme(corpusAll, topPraiseTheme, false);
 
-  const reviewCorpus = buildReviewCorpus(input.reviews);
   const negativeLines = stringArray(raw.negatives, 2);
   const positiveLines = stringArray(raw.positives, 2);
 

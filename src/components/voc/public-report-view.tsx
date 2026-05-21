@@ -203,7 +203,7 @@ export function PublicReportView({
         </Card>
       ) : null}
 
-      <div className={previewMode ? "mb-0" : "mb-8"}>
+      <div className={cn(previewMode ? "mb-5" : "mb-8")}>
         {report.areaMetricBenchmark && report.areaMetricBenchmark.peerCount > 0 ? (
           <p className="mb-3 text-xs text-google-gray-500">
             Area average from {report.areaMetricBenchmark.peerCount} other{" "}

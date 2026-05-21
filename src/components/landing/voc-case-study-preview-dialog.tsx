@@ -12,13 +12,15 @@ import { Loader2, Lock, XIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-/** Full paywall (blur + frost + CTA) at this scroll fraction */
-const FULL_PAYWALL_AT = 0.5;
+/** Pixels scrolled before the frost line starts rising */
+const BLUR_START_SCROLL_PX = 32;
+/** Frost rises slower than scroll (~40% behind) */
+const FROST_SCROLL_RATE = 0.58;
 
 type PanelRect = {
   left: number;
+  top: number;
   width: number;
-  bottom: number;
   height: number;
 };
 
@@ -45,7 +47,7 @@ export function VocCaseStudyPreviewDialog({
   const cs = m.caseStudies;
   const mailto = getBookingMailto(locale);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollRatio, setScrollRatio] = useState(0);
+  const [scrollTop, setScrollTop] = useState(0);
   const [panelRect, setPanelRect] = useState<PanelRect | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -59,8 +61,8 @@ export function VocCaseStudyPreviewDialog({
     const r = el.getBoundingClientRect();
     setPanelRect({
       left: r.left,
+      top: r.top,
       width: r.width,
-      bottom: r.bottom,
       height: r.height,
     });
   }, []);
@@ -68,9 +70,8 @@ export function VocCaseStudyPreviewDialog({
   const onScroll = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const max = el.scrollHeight - el.clientHeight;
-    setScrollRatio(max < 4 ? 0 : Math.min(1, el.scrollTop / max));
-    measurePanel();
+    setScrollTop(el.scrollTop);
+    requestAnimationFrame(measurePanel);
   }, [measurePanel]);
 
   useEffect(() => {
@@ -87,11 +88,8 @@ export function VocCaseStudyPreviewDialog({
     const onResize = () => measurePanel();
     window.addEventListener("resize", onResize);
     const el = scrollRef.current;
-    let ro: ResizeObserver | undefined;
-    if (el) {
-      ro = new ResizeObserver(measurePanel);
-      ro.observe(el);
-    }
+    const ro = el ? new ResizeObserver(measurePanel) : undefined;
+    if (el && ro) ro.observe(el);
     return () => {
       window.removeEventListener("resize", onResize);
       ro?.disconnect();
@@ -99,18 +97,21 @@ export function VocCaseStudyPreviewDialog({
   }, [open, measurePanel, report, loading]);
 
   const resetScroll = useCallback(() => {
-    setScrollRatio(0);
+    setScrollTop(0);
     setPanelRect(null);
     scrollRef.current?.scrollTo({ top: 0 });
   }, []);
 
-  const paywallProgress = Math.min(1, scrollRatio / FULL_PAYWALL_AT);
-  const blurPx = Math.round(2 + paywallProgress * 18);
-  const frostHeightPx = panelRect
-    ? Math.round(panelRect.height * paywallProgress)
-    : 0;
-  const showPaywallCta = paywallProgress >= 0.35;
-  const ctaOpacity = Math.min(1, (paywallProgress - 0.3) / 0.4);
+  const panelH = panelRect?.height ?? 0;
+  const effectiveScroll = Math.max(0, scrollTop - BLUR_START_SCROLL_PX);
+  const frostScrollPx = effectiveScroll * FROST_SCROLL_RATE;
+  const frostHeightPx = panelRect ? Math.min(panelH, frostScrollPx) : 0;
+  const frostTopPx = panelRect ? panelRect.top + (panelH - frostHeightPx) : 0;
+  const frostCover = panelH > 0 ? frostHeightPx / panelH : 0;
+  const blurPx = Math.round(2 + frostCover * 18);
+  const showFrost = frostHeightPx > 6;
+  const showPaywallCta = frostCover >= 0.42;
+  const ctaOpacity = Math.min(1, (frostCover - 0.32) / 0.4);
 
   const displayName = title ?? report?.businessName ?? cs.defaultTitle;
 
@@ -120,30 +121,26 @@ export function VocCaseStudyPreviewDialog({
     panelRect &&
     report &&
     !loading &&
-    paywallProgress > 0.03 &&
-    frostHeightPx > 2
+    showFrost
       ? createPortal(
           <>
             <div
-              className="pointer-events-none fixed z-[100] transform-gpu"
+              className="pointer-events-none fixed z-[100] transform-gpu will-change-[top,height,backdrop-filter]"
               style={{
                 left: panelRect.left,
                 width: panelRect.width,
-                bottom: window.innerHeight - panelRect.bottom,
+                top: frostTopPx,
                 height: frostHeightPx,
-                backdropFilter: `blur(${blurPx}px) saturate(1.15)`,
-                WebkitBackdropFilter: `blur(${blurPx}px) saturate(1.15)`,
-                background:
-                  paywallProgress >= 0.92
-                    ? "rgba(255, 255, 255, 0.97)"
-                    : `linear-gradient(
-                        to top,
-                        rgba(255, 255, 255, 0.98) 0%,
-                        rgba(255, 255, 255, 0.92) 30%,
-                        rgba(255, 255, 255, 0.72) 55%,
-                        rgba(255, 255, 255, 0.35) 80%,
-                        rgba(255, 255, 255, 0.05) 100%
-                      )`,
+                backdropFilter: `blur(${blurPx}px)`,
+                WebkitBackdropFilter: `blur(${blurPx}px)`,
+                background: `linear-gradient(
+                  to top,
+                  rgba(255, 255, 255, 0.97) 0%,
+                  rgba(255, 255, 255, 0.85) 22%,
+                  rgba(255, 255, 255, 0.5) 50%,
+                  rgba(255, 255, 255, 0.12) 78%,
+                  rgba(255, 255, 255, 0) 100%
+                )`,
               }}
               aria-hidden
             />
@@ -156,8 +153,8 @@ export function VocCaseStudyPreviewDialog({
               style={{
                 left: panelRect.left,
                 width: panelRect.width,
-                bottom: window.innerHeight - panelRect.bottom,
-                height: Math.max(frostHeightPx, showPaywallCta ? panelRect.height * 0.5 : 0),
+                top: frostTopPx,
+                height: frostHeightPx,
                 opacity: showPaywallCta ? ctaOpacity : 0,
               }}
             >

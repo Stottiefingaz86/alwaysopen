@@ -3,7 +3,6 @@
 import { VocCaseStudyPreviewDialog } from "@/components/landing/voc-case-study-preview-dialog";
 import { VocReportDialog } from "@/components/landing/voc-report-dialog";
 import { VocScoreCard } from "@/components/landing/voc-score-card";
-import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { IndustryAgentKey } from "@/lib/elevenlabs-agent";
 import type { CaseStudyListItem } from "@/lib/voc/case-studies";
@@ -13,8 +12,12 @@ import { industryDemoToReportCard } from "@/lib/voc/demo-to-card";
 import { caseStudyToReportCard } from "@/lib/voc/report-card";
 import type { VocReportData } from "@/lib/voc/report-types";
 import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+/** ~lg:grid-cols-4 column width — carousel uses fixed slides, not full row stretch */
+const CAROUSEL_CARD_CLASS =
+  "w-[min(72vw,240px)] shrink-0 snap-start sm:w-[260px]";
 
 const INDUSTRY_KEYS: IndustryAgentKey[] = [
   "restaurant",
@@ -58,6 +61,7 @@ export function VocIndustryShowcase({
   const [previewTitle, setPreviewTitle] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterTag, setFilterTag] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLUListElement>(null);
 
   const loadPublished = useCallback(async () => {
     setPublishedLoading(true);
@@ -161,6 +165,18 @@ export function VocIndustryShowcase({
 
   const activeCase = published.find((i) => i.id === activeCaseId);
 
+  const placeholderCount =
+    (showSampleRestaurant ? 1 : 0) +
+    (showIndustryPlaceholders
+      ? INDUSTRY_KEYS.filter((k) => k !== "restaurant").length
+      : 0);
+  const carouselCardCount = visiblePublished.length + placeholderCount;
+  const showCarouselNav = carouselCardCount > 1;
+
+  function scrollCarousel(dx: number) {
+    scrollRef.current?.scrollBy({ left: dx, behavior: "smooth" });
+  }
+
   return (
     <div className={cn("scroll-mt-24", className)} id="voc-demos">
       <div className={cn(embedded ? "mb-6" : "mb-8 text-center md:mb-10")}>
@@ -196,21 +212,43 @@ export function VocIndustryShowcase({
 
       {hasPublished ? (
         <div className="mb-6 space-y-4">
-          <div className="relative max-w-md">
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-google-gray-400"
-              aria-hidden
-            />
-            <input
-              type="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={m.caseStudies.searchPlaceholder}
-              className={cn(
-                "h-10 w-full rounded-full border border-google-gray-200 bg-white pl-9 pr-4 text-sm",
-                "outline-none focus-visible:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue/20"
-              )}
-            />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="relative min-w-0 flex-1 max-w-md">
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-google-gray-400"
+                aria-hidden
+              />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={m.caseStudies.searchPlaceholder}
+                className={cn(
+                  "h-10 w-full rounded-full border border-google-gray-200 bg-white pl-9 pr-4 text-sm",
+                  "outline-none focus-visible:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue/20"
+                )}
+              />
+            </div>
+            {showCarouselNav ? (
+              <div className="flex shrink-0 gap-1">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(-276)}
+                  className="rounded-full border border-google-gray-200 bg-white p-2 text-google-gray-600 shadow-google hover:bg-google-gray-50"
+                  aria-label={m.caseStudies.scrollPrev}
+                >
+                  <ChevronLeft className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(276)}
+                  className="rounded-full border border-google-gray-200 bg-white p-2 text-google-gray-600 shadow-google hover:bg-google-gray-50"
+                  aria-label={m.caseStudies.scrollNext}
+                >
+                  <ChevronRight className="size-4" />
+                </button>
+              </div>
+            ) : null}
           </div>
 
           {filterTags.length > 0 ? (
@@ -245,59 +283,81 @@ export function VocIndustryShowcase({
             </div>
           ) : null}
         </div>
+      ) : showCarouselNav ? (
+        <div className="mb-4 flex justify-end gap-1">
+          <button
+            type="button"
+            onClick={() => scrollCarousel(-276)}
+            className="rounded-full border border-google-gray-200 bg-white p-2 text-google-gray-600 shadow-google hover:bg-google-gray-50"
+            aria-label={m.caseStudies.scrollPrev}
+          >
+            <ChevronLeft className="size-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollCarousel(276)}
+            className="rounded-full border border-google-gray-200 bg-white p-2 text-google-gray-600 shadow-google hover:bg-google-gray-50"
+            aria-label={m.caseStudies.scrollNext}
+          >
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
       ) : null}
 
-      <ul className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {visiblePublished.map((item, index) => (
-          <FadeIn key={item.id} delay={index * 0.05} className="h-full">
-            <li className="h-full">
-              <VocScoreCard
-                card={caseStudyToReportCard(item)}
-                ui={ui}
-                onViewReport={() => void openPublishedReport(item.id)}
-              />
-            </li>
-          </FadeIn>
+      <div className="overflow-visible">
+      <ul
+        ref={scrollRef}
+        className={cn(
+          "flex list-none gap-4 overflow-x-auto overscroll-x-contain py-1 snap-x snap-proximity",
+          "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          !embedded && "px-4 sm:px-6"
+        )}
+      >
+        {visiblePublished.map((item) => (
+          <li key={item.id} className={cn(CAROUSEL_CARD_CLASS, "h-full")}>
+            <VocScoreCard
+              className="h-full"
+              card={caseStudyToReportCard(item)}
+              ui={ui}
+              onViewReport={() => void openPublishedReport(item.id)}
+            />
+          </li>
         ))}
 
         {showSampleRestaurant ? (
-          <FadeIn delay={published.length * 0.05} className="h-full">
-            <li className="h-full">
-              <VocScoreCard
-                card={industryDemoToReportCard(
-                  ui.industries.restaurant,
-                  ui.industries.restaurant.tabName
-                )}
-                ui={ui}
-                onViewReport={() => openSampleReport("restaurant")}
-              />
-            </li>
-          </FadeIn>
+          <li className={cn(CAROUSEL_CARD_CLASS, "h-full")}>
+            <VocScoreCard
+              className="h-full"
+              card={industryDemoToReportCard(
+                ui.industries.restaurant,
+                ui.industries.restaurant.tabName
+              )}
+              ui={ui}
+              onViewReport={() => openSampleReport("restaurant")}
+            />
+          </li>
         ) : null}
 
         {showIndustryPlaceholders
-          ? INDUSTRY_KEYS.filter((key) => key !== "restaurant").map((key, index) => {
-          const demo = ui.industries[key];
-          return (
-            <FadeIn
-              key={key}
-              delay={(published.length + (showSampleRestaurant ? 1 : 0) + index) * 0.05}
-              className="h-full"
-            >
-              <li className="h-full">
-                <VocScoreCard
-                  card={industryDemoToReportCard(demo, demo.tabName)}
-                  ui={ui}
-                  onViewReport={
-                    demo.available ? () => openSampleReport(key) : undefined
-                  }
-                />
-              </li>
-            </FadeIn>
-          );
-        })
+          ? INDUSTRY_KEYS.filter((key) => key !== "restaurant").map((key) => {
+              const demo = ui.industries[key];
+              return (
+                <li key={key} className={cn(CAROUSEL_CARD_CLASS, "h-full")}>
+                  <VocScoreCard
+                    className="h-full"
+                    card={industryDemoToReportCard(demo, demo.tabName)}
+                    ui={ui}
+                    onViewReport={
+                      demo.available ? () => openSampleReport(key) : undefined
+                    }
+                  />
+                </li>
+              );
+            })
           : null}
+        <li className="w-2 shrink-0" aria-hidden />
       </ul>
+      </div>
 
       {loadIssue ? (
         <p className="mt-4 text-center text-xs text-google-red" role="alert">

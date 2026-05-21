@@ -37,7 +37,7 @@ export function VocScoreCard({
   return (
     <article
       className={cn(
-        "flex h-full min-h-[22rem] flex-col overflow-hidden rounded-2xl border bg-white shadow-google-card sm:min-h-[23.5rem]",
+        "flex h-full min-h-[22rem] flex-col rounded-2xl border bg-white shadow-google-card sm:min-h-[23.5rem]",
         isAvailable
           ? "border-google-gray-200"
           : "border-google-gray-200/80 opacity-55",

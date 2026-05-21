@@ -1,16 +1,13 @@
 import { normalizeBusinessTags, formatTagLabel } from "@/lib/voc/business-tags";
 
-/** Where a case study may appear on the marketing site */
-export const CASE_STUDY_PLACEMENTS = [
-  { id: "voc-carousel", label: "VoC carousel (landing)" },
-  { id: "voc-demos", label: "VoC reports row (landing grid)" },
-] as const;
+/** Internal placement ids (landing grid queries either id). */
+const CASE_STUDY_PLACEMENT_IDS = ["voc-carousel", "voc-demos"] as const;
 
-export type CaseStudyPlacement = (typeof CASE_STUDY_PLACEMENTS)[number]["id"];
+export type CaseStudyPlacement = (typeof CASE_STUDY_PLACEMENT_IDS)[number];
 
 export function normalizePlacements(input: unknown): CaseStudyPlacement[] {
   if (!Array.isArray(input)) return ["voc-carousel"];
-  const allowed = new Set(CASE_STUDY_PLACEMENTS.map((p) => p.id));
+  const allowed = new Set(CASE_STUDY_PLACEMENT_IDS);
   const out: CaseStudyPlacement[] = [];
   for (const raw of input) {
     if (typeof raw !== "string") continue;
@@ -43,7 +40,7 @@ export type CaseStudyListItem = {
   placements: CaseStudyPlacement[];
 };
 
-/** Default placements for new publishes — main landing grid + legacy carousel id */
+/** All publishes appear on the homepage Client reports grid. */
 export const DEFAULT_CASE_STUDY_PLACEMENTS: CaseStudyPlacement[] = [
   "voc-demos",
   "voc-carousel",

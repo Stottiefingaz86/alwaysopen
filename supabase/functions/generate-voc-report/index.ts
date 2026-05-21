@@ -305,111 +305,174 @@ async function scrapeGoogleReviews(placeId: string, token: string): Promise<Scra
   );
 }
 
-async function runReportPipeline(
+function nowIso() {
+  return new Date().toISOString();
+}
+
+async function patchReport(
+  supabase: ReturnType<typeof createClient>,
+  reportId: string,
+  patch: Record<string, unknown>
+) {
+  await supabase
+    .from("voc_reports")
+    .update({ ...patch, updated_at: nowIso() })
+    .eq("id", reportId);
+}
+
+async function failReport(
+  supabase: ReturnType<typeof createClient>,
+  reportId: string,
+  message: string
+) {
+  await patchReport(supabase, reportId, {
+    status: "failed",
+    error_message: message,
+  });
+}
+
+async function invokeAnalyzePhase(
+  reportId: string,
+  supabaseUrl: string,
+  serviceKey: string
+) {
+  const res = await fetch(`${supabaseUrl}/functions/v1/generate-voc-report`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${serviceKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ report_id: reportId, phase: "analyze" }),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(
+      `Analyze phase failed to start (${res.status}): ${text.slice(0, 400)}`
+    );
+  }
+}
+
+/** Scrape only — then hand off to a fresh edge invocation for OpenAI (avoids prod shutdown mid-analyze). */
+async function runScrapePhase(
   supabase: ReturnType<typeof createClient>,
   reportId: string,
   report: { period: string; businesses: unknown },
   apifyToken: string | undefined,
+  supabaseUrl: string,
+  serviceKey: string
+) {
+  const business = report.businesses as {
+    google_place_id: string | null;
+  };
+
+  if (!apifyToken) {
+    throw new Error("APIFY_API_TOKEN not set in Supabase Edge Function secrets");
+  }
+
+  await patchReport(supabase, reportId, { status: "scraping", error_message: null });
+
+  const reviews = await scrapeGoogleReviews(business.google_place_id!, apifyToken);
+
+  await patchReport(supabase, reportId, {
+    status: "analyzing",
+    scraped_reviews: reviews,
+    review_count: reviews.length,
+  });
+
+  await invokeAnalyzePhase(reportId, supabaseUrl, serviceKey);
+}
+
+async function runAnalyzePhase(
+  supabase: ReturnType<typeof createClient>,
+  reportId: string,
+  report: {
+    period: string;
+    scraped_reviews: unknown;
+    businesses: unknown;
+  },
   openaiKey: string | undefined
 ) {
   const business = report.businesses as {
     id: string;
     name: string;
     location: string | null;
-    google_place_id: string | null;
     tags?: string[] | null;
   };
 
-  try {
-    if (!apifyToken) {
-      throw new Error("APIFY_API_TOKEN not set in Supabase Edge Function secrets");
+  const reviews = Array.isArray(report.scraped_reviews)
+    ? (report.scraped_reviews as ScrapedReview[])
+    : [];
+
+  if (reviews.length === 0) {
+    throw new Error("No scraped reviews on file — run full generate again");
+  }
+
+  await patchReport(supabase, reportId, { status: "analyzing", error_message: null });
+
+  const placeRating = reviews[0]?.totalScore ?? null;
+  const baseInput = {
+    businessName: business.name,
+    location: business.location ?? "",
+    periodKey: report.period,
+    reviews,
+    placeRating,
+  };
+
+  const tagsEarly = Array.isArray(business.tags)
+    ? business.tags.map((t) => String(t).toLowerCase().trim()).filter(Boolean)
+    : [];
+  const locationEarly = business.location?.trim() ?? "";
+  let peerInsightsForAi: Awaited<ReturnType<typeof loadAreaPeerInsights>> = [];
+  if (tagsEarly.length && locationEarly) {
+    try {
+      peerInsightsForAi = await loadAreaPeerInsights(supabase, {
+        businessId: business.id,
+        location: locationEarly,
+        tags: tagsEarly,
+        period: report.period,
+      });
+    } catch (peerErr) {
+      console.error("Area peer insights skipped:", peerErr);
     }
+  }
 
-    await supabase.from("voc_reports").update({ status: "scraping" }).eq("id", reportId);
-
-    const reviews = await scrapeGoogleReviews(business.google_place_id!, apifyToken);
-    const placeRating = reviews[0]?.totalScore ?? null;
-
-    await supabase.from("voc_reports").update({
-      status: "analyzing",
-      scraped_reviews: reviews,
-      review_count: reviews.length,
-    }).eq("id", reportId);
-
-    const baseInput = {
-      businessName: business.name,
-      location: business.location ?? "",
-      periodKey: report.period,
-      reviews,
-      placeRating,
-    };
-
-    const tagsEarly = Array.isArray(business.tags)
-      ? business.tags.map((t) => String(t).toLowerCase().trim()).filter(Boolean)
-      : [];
-    const locationEarly = business.location?.trim() ?? "";
-    let peerInsightsForAi: Awaited<ReturnType<typeof loadAreaPeerInsights>> = [];
-    if (tagsEarly.length && locationEarly) {
-      try {
-        peerInsightsForAi = await loadAreaPeerInsights(supabase, {
-          businessId: business.id,
-          location: locationEarly,
-          tags: tagsEarly,
-          period: report.period,
-        });
-      } catch (peerErr) {
-        console.error("Area peer insights skipped:", peerErr);
-      }
-    }
-
-    let reportData: Record<string, unknown>;
-    if (openaiKey) {
-      try {
-        reportData = await analyzeWithOpenAI({
-          apiKey: openaiKey,
-          ...baseInput,
-          areaPeerReportInsights: peerInsightsForAi,
-        }) as Record<string, unknown>;
-      } catch (aiErr) {
-        console.error("OpenAI fallback:", aiErr);
-        reportData = buildStubReport(baseInput) as Record<string, unknown>;
-      }
-    } else {
+  let reportData: Record<string, unknown>;
+  if (openaiKey) {
+    try {
+      reportData = (await analyzeWithOpenAI({
+        apiKey: openaiKey,
+        ...baseInput,
+        areaPeerReportInsights: peerInsightsForAi,
+      })) as Record<string, unknown>;
+    } catch (aiErr) {
+      console.error("OpenAI fallback:", aiErr);
       reportData = buildStubReport(baseInput) as Record<string, unknown>;
     }
-
-    const tags = tagsEarly;
-    const location = locationEarly;
-    const peerInsights = peerInsightsForAi;
-    if (tags.length && location && peerInsights.length) {
-      const peers = peerInsights.map((p) => ({ name: p.name, score: p.score }));
-      reportData = applyAreaBenchmarkToReport(reportData, {
-        businessName: business.name,
-        location,
-        tags,
-        peers,
-      });
-      reportData = buildMarketGapsFromPeers(reportData, peerInsights, {
-        location,
-        tagLabel: tags[0]?.replace(/-/g, " ") ?? "business",
-        businessName: business.name,
-      });
-    }
-
-    await supabase.from("voc_reports").update({
-      status: "ready",
-      report_data: reportData,
-      generated_at: new Date().toISOString(),
-      error_message: null,
-    }).eq("id", reportId);
-  } catch (e) {
-    const message = e instanceof Error ? e.message : "Pipeline failed";
-    console.error("Pipeline error:", message);
-    await supabase.from("voc_reports").update({
-      status: "failed",
-      error_message: message,
-    }).eq("id", reportId);
+  } else {
+    reportData = buildStubReport(baseInput) as Record<string, unknown>;
   }
+
+  if (tagsEarly.length && locationEarly && peerInsightsForAi.length) {
+    const peers = peerInsightsForAi.map((p) => ({ name: p.name, score: p.score }));
+    reportData = applyAreaBenchmarkToReport(reportData, {
+      businessName: business.name,
+      location: locationEarly,
+      tags: tagsEarly,
+      peers,
+    });
+    reportData = buildMarketGapsFromPeers(reportData, peerInsightsForAi, {
+      location: locationEarly,
+      tagLabel: tagsEarly[0]?.replace(/-/g, " ") ?? "business",
+      businessName: business.name,
+    });
+  }
+
+  await patchReport(supabase, reportId, {
+    status: "ready",
+    report_data: reportData,
+    generated_at: nowIso(),
+    error_message: null,
+  });
 }
 
 Deno.serve(async (req: Request) => {
@@ -431,7 +494,9 @@ Deno.serve(async (req: Request) => {
     const openaiKey = Deno.env.get("OPENAI_API_KEY");
 
     const supabase = createClient(supabaseUrl, serviceKey);
-    const { report_id: reportId } = await req.json().catch(() => ({}));
+    const body = await req.json().catch(() => ({}));
+    const reportId = body?.report_id;
+    const phase = body?.phase === "analyze" ? "analyze" : "scrape";
 
     if (!reportId || typeof reportId !== "string") {
       return new Response(JSON.stringify({ error: "report_id required" }), { status: 400 });
@@ -452,21 +517,58 @@ Deno.serve(async (req: Request) => {
     } | null;
 
     if (!business?.google_place_id) {
-      await supabase.from("voc_reports").update({
-        status: "failed",
-        error_message: "Missing Google Place ID",
-      }).eq("id", reportId);
+      await failReport(supabase, reportId, "Missing Google Place ID");
       return new Response(JSON.stringify({ error: "Missing place ID" }), { status: 400 });
     }
 
-    const pipeline = runReportPipeline(supabase, reportId, report, apifyToken, openaiKey).catch(
-      (e) => console.error("Unhandled pipeline rejection:", e)
-    );
+    if (phase === "analyze") {
+      try {
+        await runAnalyzePhase(supabase, reportId, report, openaiKey);
+        return new Response(
+          JSON.stringify({
+            ok: true,
+            accepted: false,
+            report_id: reportId,
+            status: "ready",
+            message: "Analysis complete",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
+      } catch (e) {
+        const message = e instanceof Error ? e.message : "Analysis failed";
+        await failReport(supabase, reportId, message);
+        return new Response(JSON.stringify({ error: message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    const scrapeWork = runScrapePhase(
+      supabase,
+      reportId,
+      report,
+      apifyToken,
+      supabaseUrl,
+      serviceKey
+    ).catch(async (e) => {
+      const message =
+        e instanceof Error
+          ? e.message
+          : "Scrape pipeline stopped (edge timeout or shutdown)";
+      console.error("Scrape phase error:", message);
+      await failReport(
+        supabase,
+        reportId,
+        `${message}. Use Continue analysis or Generate again in the dashboard.`
+      );
+    });
 
     try {
-      EdgeRuntime.waitUntil(pipeline);
+      EdgeRuntime.waitUntil(scrapeWork);
     } catch {
-      console.warn("EdgeRuntime.waitUntil unavailable — pipeline still scheduled");
+      console.warn("EdgeRuntime.waitUntil unavailable — awaiting scrape inline");
+      await scrapeWork;
     }
 
     return new Response(
@@ -475,7 +577,7 @@ Deno.serve(async (req: Request) => {
         accepted: true,
         report_id: reportId,
         status: "scraping",
-        message: "Pipeline started — poll report status from the dashboard",
+        message: "Scrape started — analysis runs in a second step",
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );

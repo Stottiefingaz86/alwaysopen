@@ -7,13 +7,9 @@ import {
   normalizeBusinessTags,
 } from "@/lib/voc/business-tags";
 import { SetupCaseStudiesCallout } from "@/components/voc/setup-case-studies-callout";
-import {
-  CASE_STUDY_PLACEMENTS,
-  DEFAULT_CASE_STUDY_PLACEMENTS,
-  normalizePlacements,
-  type CaseStudyPlacement,
-} from "@/lib/voc/case-studies";
+import { DEFAULT_CASE_STUDY_PLACEMENTS } from "@/lib/voc/case-studies";
 import { cn } from "@/lib/utils";
+import { ChevronDown, Globe, GlobeOff } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 type CaseStudyEditorProps = {
@@ -21,6 +17,7 @@ type CaseStudyEditorProps = {
   businessName: string;
   businessTags: string[];
   disabled?: boolean;
+  onPublishedChange?: () => void;
 };
 
 type CaseStudyRow = {
@@ -37,15 +34,15 @@ export function CaseStudyEditor({
   businessName,
   businessTags,
   disabled,
+  onPublishedChange,
 }: CaseStudyEditorProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [enabled, setEnabled] = useState(false);
+  const [removing, setRemoving] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [published, setPublished] = useState(false);
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [placements, setPlacements] = useState<CaseStudyPlacement[]>([
-    ...DEFAULT_CASE_STUDY_PLACEMENTS,
-  ]);
   const [sortOrder, setSortOrder] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [tableMissing, setTableMissing] = useState(false);
@@ -69,16 +66,15 @@ export function CaseStudyEditor({
         throw new Error(json.error ?? "Could not load case studies");
       }
       const row = json.items?.find((i) => i.report_id === reportId);
-      if (row) {
-        setEnabled(true);
+      if (row?.is_published) {
+        setPublished(true);
         setTitle(row.title ?? "");
         setTags(row.tags?.length ? row.tags : businessTags);
-        setPlacements(normalizePlacements(row.placements));
         setSortOrder(row.sort_order ?? 0);
       } else {
-        setEnabled(false);
+        setPublished(false);
+        setTitle("");
         setTags(businessTags.length ? [...businessTags] : ["restaurant"]);
-        setPlacements([...DEFAULT_CASE_STUDY_PLACEMENTS]);
         setSortOrder(0);
       }
     } catch {
@@ -98,32 +94,10 @@ export function CaseStudyEditor({
     );
   }
 
-  function togglePlacement(id: CaseStudyPlacement) {
-    setPlacements((prev) => {
-      if (prev.includes(id)) {
-        const next = prev.filter((p) => p !== id);
-        return next.length ? next : [id];
-      }
-      return [...prev, id];
-    });
-  }
-
-  async function save() {
+  async function save(publish: boolean) {
     setSaving(true);
     setError(null);
     try {
-      if (!enabled) {
-        const res = await fetch(
-          `/api/admin/case-studies?report_id=${encodeURIComponent(reportId)}`,
-          { method: "DELETE" }
-        );
-        if (!res.ok) {
-          const j = await res.json().catch(() => ({}));
-          throw new Error((j as { error?: string }).error ?? "Remove failed");
-        }
-        return;
-      }
-
       const res = await fetch("/api/admin/case-studies", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -131,9 +105,9 @@ export function CaseStudyEditor({
           report_id: reportId,
           title: title.trim() || null,
           tags: normalizeBusinessTags(tags),
-          placements: normalizePlacements(placements),
+          placements: [...DEFAULT_CASE_STUDY_PLACEMENTS],
           sort_order: sortOrder,
-          is_published: true,
+          is_published: publish,
         }),
       });
       const j = (await res.json().catch(() => ({}))) as {
@@ -149,6 +123,9 @@ export function CaseStudyEditor({
         throw new Error(j.error ?? "Save failed");
       }
       setTableMissing(false);
+      setPublished(publish);
+      if (publish) setExpanded(false);
+      onPublishedChange?.();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Save failed");
     } finally {
@@ -156,125 +133,185 @@ export function CaseStudyEditor({
     }
   }
 
+  async function removeFromWebsite() {
+    setRemoving(true);
+    setError(null);
+    try {
+      const res = await fetch(
+        `/api/admin/case-studies?report_id=${encodeURIComponent(reportId)}`,
+        { method: "DELETE" }
+      );
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error((j as { error?: string }).error ?? "Remove failed");
+      }
+      setPublished(false);
+      setExpanded(false);
+      onPublishedChange?.();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Remove failed");
+    } finally {
+      setRemoving(false);
+    }
+  }
+
   if (loading) {
-    return <p className="mt-3 text-xs text-google-gray-500">Loading case study…</p>;
+    return (
+      <p className="mt-3 text-xs text-google-gray-500">Loading landing settings…</p>
+    );
   }
 
   return (
-    <div className="mt-4 rounded-xl border border-google-gray-200 bg-google-gray-50/80 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-medium text-foreground">Landing case study</p>
-        <label className="flex items-center gap-2 text-xs text-google-gray-600">
-          <input
-            type="checkbox"
-            checked={enabled}
-            onChange={(e) => setEnabled(e.target.checked)}
-            disabled={disabled}
+    <div className="mt-3 rounded-lg border border-google-gray-200 bg-google-gray-50/60">
+      <div className="flex flex-wrap items-center gap-2 px-3 py-2.5">
+        <button
+          type="button"
+          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          onClick={() => setExpanded((e) => !e)}
+          aria-expanded={expanded}
+        >
+          <ChevronDown
+            className={cn(
+              "size-4 shrink-0 text-google-gray-500 transition-transform",
+              expanded && "rotate-180"
+            )}
+            aria-hidden
           />
-          Show on website
-        </label>
-      </div>
-      <p className="mt-1 text-xs text-google-gray-500">
-        Appears in the VoC reports row on the homepage (same card layout as samples). Visitors
-        open a preview with &ldquo;Get full report&rdquo;.
-      </p>
+          <span className="text-xs font-medium text-foreground">Landing case study</span>
+          {published ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-google-green/10 px-2 py-0.5 text-[10px] font-medium text-google-green">
+              <Globe className="size-3" aria-hidden />
+              On website
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full bg-google-gray-100 px-2 py-0.5 text-[10px] font-medium text-google-gray-600">
+              <GlobeOff className="size-3" aria-hidden />
+              Hidden
+            </span>
+          )}
+        </button>
 
-      {tableMissing ? (
-        <div className="mt-4">
-          <SetupCaseStudiesCallout onFixed={() => void loadCaseStudy()} />
+        {published ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 shrink-0 border-google-red/30 text-xs text-google-red hover:bg-google-red/5"
+            disabled={disabled || removing}
+            onClick={() => void removeFromWebsite()}
+          >
+            {removing ? "Removing…" : "Remove from website"}
+          </Button>
+        ) : null}
+      </div>
+
+      {!expanded && published ? (
+        <p className="border-t border-google-gray-100 px-3 py-2 text-[11px] text-google-gray-500">
+          {title.trim() || businessName}
+          {tags.length > 0 ? ` · ${tags.map(formatTagLabel).join(", ")}` : ""}
+        </p>
+      ) : null}
+
+      {expanded ? (
+        <div className="space-y-3 border-t border-google-gray-100 px-3 py-3">
+          <p className="text-[11px] text-google-gray-500">
+            Homepage VoC cards — visitors see a preview, then contact you for the full report.
+          </p>
+
+          {tableMissing ? (
+            <SetupCaseStudiesCallout onFixed={() => void loadCaseStudy()} />
+          ) : (
+            <>
+              <div>
+                <label className="text-xs font-medium text-google-gray-700">
+                  Card title (optional)
+                </label>
+                <input
+                  className="mt-1 w-full rounded-lg border border-google-gray-200 bg-white px-3 py-1.5 text-sm"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={businessName}
+                  disabled={disabled}
+                />
+              </div>
+
+              <div>
+                <span className="text-xs font-medium text-google-gray-700">Filter tags</span>
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {BUSINESS_TAG_OPTIONS.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => toggleTag(tag)}
+                      className={cn(
+                        "rounded-full border px-2 py-0.5 text-[10px] font-medium",
+                        tags.includes(tag)
+                          ? "border-google-blue bg-pastel-blue text-google-blue"
+                          : "border-google-gray-200 bg-white text-google-gray-600"
+                      )}
+                    >
+                      {formatTagLabel(tag)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-medium text-google-gray-700">Sort order</label>
+                <input
+                  type="number"
+                  className="mt-1 w-20 rounded-lg border border-google-gray-200 bg-white px-2 py-1.5 text-sm"
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(Number(e.target.value) || 0)}
+                  disabled={disabled}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={disabled || saving || tableMissing}
+                  onClick={() => void save(true)}
+                >
+                  {saving ? "Saving…" : published ? "Save changes" : "Publish on website"}
+                </Button>
+                {!published ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={disabled || saving || tableMissing}
+                    onClick={() => setExpanded(false)}
+                  >
+                    Cancel
+                  </Button>
+                ) : null}
+              </div>
+            </>
+          )}
         </div>
       ) : null}
 
-      {enabled && !tableMissing ? (
-        <div className="mt-4 space-y-4">
-          <div>
-            <label className="text-xs font-medium text-google-gray-700">
-              Card title (optional)
-            </label>
-            <input
-              className="mt-1 w-full rounded-lg border border-google-gray-200 px-3 py-2 text-sm"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder={businessName}
-              disabled={disabled}
-            />
-          </div>
-
-          <div>
-            <span className="text-xs font-medium text-google-gray-700">Filter tags</span>
-            <p className="mt-0.5 text-[10px] text-google-gray-500">
-              Used for carousel filters (e.g. Restaurant, Sotogrande).
-            </p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {BUSINESS_TAG_OPTIONS.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  disabled={disabled}
-                  onClick={() => toggleTag(tag)}
-                  className={cn(
-                    "rounded-full border px-2.5 py-1 text-xs font-medium",
-                    tags.includes(tag)
-                      ? "border-google-blue bg-pastel-blue text-google-blue"
-                      : "border-google-gray-200 bg-white text-google-gray-600"
-                  )}
-                >
-                  {formatTagLabel(tag)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <span className="text-xs font-medium text-google-gray-700">Show on</span>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {CASE_STUDY_PLACEMENTS.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  disabled={disabled}
-                  onClick={() => togglePlacement(p.id)}
-                  className={cn(
-                    "rounded-lg border px-3 py-1.5 text-xs font-medium",
-                    placements.includes(p.id)
-                      ? "border-google-blue bg-white text-google-blue"
-                      : "border-google-gray-200 bg-white text-google-gray-600"
-                  )}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs font-medium text-google-gray-700">Sort order</label>
-            <input
-              type="number"
-              className="mt-1 w-24 rounded-lg border border-google-gray-200 px-3 py-2 text-sm"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(Number(e.target.value) || 0)}
-              disabled={disabled}
-            />
-          </div>
+      {!expanded && !published && !tableMissing ? (
+        <div className="border-t border-google-gray-100 px-3 py-2">
+          <button
+            type="button"
+            className="text-xs font-medium text-google-blue hover:underline"
+            disabled={disabled}
+            onClick={() => setExpanded(true)}
+          >
+            Configure & publish on website
+          </button>
         </div>
       ) : null}
 
       {error ? (
-        <p className="mt-3 text-xs text-google-red" role="alert">
+        <p className="border-t border-google-gray-100 px-3 py-2 text-xs text-google-red" role="alert">
           {error}
         </p>
       ) : null}
-
-      <Button
-        type="button"
-        size="sm"
-        className="mt-4"
-        disabled={disabled || saving || tableMissing}
-        onClick={() => void save()}
-      >
-        {saving ? "Saving…" : enabled ? "Save case study" : "Remove from website"}
-      </Button>
     </div>
   );
 }

@@ -79,19 +79,20 @@ Or: `node scripts/apply-business-tags.mjs` (prints the same SQL). Wait ~10s, the
 
 **Case studies (landing carousel):** Run migration `supabase/migrations/20260521120000_voc_case_studies.sql` in SQL Editor.
 
-4. Pipeline: Apify scrape → **OpenAI (UX researcher persona)** analyses real reviews to match the [demo report layout](/#voc-demos) → saved to `voc_reports`
-5. **Copy link** or open `/reports/{slug}/{period}`
+4. Pipeline: **Apify scrape** (background edge) → **separate analyze invocation** (OpenAI + benchmarks, own edge run) → saved to `voc_reports`. This avoids production edge shutdown while stuck on `analyzing`.
+5. If a report hangs on `analyzing` after logs show shutdown: dashboard → **Continue analysis** (reuses scraped reviews) or **Mark failed** → Generate again.
+6. Reports are **not** auto-generated every 30 days — click **Generate** each month (cron can be added later).
+7. **Copy link** or open `/reports/{slug}/{period}`
 
 ## Landing case studies
 
 On the dashboard, when a report is **ready**, use **Landing case study**:
 
-- **Show on website** — publishes to the homepage VoC carousel
-- **Filter tags** — e.g. `restaurant` (carousel filter pills)
-- **Show on** — `VoC reports row (landing grid)` (and legacy carousel id); both are checked by default
+- **Publish on website** — adds the card to the homepage **Client reports** grid
+- **Filter tags** — e.g. `salon` (filter pills on the landing grid)
 - **Sort order** — lower numbers appear first
 
-Visitors on the homepage see cards in the carousel; clicking opens a **blurred preview** with **Get full report** (booking mailto). Full public URL still works via **Copy link**.
+Visitors see cards in that grid; clicking opens a **blurred preview** with **Get full report** (booking mailto). Full public URL still works via **Copy link**.
 
 AI rules (see `supabase/functions/_shared/voc-ai-prompt.ts`): evidence-only quotes from scraped reviews, demo-shaped JSON, British English, mention counts in themes.
 

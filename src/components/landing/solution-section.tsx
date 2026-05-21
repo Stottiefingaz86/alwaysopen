@@ -244,6 +244,7 @@ export function SolutionSection({
             >
               <FadeIn>
                 <article className="group relative overflow-hidden rounded-3xl border border-google-gray-200 bg-white shadow-google-elevated">
+                  <div className="relative overflow-hidden rounded-t-3xl">
                   <CornerMarks />
                   <BorderBeam
                     size={140}
@@ -291,6 +292,7 @@ export function SolutionSection({
                       <ReceptionistVisual ai={s.ai} />
                     </div>
                   </div>
+                  </div>
 
                   <div className="border-t border-google-gray-100 bg-google-gray-50/40 px-5 py-8 md:px-8 md:py-10 lg:px-10">
                     <IndustryShowcase embedded />
@@ -309,7 +311,8 @@ export function SolutionSection({
               transition={{ duration: 0.22 }}
             >
               <FadeIn>
-                <article className="group relative overflow-hidden rounded-3xl border border-google-gray-200 bg-white shadow-google-elevated">
+                <article className="group relative overflow-visible rounded-3xl border border-google-gray-200 bg-white shadow-google-elevated">
+                  <div className="relative overflow-hidden rounded-t-3xl">
                   <CornerMarks />
                   <BorderBeam
                     size={140}
@@ -357,8 +360,9 @@ export function SolutionSection({
                       <VocReportVisual voc={s.voc} />
                     </div>
                   </div>
+                  </div>
 
-                  <div className="border-t border-google-gray-100 bg-google-gray-50/40 px-5 py-8 md:px-8 md:py-10 lg:px-10">
+                  <div className="overflow-visible rounded-b-3xl border-t border-google-gray-100 bg-google-gray-50/40 px-5 py-8 md:px-8 md:py-10 lg:px-10">
                     <VocIndustryShowcase
                       embedded
                       initialPublished={initialCaseStudies}

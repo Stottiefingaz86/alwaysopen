@@ -58,5 +58,7 @@ export type DashboardBusiness = {
     review_count: number;
     generated_at: string | null;
     created_at: string;
+    updated_at: string;
+    error_message: string | null;
   }[];
 };
