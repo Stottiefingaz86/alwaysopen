@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/landing/navbar";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { Hero } from "@/components/landing/hero";
 import { StatsBar } from "@/components/landing/stats-bar";
 import { IndustryShowcaseSection } from "@/components/landing/industry-showcase-section";
@@ -19,6 +21,21 @@ import { Footer } from "@/components/landing/footer";
 
 /** Re-read public/news mtimes when you replace an image file */
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: `${SITE_NAME} | 24/7 AI receptionist & VoC reports for local business`,
+  description:
+    "Stop missing calls. RingsAway answers your line 24/7, delivers monthly customer feedback reports from Google reviews, and offers live AI demos by industry including restaurants.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: `${SITE_NAME} | 24/7 AI receptionist & VoC reports`,
+    description:
+      "AI phone answering on your real number, monthly VoC reports, and live industry demos. Based in Manilva, Spain — English and Spanish.",
+    url: SITE_URL,
+  },
+};
 
 export default function Home() {
   const newsImageVersions = getNewsImageVersions();

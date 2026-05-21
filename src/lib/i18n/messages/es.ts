@@ -274,6 +274,57 @@ export const es = {
           "Lista breve y humana de prioridades del mes: arreglos en el negocio, reputación y pasos en Google ordenados por impacto.",
       },
     },
+    previews: {
+      complaints: {
+        author: "James T.",
+        source: "Google",
+        stars: 2,
+        quote:
+          "Esperamos 25 minutos para una mesa reservada. El personal fue amable pero claramente desbordado un viernes por la noche.",
+        tags: ["Tiempos de espera", "Reservas"],
+      },
+      praise: {
+        author: "Sarah M.",
+        source: "Google",
+        stars: 5,
+        quote:
+          "Llamé fuera de horario y reservaron al momento. Equipo amable y justo el hueco que queríamos.",
+        tags: ["Reserva fácil", "Fuera de horario"],
+      },
+      sentiment: {
+        chartLabel: "Puntuación de sentimiento",
+        trend: "↑ Mejorando",
+        months: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+        bars: [42, 48, 45, 58, 64, 72],
+      },
+      competitors: {
+        chartLabel: "Nota media cuando te mencionan",
+        note: "De 12 menciones comparativas este mes",
+        rows: [
+          { name: "Tu negocio", rating: 4.6, highlight: true },
+          { name: "Coastal Bistro", rating: 4.2, highlight: false },
+          { name: "Harbour Kitchen", rating: 4.4, highlight: false },
+        ],
+      },
+      suggestions: {
+        reviewLabel: "Reseña de 3 estrellas",
+        reviewAuthor: "James T.",
+        reviewQuote:
+          "Esperamos 25 minutos para una mesa reservada. El personal fue amable pero claramente desbordado.",
+        replyLabel: "Respuesta sugerida en Google",
+        replyText:
+          "Gracias por contárnoslo, James. Fallamos con tu reserva del viernes y es responsabilidad nuestra. Escríbenos o llama: guardamos tu próxima visita e incluimos un entrante de cortesía.",
+      },
+      actions: {
+        title: "Prioridades de marzo",
+        items: [
+          { priority: "Alta", text: "Responder a 3 reseñas negativas de febrero" },
+          { priority: "Alta", text: "Arreglar el traspaso de reservas del viernes en sala" },
+          { priority: "Media", text: "Publicar horario semanal actualizado en Google" },
+          { priority: "Baja", text: "Añadir fotos del nuevo menú de noche" },
+        ],
+      },
+    },
   },
   news: {
     eyebrow: "Noticias",

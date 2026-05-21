@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BorderBeam } from "@/components/ui/border-beam";
-import { ReviewCardMock } from "@/components/landing/illustrations";
+import { VocPanelPreview } from "@/components/landing/voc-panel-preview";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import {
@@ -21,11 +21,8 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-
-const GOOGLE_BUSINESS_ICON = "/google-my-business-icon.svg";
 
 type PanelKey =
   | "complaints"
@@ -51,7 +48,7 @@ const explainerIcons = [MessageSquare, TrendingUp, MapPin] as const;
 export function VocSection() {
   const { m, locale } = useLocale();
   const v = m.voc;
-  const [activeItem, setActiveItem] = useState<PanelKey>("google");
+  const [activeItem, setActiveItem] = useState<PanelKey>("complaints");
 
   const explainers = useMemo(
     () => [
@@ -156,34 +153,18 @@ export function VocSection() {
 
           <FadeIn delay={0.12}>
             <div className="relative overflow-visible rounded-3xl border border-google-gray-200 bg-white p-2 shadow-google-card">
-              <div className="relative min-h-[280px] w-full overflow-hidden rounded-2xl bg-google-gray-50 sm:min-h-[300px]">
+              <div className="relative min-h-[300px] w-full overflow-hidden rounded-2xl bg-google-gray-50 sm:min-h-[320px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeItem}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex h-full min-h-[280px] flex-col items-center justify-center gap-5 p-5 sm:min-h-[300px] sm:p-6"
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.22 }}
+                    className="flex h-full min-h-[300px] flex-col items-center justify-center gap-4 p-5 sm:min-h-[320px] sm:p-6"
                   >
-                    {activeItem === "google" ? (
-                      <Image
-                        src={GOOGLE_BUSINESS_ICON}
-                        alt={v.panels.google.imageAlt}
-                        width={160}
-                        height={140}
-                        className="h-28 w-auto max-w-[200px] object-contain sm:h-32"
-                      />
-                    ) : (
-                      <span className="flex size-16 items-center justify-center rounded-2xl bg-pastel-blue/80">
-                        <activePanel.icon
-                          className="size-8 text-google-blue"
-                          strokeWidth={1.5}
-                        />
-                      </span>
-                    )}
-                    <ReviewCardMock className="w-full max-w-[220px] shrink-0" />
-                    <p className="text-center text-sm font-medium text-google-gray-700">
+                    <VocPanelPreview panel={activeItem} />
+                    <p className="text-center text-xs font-medium text-google-gray-500">
                       {activePanel.title}
                     </p>
                   </motion.div>

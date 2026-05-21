@@ -1,7 +1,7 @@
 import { en } from "@/lib/i18n/messages/en";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const faqItems = en.faq.items;
-import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export function JsonLd() {
   const schema = {
@@ -13,7 +13,7 @@ export function JsonLd() {
         name: SITE_NAME,
         url: SITE_URL,
         description:
-          "RingsAway answers local business phone lines with a 24/7 AI receptionist and delivers hand-prepared customer feedback (VoC) reports with Google Business guidance.",
+          "RingsAway provides 24/7 AI phone receptionists and hand-prepared Voice of Customer reports for local businesses, with Google Business guidance and industry-specific demos.",
         areaServed: "Worldwide",
         knowsLanguage: ["en", "es"],
       },
@@ -23,7 +23,7 @@ export function JsonLd() {
         name: SITE_NAME,
         url: SITE_URL,
         description:
-          "AI phone receptionist and monthly customer feedback reports for salons, clinics, trades, and local shops.",
+          "AI phone receptionist and monthly customer feedback (VoC) reports for salons, clinics, restaurants, trades, and local shops.",
         address: {
           "@type": "PostalAddress",
           addressLocality: "Manilva",
@@ -37,6 +37,7 @@ export function JsonLd() {
         },
         areaServed: [
           { "@type": "Country", name: "Spain" },
+          { "@type": "Place", name: "Costa del Sol" },
           { "@type": "Place", name: "Worldwide" },
         ],
         priceRange: "€€",
@@ -47,7 +48,7 @@ export function JsonLd() {
         name: SITE_NAME,
         url: SITE_URL,
         publisher: { "@id": `${SITE_URL}/#organization` },
-        inLanguage: "en",
+        inLanguage: ["en", "es"],
       },
       {
         "@type": "Service",
@@ -57,7 +58,35 @@ export function JsonLd() {
         serviceType: "24/7 AI phone answering for local businesses",
         areaServed: "Worldwide",
         description:
-          "Answers your existing business phone number, books appointments, and handles FAQs.",
+          "Answers your existing business phone number, books appointments, handles FAQs, and supports English and Spanish callers.",
+      },
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/#voc-reports`,
+        name: "Monthly customer feedback (VoC) reports",
+        provider: { "@id": `${SITE_URL}/#organization` },
+        serviceType: "Voice of the Customer reporting",
+        description:
+          "Hand-prepared monthly reports covering top complaints, praise themes, customer sentiment trends, competitor comparisons, suggested Google review replies, and a prioritised action plan.",
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${SITE_URL}/#demos`,
+        name: `${SITE_NAME} industry demos`,
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "EUR",
+          description: "Live AI receptionist demos by industry",
+        },
+        featureList: [
+          "Restaurant AI receptionist demo",
+          "Salon demo (coming soon)",
+          "Estate agency demo (coming soon)",
+          "Clinic demo (coming soon)",
+        ],
       },
       {
         "@type": "FAQPage",

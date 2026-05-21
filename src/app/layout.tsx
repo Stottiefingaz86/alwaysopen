@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "RingsAway answers your business phone line with a 24/7 AI receptionist, plus hand-prepared customer feedback reports (VoC) with actions and a Google Business plan.",
+    "RingsAway answers your business phone line with a 24/7 AI receptionist, plus hand-prepared Voice of Customer (VoC) reports from Google reviews with sentiment trends, competitor insights, and reply ideas. Try live industry demos for restaurants and more.",
   keywords: [
     "AI receptionist",
     "24/7 phone answering",
@@ -30,16 +30,23 @@ export const metadata: Metadata = {
     "Google Business Profile",
     "Google reviews",
     "voice of customer",
+    "VoC report",
+    "customer sentiment analysis",
+    "review response",
     "booking automation",
+    "restaurant phone answering",
+    "salon appointment booking",
+    "bilingual receptionist",
+    "Manilva Spain",
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: `${SITE_NAME} | Get more bookings. Improve reviews.`,
+    title: `${SITE_NAME} | AI receptionist & monthly customer feedback reports`,
     description:
-      "Real phone line answered 24/7 by AI, with monthly customer feedback reports and Google Business guidance.",
+      "Your real business number answered 24/7 by AI. Monthly VoC reports with complaints, praise, sentiment charts, and Google reply suggestions.",
     type: "website",
     locale: "en_IE",
     siteName: SITE_NAME,

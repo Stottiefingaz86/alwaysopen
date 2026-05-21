@@ -274,6 +274,57 @@ export const en = {
           "A short, human-written priority list for this month: fixes in the business, reputation tasks, and Google steps ranked by what will help you most.",
       },
     },
+    previews: {
+      complaints: {
+        author: "James T.",
+        source: "Google",
+        stars: 2,
+        quote:
+          "Waited 25 minutes for a table we had booked. Staff were polite but clearly overwhelmed on a Friday night.",
+        tags: ["Wait times", "Booking"],
+      },
+      praise: {
+        author: "Sarah M.",
+        source: "Google",
+        stars: 5,
+        quote:
+          "Called after hours and got booked straight away. Friendly team and exactly the slot we wanted.",
+        tags: ["Booking ease", "After hours"],
+      },
+      sentiment: {
+        chartLabel: "Sentiment score",
+        trend: "↑ Improving",
+        months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+        bars: [42, 48, 45, 58, 64, 72],
+      },
+      competitors: {
+        chartLabel: "Average rating when mentioned",
+        note: "From 12 comparison mentions this month",
+        rows: [
+          { name: "Your business", rating: 4.6, highlight: true },
+          { name: "Coastal Bistro", rating: 4.2, highlight: false },
+          { name: "Harbour Kitchen", rating: 4.4, highlight: false },
+        ],
+      },
+      suggestions: {
+        reviewLabel: "3-star review",
+        reviewAuthor: "James T.",
+        reviewQuote:
+          "Waited 25 minutes for a table we had booked. Staff were polite but clearly overwhelmed.",
+        replyLabel: "Suggested Google reply",
+        replyText:
+          "Thank you for telling us, James. We missed your booking slot on Friday and that is on us. Please message us or call — we will reserve your next visit and include a complimentary starter.",
+      },
+      actions: {
+        title: "March priorities",
+        items: [
+          { priority: "High", text: "Reply to 3 negative reviews from February" },
+          { priority: "High", text: "Fix Friday booking handoff with front-of-house" },
+          { priority: "Medium", text: "Post weekly hours update on Google" },
+          { priority: "Low", text: "Add photos of new evening menu items" },
+        ],
+      },
+    },
   },
   news: {
     eyebrow: "News",
