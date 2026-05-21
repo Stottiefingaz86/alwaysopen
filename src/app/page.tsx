@@ -11,7 +11,6 @@ import { VocSection } from "@/components/landing/voc-section";
 import { NewsSection } from "@/components/landing/news-section";
 import { getNewsImageVersions } from "@/lib/news-image-versions";
 import { PricingSection } from "@/components/landing/pricing";
-import { AddOnsSection } from "@/components/landing/add-ons";
 import { AboutSection } from "@/components/landing/about-section";
 import { FaqsSection } from "@/components/landing/faqs-section";
 import { FinalCta } from "@/components/landing/final-cta";
@@ -50,7 +49,6 @@ export default function Home() {
         <PipelineSection />
         <VocSection />
         <PricingSection />
-        <AddOnsSection />
         <NewsSection imageVersions={newsImageVersions} />
         <AboutSection />
         <FaqsSection />
