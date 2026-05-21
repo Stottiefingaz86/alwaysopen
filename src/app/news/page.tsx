@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "News & guides for local businesses",
   description:
-    "Practical guides on phone-first local business, Google listings, bilingual reception, and monthly customer feedback (VoC) from the RingsAway team in Spain.",
+    "Guides for local businesses: AI phone answering, Google listings, bilingual reception, VoC reports, and local SEO tips including Sotogrande hospitality from the RingsAway team in Manilva, Spain.",
   alternates: {
     canonical: "/news",
   },
