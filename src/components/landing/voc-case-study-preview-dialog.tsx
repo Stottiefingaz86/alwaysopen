@@ -167,16 +167,19 @@ export function VocCaseStudyPreviewDialog({
               <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-google-gray-600">
                 {cs.paywallBody.replace("{{business}}", displayName)}
               </p>
+              <p className="mt-2 text-sm font-semibold tabular-nums text-google-green">
+                {cs.reportPrice}
+              </p>
               <CtaButton
                 href={mailto}
                 variant="secondary"
                 size="default"
                 className={cn(
-                  "mt-4 w-full sm:w-auto",
+                  "mt-3 w-full sm:w-auto",
                   showPaywallCta && "pointer-events-auto"
                 )}
               >
-                {cs.getInTouch}
+                {cs.reportPriceCta}
               </CtaButton>
             </div>
           </>,

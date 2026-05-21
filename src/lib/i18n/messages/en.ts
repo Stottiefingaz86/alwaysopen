@@ -185,8 +185,10 @@ export const en = {
       badge: "Service 2",
       title: "Voice of Customer (VoC)",
       tagline: "Monthly reports from what customers actually say",
+      priceOneOff: "€89 per report",
+      priceShort: "€89",
       description:
-        "A separate human-prepared report each month. We read Google reviews, website feedback, and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan.",
+        "A separate human-prepared report each month. We read Google reviews, website feedback, and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan. One-off reports are €89.",
       highlights: [
         "Top complaints and praise themes",
         "Sentiment trends month to month",
@@ -223,7 +225,7 @@ export const en = {
     tabsLabel: "Industry",
     viewReport: "View report",
     hideReport: "Hide report",
-    getMyReport: "Get my report",
+    getMyReport: "Get my report — €89",
     comingSoon: "Coming soon",
     comingSoonBlurb: "VoC report for this industry is on the way.",
     scoreLabel: "VoC score",
@@ -688,6 +690,8 @@ export const en = {
     paywallBody:
       "Complaints, praise, competitor benchmarks, reply drafts, and your action plan for {{business}} are in the complete monthly deliverable.",
     getFullReport: "Get full report",
+    reportPrice: "€89 per report",
+    reportPriceCta: "Get full report — €89",
     getInTouch: "Get in touch",
     emptyGridHint:
       "Publish a ready report from the dashboard (Landing case study → VoC reports row) to show it here.",
@@ -933,7 +937,7 @@ export const en = {
     addOnsTitle: "Optional add-ons",
     plans: {
       receptionist: {
-        name: "AI Receptionist",
+        name: "Package 1 — AI Receptionist",
         description:
           "For businesses that want calls answered, FAQs handled and appointments booked.",
         setup: "€499 setup",
@@ -954,7 +958,7 @@ export const en = {
         cta: "bookDemo",
       },
       bundle: {
-        name: "Receptionist + Insight",
+        name: "Package 2 — Receptionist + Insight",
         description:
           "For businesses that want call handling plus monthly customer insight.",
         setup: "€499 setup",
@@ -971,11 +975,11 @@ export const en = {
           "More included AI minutes",
         ],
         highlight:
-          "Includes the €299/month VoC report at a bundle discount",
+          "Includes monthly VoC reports (one-off reports are €89 each)",
         savings: {
-          separate: "AI Receptionist (€179) + VoC report (€299) = €478/month",
-          bundle: "This plan: €249/month",
-          saving: "Save €229/month",
+          separate: "AI Receptionist €179/mo + VoC report €89 one-off",
+          bundle: "This plan: €249/mo with monthly VoC included",
+          saving: "Best value for calls plus ongoing customer insight",
         },
         cta: "bookDemo",
       },
@@ -1000,7 +1004,7 @@ export const en = {
       },
     },
     addOns: [
-      { title: "Voice of Customer Report", price: "€299/month" },
+      { title: "Voice of Customer Report", price: "€89 one-off" },
       { title: "WhatsApp Business Integration", price: "€200 one-off" },
       { title: "Table Booking Integration", price: "€200 one-off" },
       { title: "Extra Automation", price: "from €250 setup" },
@@ -1012,7 +1016,7 @@ export const en = {
     title: "Optional add-ons",
     subtitle: "",
     items: [
-      { title: "Voice of Customer Report", price: "€299/month" },
+      { title: "Voice of Customer Report", price: "€89 one-off" },
       { title: "WhatsApp Business Integration", price: "€200 one-off" },
       { title: "Table Booking Integration", price: "€200 one-off" },
       { title: "Extra Automation", price: "from €250 setup" },

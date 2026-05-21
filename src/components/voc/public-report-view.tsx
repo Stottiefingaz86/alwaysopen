@@ -9,6 +9,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { VocReportData } from "@/lib/voc/report-types";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/components/providers/locale-provider";
+import { CtaButton } from "@/components/landing/cta-button";
+import { getBookingMailto } from "@/lib/contact";
 import { MapPin, Share2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -66,6 +69,9 @@ export function PublicReportView({
   /** Landing preview — no share; tighter layout */
   previewMode?: boolean;
 }) {
+  const { m, locale } = useLocale();
+  const cs = m.caseStudies;
+  const mailto = getBookingMailto(locale);
   const [copied, setCopied] = useState(false);
   const mr = report.monthlyReport;
 
@@ -121,20 +127,25 @@ export function PublicReportView({
           <p className="text-[10px] font-semibold uppercase tracking-wider text-google-gray-500">
             Voice of Customer · {report.period}
           </p>
-          {previewMode ? (
-            <span className="rounded-full bg-pastel-blue/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-google-blue">
-              Preview
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+            <span className="rounded-full border border-google-green/25 bg-google-green/5 px-2.5 py-1 text-[10px] font-semibold tabular-nums text-google-green">
+              {cs.reportPrice}
             </span>
-          ) : (
-            <button
-              type="button"
-              onClick={copyReportLink}
-              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-blue transition-colors hover:border-google-blue/30 hover:bg-pastel-blue/40"
-            >
-              <Share2 className="size-3.5" aria-hidden />
-              {copied ? "Link copied" : "Copy link"}
-            </button>
-          )}
+            {previewMode ? (
+              <span className="rounded-full bg-pastel-blue/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-google-blue">
+                Preview
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={copyReportLink}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-blue transition-colors hover:border-google-blue/30 hover:bg-pastel-blue/40"
+              >
+                <Share2 className="size-3.5" aria-hidden />
+                {copied ? "Link copied" : "Copy link"}
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
@@ -311,9 +322,30 @@ export function PublicReportView({
       </Card>
 
       {!previewMode ? (
-        <p className="mt-8 text-center text-xs text-google-gray-500">
-          Prepared by RingsAway · ringsaway.com
-        </p>
+        <div className="mt-8 space-y-4">
+          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-google-gray-200 bg-white px-5 py-4 shadow-google-card sm:flex-row sm:px-6">
+            <div className="text-center sm:text-left">
+              <p className="text-sm font-medium text-foreground">
+                {m.solution.voc.title}
+              </p>
+              <p className="mt-0.5 text-xs text-google-gray-500">
+                {cs.previewFootnote}
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-2 sm:items-end">
+              <p className="text-2xl font-semibold tabular-nums text-google-green">
+                {m.solution.voc.priceShort}
+              </p>
+              <p className="text-[11px] text-google-gray-500">{cs.reportPrice}</p>
+              <CtaButton href={mailto} variant="secondary" size="sm">
+                {cs.reportPriceCta}
+              </CtaButton>
+            </div>
+          </div>
+          <p className="text-center text-xs text-google-gray-500">
+            Prepared by RingsAway · ringsaway.com
+          </p>
+        </div>
       ) : null}
     </div>
   );

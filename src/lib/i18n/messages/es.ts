@@ -185,8 +185,10 @@ export const es = {
       badge: "Servicio 2",
       title: "Voz del Cliente (VoC)",
       tagline: "Informes mensuales de lo que dicen tus clientes",
+      priceOneOff: "89 € por informe",
+      priceShort: "89 €",
       description:
-        "Un informe aparte redactado por humanos cada mes. Leemos reseñas Google, feedback web y encuestas, y entregamos quejas, elogios, tendencias de sentimiento, competencia, ideas de respuesta y un plan de acción priorizado.",
+        "Un informe aparte redactado por humanos cada mes. Leemos reseñas Google, feedback web y encuestas, y entregamos quejas, elogios, tendencias de sentimiento, competencia, ideas de respuesta y un plan de acción priorizado. Informes puntuales: 89 €.",
       highlights: [
         "Principales quejas y temas de elogio",
         "Tendencias de sentimiento mes a mes",
@@ -223,7 +225,7 @@ export const es = {
     tabsLabel: "Sector",
     viewReport: "Ver informe",
     hideReport: "Ocultar informe",
-    getMyReport: "Quiero mi informe",
+    getMyReport: "Quiero mi informe — 89 €",
     comingSoon: "Próximamente",
     comingSoonBlurb: "Informe VoC para este sector en camino.",
     scoreLabel: "Puntuación VoC",
@@ -688,6 +690,8 @@ export const es = {
     paywallBody:
       "Quejas, elogios, competencia, borradores de respuesta y el plan de acción de {{business}} están en el informe mensual completo.",
     getFullReport: "Obtener informe completo",
+    reportPrice: "89 € por informe",
+    reportPriceCta: "Informe completo — 89 €",
     getInTouch: "Contactar",
     emptyGridHint:
       "Publique un informe listo desde el panel (Caso de estudio → fila de informes VoC) para mostrarlo aquí.",
@@ -933,7 +937,7 @@ export const es = {
     addOnsTitle: "Complementos opcionales",
     plans: {
       receptionist: {
-        name: "Recepcionista IA",
+        name: "Paquete 1 — Recepcionista IA",
         description:
           "Para negocios que quieren llamadas atendidas, FAQs resueltas y citas reservadas.",
         setup: "499 € configuración",
@@ -954,7 +958,7 @@ export const es = {
         cta: "bookDemo",
       },
       bundle: {
-        name: "Recepcionista + Insight",
+        name: "Paquete 2 — Recepcionista + Insight",
         description:
           "Para negocios que quieren atención de llamadas más insight mensual del cliente.",
         setup: "499 € configuración",
@@ -971,11 +975,11 @@ export const es = {
           "Más minutos IA incluidos",
         ],
         highlight:
-          "Incluye el informe VoC de 299 €/mes con descuento por paquete",
+          "Incluye informes VoC mensuales (puntuales: 89 € cada uno)",
         savings: {
-          separate: "Recepcionista IA (179 €) + informe VoC (299 €) = 478 €/mes",
-          bundle: "Este plan: 249 €/mes",
-          saving: "Ahorras 229 €/mes",
+          separate: "Recepcionista IA 179 €/mes + informe VoC 89 € puntual",
+          bundle: "Este plan: 249 €/mes con VoC mensual incluido",
+          saving: "La mejor opción para llamadas e insight continuo",
         },
         cta: "bookDemo",
       },
@@ -1000,7 +1004,7 @@ export const es = {
       },
     },
     addOns: [
-      { title: "Informe Voz del Cliente", price: "299 €/mes" },
+      { title: "Informe Voz del Cliente", price: "89 € pago único" },
       { title: "Integración WhatsApp Business", price: "200 € pago único" },
       { title: "Integración reserva de mesas", price: "200 € pago único" },
       { title: "Automatización extra", price: "desde 250 € configuración" },
@@ -1012,7 +1016,7 @@ export const es = {
     title: "Complementos opcionales",
     subtitle: "",
     items: [
-      { title: "Informe Voz del Cliente", price: "299 €/mes" },
+      { title: "Informe Voz del Cliente", price: "89 € pago único" },
       { title: "Integración WhatsApp Business", price: "200 € pago único" },
       { title: "Integración reserva de mesas", price: "200 € pago único" },
       { title: "Automatización extra", price: "desde 250 € configuración" },

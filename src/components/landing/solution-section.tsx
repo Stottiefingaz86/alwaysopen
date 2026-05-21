@@ -130,10 +130,12 @@ function ServicePicker({
   active,
   onChange,
   labels,
+  vocPriceShort,
 }: {
   active: ServiceTab;
   onChange: (tab: ServiceTab) => void;
   labels: Messages["solution"]["tabs"];
+  vocPriceShort: string;
 }) {
   const tabs: { id: ServiceTab; label: string; icon: typeof Bot }[] = [
     { id: "ai", label: labels.ai, icon: Bot },
@@ -164,6 +166,18 @@ function ServicePicker({
             <tab.icon className="size-4 shrink-0" strokeWidth={1.75} />
             <span className="hidden sm:inline">{tab.label}</span>
             <span className="sm:hidden">{tab.id === "ai" ? "AI" : "VoC"}</span>
+            {tab.id === "voc" ? (
+              <span
+                className={cn(
+                  "rounded-full px-1.5 py-0.5 text-[10px] font-semibold tabular-nums",
+                  active === tab.id
+                    ? "bg-white/20 text-white"
+                    : "bg-pastel-blue/80 text-google-blue"
+                )}
+              >
+                {vocPriceShort}
+              </span>
+            ) : null}
           </button>
         ))}
       </div>
@@ -227,6 +241,7 @@ export function SolutionSection({
           active={activeService}
           onChange={handleServiceChange}
           labels={s.tabs}
+          vocPriceShort={s.voc.priceShort}
         />
       </FadeIn>
 
@@ -323,10 +338,15 @@ export function SolutionSection({
                   />
                   <div className="grid lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
                     <div className="flex flex-col justify-center p-7 md:p-10 lg:p-12">
-                      <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-google-green/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-google-green">
-                        <FileText className="size-3.5" />
-                        {s.voc.badge}
-                      </span>
+                      <div className="mb-4 flex flex-wrap items-center gap-2">
+                        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-google-green/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-google-green">
+                          <FileText className="size-3.5" />
+                          {s.voc.badge}
+                        </span>
+                        <span className="rounded-full border border-google-green/30 bg-white px-3 py-1 text-xs font-semibold tabular-nums text-google-green">
+                          {s.voc.priceOneOff}
+                        </span>
+                      </div>
                       <h3 className="text-2xl font-medium tracking-tight text-foreground md:text-3xl">
                         {s.voc.title}
                       </h3>
