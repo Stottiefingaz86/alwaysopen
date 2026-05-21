@@ -173,13 +173,38 @@ body {
 
 /* Continues logo_icon.png gradient through “Away.” (offset by icon + gap) */
 .logo-wordmark {
-  --logo-gradient-offset: calc(1em + 0.5rem);
+  --logo-gradient-offset: calc(1.72em + 0.5rem);
+  --logo-icon-width: 1.72em;
 }
 
 @media (min-width: 40rem) {
   .logo-wordmark {
-    --logo-gradient-offset: calc(1em + 0.625rem);
+    --logo-gradient-offset: calc(1.72em + 0.625rem);
   }
+}
+
+/* Icon PNG has extra transparent padding — center glyph in slot, nudge text to match */
+.logo-icon-slot {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--logo-icon-width);
+  height: 1em;
+}
+
+.logo-icon-image {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  display: block;
+  width: var(--logo-icon-width);
+  height: auto;
+  transform: translateY(-50%);
+  object-fit: contain;
+  object-position: center;
+}
+
+.logo-text {
+  transform: translateY(0.14em);
 }
 
 /* Same rotating conic layers as SiriOrb — darker brand blues, clipped to text */

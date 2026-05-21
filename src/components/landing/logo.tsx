@@ -23,27 +23,28 @@ export function Logo({ size = "default" }: { size?: "default" | "large" }) {
       )}
       aria-label="RingsAway home"
     >
-      <Image
-        src={LOGO_ICON}
-        alt=""
-        width={LOGO_ICON_WIDTH}
-        height={LOGO_ICON_HEIGHT}
-        sizes={iconSizes}
-        quality={100}
-        unoptimized
-        className="h-[1em] w-auto shrink-0 object-contain"
-        aria-hidden
-        priority
-      />
-      <span className="font-logo inline-flex items-baseline">
-        <span className="font-medium tracking-[-0.03em] text-google-gray-700">
+      <span className="logo-icon-slot shrink-0" aria-hidden>
+        <Image
+          src={LOGO_ICON}
+          alt=""
+          width={LOGO_ICON_WIDTH}
+          height={LOGO_ICON_HEIGHT}
+          sizes={iconSizes}
+          quality={100}
+          unoptimized
+          className="logo-icon-image"
+          priority
+        />
+      </span>
+      <span className="logo-text font-logo inline-flex items-center leading-none">
+        <span className="font-normal tracking-[-0.02em] text-google-gray-700">
           Rings
         </span>
-        <span className="logo-away-gradient inline-flex items-baseline font-semibold tracking-[-0.03em]">
+        <span className="logo-away-gradient inline-flex items-baseline font-bold tracking-[-0.02em]">
           Away
           <span
             className={cn(
-              "logo-blink ml-0.5 font-semibold leading-none",
+              "logo-blink ml-0.5 font-bold leading-none",
               dotSize
             )}
             aria-hidden

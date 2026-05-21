@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist } from "next/font/google";
+import { Geist, Manjari } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-const fraunces = Fraunces({
+const manjari = Manjari({
   variable: "--font-logo",
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -74,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable, fraunces.variable)}>
+    <html lang="en" className={cn("font-sans", geist.variable, manjari.variable)}>
       <body className="min-h-screen overflow-x-clip bg-background font-sans text-foreground antialiased">
         <LocaleProvider>
           <JsonLd />
