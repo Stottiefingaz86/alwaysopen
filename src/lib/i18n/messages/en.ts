@@ -98,7 +98,7 @@ export const en = {
   stats: {
     title: "Built for how local customers actually call you",
     subtitle:
-      "Your real business number, answered around the clock, plus monthly reports our team writes from your reviews and feedback.",
+      "Your real business number, answered around the clock, plus monthly reports our UX research agent builds from your reviews and feedback.",
     body: "Salons, clinics, trades and shops use RingsAway on the line customers already trust, not a separate app or chat widget.",
     stat1Value: "24/7",
     stat1Label: "Phone line coverage",
@@ -188,31 +188,39 @@ export const en = {
       priceOneOff: "€89 per report",
       priceShort: "€89",
       description:
-        "A separate human-prepared report each month. We read Google reviews, website feedback, and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan. One-off reports are €89.",
+        "A separate monthly report built by our UX research agent. We read Google Reviews, Trustpilot, and TripAdvisor — additional review sites can be added on request — plus website feedback and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan. One-off reports are €89.",
       highlights: [
+        "Google Reviews, Trustpilot, TripAdvisor — more sources on request",
         "Top complaints and praise themes",
         "Sentiment trends month to month",
         "Suggested Google review replies",
         "Google Business strategy included",
       ],
       cta: "See what goes in your report",
-      reviewSource: "Google",
+      reviewSources: {
+        google: "Google",
+        trustpilot: "Trustpilot",
+        tripadvisor: "TripAdvisor",
+      },
       floatingReviews: [
         {
           quote:
             "Best paella we've had on the coast — staff even remembered our anniversary.",
           author: "Claire M.",
           stars: 5,
+          source: "google",
         },
         {
           quote: "Great food but we waited 25 minutes for a table on Friday night.",
           author: "James T.",
           stars: 3,
+          source: "trustpilot",
         },
         {
           quote: "Lovely terrace and atmosphere. We'll definitely be back.",
           author: "Antonio R.",
           stars: 5,
+          source: "tripadvisor",
         },
       ],
     },
@@ -236,6 +244,7 @@ export const en = {
       bad: "Poor",
     },
     sourceGoogle: "Google",
+    sourceTrustpilot: "Trustpilot",
     sourceTripadvisor: "TripAdvisor",
     reviewsAnalyzed: "{{count}} reviews analyzed",
     report: {
@@ -735,7 +744,7 @@ export const en = {
     actionBody:
       "Each month we turn feedback into clear next steps: what to change in the business, how to reply on Google, and a practical Google Business strategy so your listing works harder for you.",
     monthlyNote:
-      "Each month our team prepares your report by hand. We read Google Business reviews, your website, surveys, and customer satisfaction feedback, so you get themes, actions, and a Google plan you can actually follow.",
+      "Each month our UX research agent prepares your report. We read Google Business reviews, your website, surveys, and customer satisfaction feedback, so you get themes, actions, and a Google plan you can actually follow.",
     accordionHeading: "What goes into your monthly report",
     panels: {
       complaints: {
@@ -770,7 +779,7 @@ export const en = {
       actions: {
         title: "Monthly action plan",
         description:
-          "A short, human-written priority list for this month: fixes in the business, reputation tasks, and Google steps ranked by what will help you most.",
+          "A short, prioritised list for this month: fixes in the business, reputation tasks, and Google steps ranked by what will help you most.",
       },
     },
     previews: {
@@ -897,7 +906,7 @@ export const en = {
         category: "update" as const,
         title: "What's new in monthly customer feedback reports",
         excerpt:
-          "Clearer VoC explainers, action lists, competitor mentions, and Google Business guidance, all prepared by our team from owner feedback.",
+          "Clearer VoC explainers, action lists, competitor mentions, and Google Business guidance, all built by our UX research agent from owner feedback.",
         readTime: "3 min read",
         tags: ["Product"],
         imageAlt: "Monthly customer feedback and VoC report",
@@ -1074,7 +1083,7 @@ export const en = {
         id: "item-5",
         question: "What is in the monthly report and Google Business plan?",
         answer:
-          "Our team prepares this by hand each month. We read your Google Business reviews, website feedback, surveys, and satisfaction notes, then send themes, competitor mentions, review reply ideas, a ranked action plan, and practical Google Business guidance (what to post, what to reply to, how to show up better locally). This is not AI-generated analysis.",
+          "Each month our UX research agent prepares your report. We read your Google Business reviews, website feedback, surveys, and satisfaction notes, then send themes, competitor mentions, review reply ideas, a ranked action plan, and practical Google Business guidance (what to post, what to reply to, how to show up better locally).",
       },
       {
         id: "item-6",

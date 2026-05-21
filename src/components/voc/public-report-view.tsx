@@ -13,16 +13,9 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { CtaButton } from "@/components/landing/cta-button";
 import { getBookingMailto } from "@/lib/contact";
 import { MapPin, Share2 } from "lucide-react";
-import Image from "next/image";
+import { ReviewSourceIcon } from "@/components/landing/review-source-icon";
+import { reviewSourceLabel } from "@/lib/review-source-icons";
 import { useState } from "react";
-
-const GOOGLE_ICON = "/google-my-business-icon.svg";
-
-function reportSourceLabel(source: string): string {
-  if (source === "tripadvisor") return "Tripadvisor";
-  if (source === "trustpilot") return "Trustpilot";
-  return "Google";
-}
 
 const panels = {
   complaints: {
@@ -71,6 +64,7 @@ export function PublicReportView({
 }) {
   const { m, locale } = useLocale();
   const cs = m.caseStudies;
+  const ui = m.vocDemos;
   const mailto = getBookingMailto(locale);
   const [copied, setCopied] = useState(false);
   const mr = report.monthlyReport;
@@ -151,11 +145,7 @@ export function PublicReportView({
         <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
           <div className="flex min-w-0 flex-1 items-start gap-3.5">
             <span className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-google-gray-200 bg-white shadow-google">
-              {report.source === "tripadvisor" ? (
-                <span className="text-sm font-bold text-[#34e0a1]">TA</span>
-              ) : (
-                <Image src={GOOGLE_ICON} alt="" width={28} height={28} />
-              )}
+              <ReviewSourceIcon source={report.source} size={28} />
             </span>
             <div className="min-w-0 pt-0.5">
               <h1 className="text-xl font-medium leading-tight text-foreground sm:text-2xl">
@@ -164,7 +154,12 @@ export function PublicReportView({
               <p className="mt-1 flex flex-wrap items-center gap-1 text-sm text-google-gray-500">
                 <MapPin className="size-3.5 shrink-0" aria-hidden />
                 <span>
-                  {report.location} · {reportSourceLabel(report.source)}
+                  {report.location} ·{" "}
+                  {reviewSourceLabel(report.source, {
+                    google: ui.sourceGoogle,
+                    trustpilot: ui.sourceTrustpilot,
+                    tripadvisor: ui.sourceTripadvisor,
+                  })}
                 </span>
               </p>
               <p className="mt-0.5 text-xs text-google-gray-400">

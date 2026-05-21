@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
         pathname: "/logo_icon.png",
       },
       {
+        pathname: "/google-my-business-icon.svg",
+      },
+      {
+        pathname: "/tripadvisor.png",
+      },
+      {
+        pathname: "/trustpiliot.png",
+      },
+      {
         pathname: "/news/**",
       },
       {

@@ -98,7 +98,7 @@ export const es = {
   stats: {
     title: "Diseñado para cómo te llaman los clientes locales",
     subtitle:
-      "Tu número real de negocio, atendido a todas horas, más informes mensuales que redacta nuestro equipo a partir de tus reseñas y comentarios.",
+      "Tu número real de negocio, atendido a todas horas, más informes mensuales que elabora nuestro agente de investigación UX a partir de tus reseñas y comentarios.",
     body: "Salones, clínicas, oficios y tiendas usan RingsAway en la línea que los clientes ya confían, no en otra app ni chat.",
     stat1Value: "24/7",
     stat1Label: "Cobertura telefónica",
@@ -188,31 +188,39 @@ export const es = {
       priceOneOff: "89 € por informe",
       priceShort: "89 €",
       description:
-        "Un informe aparte redactado por humanos cada mes. Leemos reseñas Google, feedback web y encuestas, y entregamos quejas, elogios, tendencias de sentimiento, competencia, ideas de respuesta y un plan de acción priorizado. Informes puntuales: 89 €.",
+        "Un informe mensual aparte elaborado por nuestro agente de investigación UX. Leemos Google Reviews, Trustpilot y TripAdvisor — podemos añadir otras fuentes de reseñas bajo petición — además de feedback web y encuestas, y entregamos quejas, elogios, tendencias de sentimiento, competencia, ideas de respuesta y un plan de acción priorizado. Informes puntuales: 89 €.",
       highlights: [
+        "Google Reviews, Trustpilot, TripAdvisor — más fuentes bajo petición",
         "Principales quejas y temas de elogio",
         "Tendencias de sentimiento mes a mes",
         "Respuestas sugeridas para Google",
         "Estrategia Google Business incluida",
       ],
       cta: "Qué incluye tu informe",
-      reviewSource: "Google",
+      reviewSources: {
+        google: "Google",
+        trustpilot: "Trustpilot",
+        tripadvisor: "TripAdvisor",
+      },
       floatingReviews: [
         {
           quote:
             "La mejor paella de la zona — el personal recordó nuestro aniversario.",
           author: "Claire M.",
           stars: 5,
+          source: "google",
         },
         {
           quote: "Comida excelente pero esperamos 25 minutos para mesa el viernes.",
           author: "James T.",
           stars: 3,
+          source: "trustpilot",
         },
         {
           quote: "Terraza y ambiente preciosos. Volveremos sin duda.",
           author: "Antonio R.",
           stars: 5,
+          source: "tripadvisor",
         },
       ],
     },
@@ -236,6 +244,7 @@ export const es = {
       bad: "Deficiente",
     },
     sourceGoogle: "Google",
+    sourceTrustpilot: "Trustpilot",
     sourceTripadvisor: "TripAdvisor",
     reviewsAnalyzed: "{{count}} reseñas analizadas",
     report: {
@@ -735,7 +744,7 @@ export const es = {
     actionBody:
       "Cada mes convertimos el feedback en pasos claros: qué cambiar en el negocio, cómo responder en Google y una estrategia práctica de Google Business para que tu ficha trabaje más.",
     monthlyNote:
-      "Cada mes nuestro equipo prepara tu informe a mano. Leemos reseñas de Google Business, tu web, encuestas y satisfacción del cliente, para que tengas temas, acciones y un plan Google que puedas seguir.",
+      "Cada mes nuestro agente de investigación UX prepara tu informe. Leemos reseñas de Google Business, tu web, encuestas y satisfacción del cliente, para que tengas temas, acciones y un plan Google que puedas seguir.",
     accordionHeading: "Qué incluye tu informe mensual",
     panels: {
       complaints: {
@@ -770,7 +779,7 @@ export const es = {
       actions: {
         title: "Plan de acción mensual",
         description:
-          "Lista breve y humana de prioridades del mes: arreglos en el negocio, reputación y pasos en Google ordenados por impacto.",
+          "Lista breve y priorizada del mes: arreglos en el negocio, reputación y pasos en Google ordenados por impacto.",
       },
     },
     previews: {
@@ -897,7 +906,7 @@ export const es = {
         category: "update",
         title: "Novedades en los informes mensuales de opinión del cliente",
         excerpt:
-          "Explicadores VoC más claros, listas de acción, menciones de competencia y guía Google Business, todo preparado por nuestro equipo.",
+          "Explicadores VoC más claros, listas de acción, menciones de competencia y guía Google Business, todo elaborado por nuestro agente de investigación UX.",
         readTime: "3 min de lectura",
         tags: ["Producto"],
         imageAlt: "Informe mensual de feedback y VoC",
@@ -1074,7 +1083,7 @@ export const es = {
         id: "item-5",
         question: "¿Qué incluye el informe mensual y el plan Google Business?",
         answer:
-          "Nuestro equipo lo prepara a mano cada mes. Leemos reseñas Google Business, feedback web, encuestas y notas de satisfacción, y enviamos temas, menciones de competencia, ideas para responder, plan de acción priorizado y guía práctica de Google Business (qué publicar, a qué responder, cómo destacar en búsqueda local). No es análisis generado por IA.",
+          "Cada mes nuestro agente de investigación UX prepara tu informe. Leemos reseñas Google Business, feedback web, encuestas y notas de satisfacción, y enviamos temas, menciones de competencia, ideas para responder, plan de acción priorizado y guía práctica de Google Business (qué publicar, a qué responder, cómo destacar en búsqueda local).",
       },
       {
         id: "item-6",

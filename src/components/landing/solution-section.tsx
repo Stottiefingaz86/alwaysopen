@@ -113,7 +113,7 @@ function VocReportVisual({ voc }: { voc: Messages["solution"]["voc"] }) {
   return (
     <VocFloatingReviewsVisual
       reviews={voc.floatingReviews}
-      sourceLabel={voc.reviewSource}
+      sourceLabels={voc.reviewSources}
     />
   );
 }

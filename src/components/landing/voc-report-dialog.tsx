@@ -15,9 +15,8 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { getBookingMailto } from "@/lib/contact";
 import { getVocScoreTier } from "@/lib/voc-score-tier";
 import type { Messages } from "@/lib/i18n/messages/en";
-import Image from "next/image";
-
-const GOOGLE_ICON = "/google-my-business-icon.svg";
+import { ReviewSourceIcon } from "@/components/landing/review-source-icon";
+import { reviewSourceLabel } from "@/lib/review-source-icons";
 
 type VocIndustryDemo = Extract<
   Messages["vocDemos"]["industries"][keyof Messages["vocDemos"]["industries"]],
@@ -45,10 +44,11 @@ export function VocReportDialog({
 
   const tierLabel = ui.tiers[getVocScoreTier(demo.score)];
 
-  const sourceLabel =
-    (demo.source as "google" | "tripadvisor") === "tripadvisor"
-      ? ui.sourceTripadvisor
-      : ui.sourceGoogle;
+  const sourceLabel = reviewSourceLabel(demo.source, {
+    google: ui.sourceGoogle,
+    trustpilot: ui.sourceTrustpilot,
+    tripadvisor: ui.sourceTripadvisor,
+  });
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -59,11 +59,7 @@ export function VocReportDialog({
         <DialogHeader className="shrink-0 border-b border-google-gray-100 px-5 pb-4 pt-5 pr-12">
           <div className="flex items-start gap-3">
             <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-google-gray-200 bg-white">
-              {demo.source === "google" ? (
-                <Image src={GOOGLE_ICON} alt="" width={28} height={28} />
-              ) : (
-                <span className="text-sm font-bold text-[#34e0a1]">TA</span>
-              )}
+              <ReviewSourceIcon source={demo.source} size={28} />
             </span>
             <div className="min-w-0 flex-1">
               <DialogTitle className="text-lg font-medium">

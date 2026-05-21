@@ -6,10 +6,9 @@ import type { Messages } from "@/lib/i18n/messages/en";
 import type { VocReportCardModel } from "@/lib/voc/report-card";
 import { getVocScoreTier } from "@/lib/voc-score-tier";
 import { cn } from "@/lib/utils";
+import { ReviewSourceIcon } from "@/components/landing/review-source-icon";
+import { reviewSourceLabel } from "@/lib/review-source-icons";
 import { MapPin } from "lucide-react";
-import Image from "next/image";
-
-const GOOGLE_ICON = "/google-my-business-icon.svg";
 
 type VocScoreCardProps = {
   card: VocReportCardModel;
@@ -29,8 +28,11 @@ export function VocScoreCard({
 }: VocScoreCardProps) {
   const isAvailable = card.available;
   const source = card.source;
-  const sourceLabel =
-    source === "tripadvisor" ? ui.sourceTripadvisor : ui.sourceGoogle;
+  const sourceLabel = reviewSourceLabel(source, {
+    google: ui.sourceGoogle,
+    trustpilot: ui.sourceTrustpilot,
+    tripadvisor: ui.sourceTripadvisor,
+  });
   const tier = isAvailable ? getVocScoreTier(card.score) : "fair";
   const tierLabel = ui.tiers[tier];
 
@@ -90,17 +92,7 @@ export function VocScoreCard({
           <>
             <div className="flex min-h-8 items-center gap-2">
               <span className="flex size-6 shrink-0 items-center justify-center rounded border border-google-gray-200 bg-white">
-                {source === "tripadvisor" ? (
-                  <span className="text-[8px] font-bold text-google-gray-600">TA</span>
-                ) : (
-                  <Image
-                    src={GOOGLE_ICON}
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="size-3.5"
-                  />
-                )}
+                <ReviewSourceIcon source={source} size={14} />
               </span>
               <p className="line-clamp-2 text-[10px] leading-snug font-medium text-google-gray-500">
                 {sourceLabel}

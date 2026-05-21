@@ -8,11 +8,9 @@ import { formatTagLabel } from "@/lib/voc/business-tags";
 import { getVocScoreTier } from "@/lib/voc-score-tier";
 import type { VocReportData } from "@/lib/voc/report-types";
 import { cn } from "@/lib/utils";
+import { ReviewSourceIcon } from "@/components/landing/review-source-icon";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-const GOOGLE_ICON = "/google-my-business-icon.svg";
 
 type VocCaseStudyCarouselProps = {
   placement?: string;
@@ -176,7 +174,7 @@ export function VocCaseStudyCarousel({
             >
               <div className="flex items-start gap-3">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-google-gray-200 bg-white">
-                  <Image src={GOOGLE_ICON} alt="" width={22} height={22} />
+                  <ReviewSourceIcon source={item.source} size={22} />
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-foreground">{item.title}</p>
