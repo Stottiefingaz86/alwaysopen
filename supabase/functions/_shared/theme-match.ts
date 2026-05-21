@@ -76,6 +76,12 @@ export function themeMatchRegex(themeLine: string): RegExp | null {
   if (/\bmorning|breakfast\b/.test(label) && /\bcroiss|pastry|unavail\b/.test(label)) {
     return /\b(morning|breakfast|croiss\w*|crossaint\w*|pastry|dont have|don't have|anymore|unavail)\b/i;
   }
+  if (/\border\b/.test(label) && /\b(accuracy|wrong|incorrect|mistake|missing)\b/.test(label)) {
+    return /\b(order|ordered|wrong order|incorrect|missing item|got the wrong|mistake|accura\w*|delivered wrong)\b/i;
+  }
+  if (/\bdelay|slow|wait\b/.test(label)) {
+    return /\b(wait|waiting|waited|slow|delay|delayed|queue|minute|hour|rush|long time|took forever)\b/i;
+  }
 
   return null;
 }

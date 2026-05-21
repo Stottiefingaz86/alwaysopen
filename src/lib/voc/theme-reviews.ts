@@ -34,7 +34,10 @@ const STOP_WORDS = new Set([
 ]);
 
 export function themeLabelWithoutCount(theme: string): string {
-  return theme.replace(/\s*\(\d+\s*mentions?\)\s*$/i, "").trim();
+  return theme
+    .replace(/\s*\(\s*\d+\s+mention[s]?\s*\)\s*$/i, "")
+    .replace(/\s*\(\d+\s*mentions?\)\s*$/i, "")
+    .trim();
 }
 
 /** Normalise common typos in scraped Google review text before matching. */
@@ -104,6 +107,12 @@ export function themeMatchRegex(themeLine: string): RegExp | null {
   }
   if (/\bmorning|breakfast\b/.test(label) && /\bcroiss|pastry|unavail\b/.test(label)) {
     return /\b(morning|breakfast|croiss\w*|crossaint\w*|pastry|dont have|don't have|anymore|unavail)\b/i;
+  }
+  if (/\border\b/.test(label) && /\b(accuracy|wrong|incorrect|mistake|missing)\b/.test(label)) {
+    return /\b(order|ordered|wrong order|incorrect|missing item|got the wrong|mistake|accura\w*|delivered wrong)\b/i;
+  }
+  if (/\bdelay|slow|wait\b/.test(label)) {
+    return /\b(wait|waiting|waited|slow|delay|delayed|queue|minute|hour|rush|long time|took forever)\b/i;
   }
 
   return null;
@@ -316,11 +325,6 @@ export function enrichReportWithReviewCorpus(
       ? countReviewsInPeriod(scrapedReviews, periodKey)
       : report.reviewCount;
 
-  const corpusSource =
-    periodKey && scrapedReviews?.length
-      ? filterScrapedToPeriod(scrapedReviews, periodKey)
-      : scrapedReviews;
-
   const base: VocReportData = {
     ...report,
     reviewCount: periodKey && scrapedReviews?.length ? inPeriod : report.reviewCount,
@@ -328,9 +332,9 @@ export function enrichReportWithReviewCorpus(
   };
 
   if (base.reviewCorpus?.length) return base;
-  if (!corpusSource?.length) return base;
+  if (!scrapedReviews?.length) return base;
 
-  const corpus = mapScrapedReviewsForCorpus(corpusSource);
+  const corpus = mapScrapedReviewsForCorpus(scrapedReviews);
   if (!corpus.length) return base;
   return { ...base, reviewCorpus: corpus };
 }

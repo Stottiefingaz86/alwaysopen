@@ -74,12 +74,45 @@ export function PublicReportView({
     actionPlan: report.actionPlanSummary,
   };
 
-  function copyLink() {
-    const url = `${window.location.origin}/reports/${businessSlug}/${period}`;
-    void navigator.clipboard.writeText(url).then(() => {
+  async function shareReport() {
+    const url = window.location.href;
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${report.businessName} · VoC ${report.period}`,
+          url,
+        });
+        return;
+      } catch (err) {
+        if ((err as Error).name === "AbortError") return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+      setTimeout(() => setCopied(false), 2500);
+      return;
+    } catch {
+      /* fallback below */
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = url;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      window.prompt("Copy this report link:", url);
+    }
+    document.body.removeChild(textarea);
   }
 
   return (
@@ -91,7 +124,7 @@ export function PublicReportView({
           </p>
           <button
             type="button"
-            onClick={copyLink}
+            onClick={() => void shareReport()}
             className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-blue transition-colors hover:border-google-blue/30 hover:bg-pastel-blue/40"
           >
             <Share2 className="size-3.5" aria-hidden />
@@ -246,6 +279,7 @@ export function PublicReportView({
               summaries,
               reviewCorpus: report.reviewCorpus,
               reviewsInPeriod: report.reviewCount,
+              scrapedReviewTotal: report.scrapedReviewTotal,
             } as unknown as Parameters<typeof VocMonthlyReportBody>[0])}
           />
         </CardContent>

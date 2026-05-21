@@ -180,19 +180,23 @@ export function normalizeVocReport(
       ? r.date
       : fallback?.date ?? null;
 
-  const complaintPool = periodReviews.filter((r) => (r.stars ?? 5) <= 3);
-  const praisePool = periodReviews.filter((r) => (r.stars ?? 5) >= 4);
+  const complaintPoolAll = input.reviews.filter(
+    (r) => r.text.length > 12 && (r.stars ?? 5) <= 3
+  );
+  const praisePoolAll = input.reviews.filter(
+    (r) => r.text.length > 12 && (r.stars ?? 5) >= 4
+  );
 
   const complaintThemes = themesWithVerifiedCounts(
     stringArray(complaints.themes, 2),
-    complaintPool
+    complaintPoolAll
   );
   const praiseThemes = themesWithVerifiedCounts(
     stringArray(praise.themes, 2),
-    praisePool
+    praisePoolAll
   );
 
-  const reviewCorpus = buildReviewCorpus(periodReviews);
+  const reviewCorpus = buildReviewCorpus(input.reviews);
   const negativeLines = stringArray(raw.negatives, 2);
   const positiveLines = stringArray(raw.positives, 2);
 

@@ -146,19 +146,27 @@ export function ThemeReviewsBlock({
   moreReviews = [],
   reviewCorpus,
   reviewsInPeriod,
+  scrapedReviewTotal,
 }: {
   themes: readonly string[];
   tone: "negative" | "positive";
   featured: ReviewSnippetData | null;
   moreReviews?: readonly ReviewSnippetData[];
   reviewCorpus?: VocReportData["reviewCorpus"];
-  /** Reviews in the report month — for accurate filter copy */
+  /** Reviews published in the report month */
   reviewsInPeriod?: number;
+  /** Total reviews in the Google scrape */
+  scrapedReviewTotal?: number;
 }) {
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
   const pool = buildReviewPool({ tone, featured, moreReviews, reviewCorpus });
   const hasCorpus = Boolean(reviewCorpus?.length);
+  const poolLabel =
+    scrapedReviewTotal != null && scrapedReviewTotal > (reviewsInPeriod ?? 0)
+      ? `${pool.length} in Google sample`
+      : `${pool.length} in this scrape`;
 
   const matching = selectedTheme ? filterReviewsByTheme(pool, selectedTheme) : [];
   const verifiedCount = selectedTheme
@@ -211,11 +219,13 @@ export function ThemeReviewsBlock({
             Reviews matching &ldquo;{themeLabelWithoutCount(selectedTheme)}&rdquo;
             <span className="font-normal text-google-gray-500">
               {" "}
-              — {matching.length} of{" "}
-              {reviewsInPeriod ?? pool.length} review
-              {(reviewsInPeriod ?? pool.length) === 1 ? "" : "s"} in{" "}
-              {reviewsInPeriod != null ? "this report month" : "this scrape"}
-              {hasCorpus ? "" : " (regenerate report for full review corpus)"}
+              — {matching.length} of {pool.length} matching review
+              {pool.length === 1 ? "" : "s"} ({poolLabel}
+              {reviewsInPeriod != null && reviewsInPeriod > 0
+                ? ` · ${reviewsInPeriod} published in report month`
+                : ""}
+              )
+              {hasCorpus ? "" : " — regenerate report for full corpus"}
             </span>
           </p>
           {matching.length > 0 ? (
@@ -248,8 +258,8 @@ export function ThemeReviewsBlock({
         </div>
       ) : (
         <p className="text-[11px] text-google-gray-500">
-          Tap a theme to see verbatim Google reviews that mention it. Counts are from
-          your scraped reviews, not estimates.
+          Tap a theme to see matching reviews from your Google scrape. Counts are
+          verified from review text, not AI estimates.
         </p>
       )}
 
@@ -259,6 +269,32 @@ export function ThemeReviewsBlock({
 
       {!selectedTheme && moreReviews.length > 0 ? (
         <MoreReviewSnippets reviews={moreReviews} />
+      ) : null}
+
+      {hasCorpus && pool.length > 0 ? (
+        <div className="border-t border-google-gray-200 pt-4">
+          <button
+            type="button"
+            onClick={() => setShowAllReviews((v) => !v)}
+            className="text-sm font-medium text-google-blue hover:underline"
+          >
+            {showAllReviews
+              ? "Hide all reviews"
+              : `Show all ${pool.length} ${tone === "negative" ? "low-star" : "positive"} reviews (${poolLabel})`}
+          </button>
+          {showAllReviews ? (
+            <div className="mt-3 space-y-0">
+              {pool.map((review, idx) => (
+                <ReviewSnippet
+                  key={`all-${review.author}-${idx}`}
+                  review={review}
+                  highlightTheme={selectedTheme}
+                  tone={tone}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
       ) : null}
     </div>
   );
@@ -607,6 +643,7 @@ type VocMonthlyReportBodyProps = {
   summaries?: VocReportSectionSummaries;
   reviewCorpus?: VocReportData["reviewCorpus"];
   reviewsInPeriod?: number;
+  scrapedReviewTotal?: number;
 };
 
 function readSummary(
@@ -626,6 +663,7 @@ export function VocMonthlyReportBody({
   summaries,
   reviewCorpus,
   reviewsInPeriod,
+  scrapedReviewTotal,
 }: VocMonthlyReportBodyProps) {
   return (
     <div className="divide-y divide-google-gray-200">
@@ -641,6 +679,7 @@ export function VocMonthlyReportBody({
           moreReviews={getMoreReviews(report.complaints)}
           reviewCorpus={reviewCorpus}
           reviewsInPeriod={reviewsInPeriod}
+          scrapedReviewTotal={scrapedReviewTotal}
         />
       </ReportSection>
 
@@ -656,6 +695,7 @@ export function VocMonthlyReportBody({
           moreReviews={getMoreReviews(report.praise)}
           reviewCorpus={reviewCorpus}
           reviewsInPeriod={reviewsInPeriod}
+          scrapedReviewTotal={scrapedReviewTotal}
         />
       </ReportSection>
 
