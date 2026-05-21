@@ -936,7 +936,7 @@ export const es = {
         description:
           "Para negocios que quieren atención de llamadas más insight mensual del cliente.",
         setup: "499 € configuración",
-        monthly: "349 €",
+        monthly: "249 €",
         minutes: "500 minutos IA/mes",
         overage: "0,30 €/min tras minutos incluidos",
         features: [
@@ -952,8 +952,8 @@ export const es = {
           "Incluye el informe VoC de 299 €/mes con descuento por paquete",
         savings: {
           separate: "Recepcionista IA (179 €) + informe VoC (299 €) = 478 €/mes",
-          bundle: "Este plan: 349 €/mes",
-          saving: "Ahorras 129 €/mes",
+          bundle: "Este plan: 249 €/mes",
+          saving: "Ahorras 229 €/mes",
         },
         cta: "bookDemo",
       },

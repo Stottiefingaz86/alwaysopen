@@ -9,6 +9,7 @@ export function Footer() {
   const mailto = getBookingMailto(locale);
 
   const links = [
+    { href: "/login", label: "Admin" },
     { href: "#services", label: m.nav.services },
     { href: "#pricing", label: m.nav.pricing },
     { href: "/news", label: m.nav.news },

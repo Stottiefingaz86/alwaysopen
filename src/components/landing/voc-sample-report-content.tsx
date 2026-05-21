@@ -4,9 +4,9 @@ import {
   ActionPlanBlock,
   CompetitorBlock,
   GoogleStrategyBlock,
-  ReviewSnippet,
   SuggestionBlock,
-  ThemeList,
+  ThemeReviewsBlock,
+  TrendingTopicsBlock,
 } from "@/components/landing/voc-report-sections";
 import { VocSentimentChart } from "@/components/landing/voc-sentiment-chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -87,32 +87,8 @@ export function VocSampleReportContent({
       </div>
 
       <Card className="border-google-gray-200 shadow-google-card">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium md:text-base">
-            {ui.report.trendingTitle}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {demo.trending.map((item) => (
-              <span
-                key={item.topic}
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
-                  item.tone === "negative"
-                    ? "border-google-red/25 bg-google-red/5 text-google-red"
-                    : item.tone === "positive"
-                      ? "border-google-green/25 bg-google-green/5 text-google-green"
-                      : "border-google-gray-200 bg-google-gray-50 text-google-gray-700"
-                )}
-              >
-                {item.topic}
-                <span className="rounded-full bg-white/80 px-1.5 text-xs font-medium tabular-nums">
-                  {item.count}
-                </span>
-              </span>
-            ))}
-          </div>
+        <CardContent className="pt-6">
+          <TrendingTopicsBlock items={demo.trending} title={ui.report.trendingTitle} />
         </CardContent>
       </Card>
 
@@ -125,8 +101,11 @@ export function VocSampleReportContent({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ThemeList items={report.praise.themes} tone="positive" />
-            <ReviewSnippet review={report.praise.review} />
+            <ThemeReviewsBlock
+              themes={report.praise.themes}
+              tone="positive"
+              featured={report.praise.review}
+            />
           </CardContent>
         </Card>
 
@@ -138,8 +117,11 @@ export function VocSampleReportContent({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ThemeList items={report.complaints.themes} tone="negative" />
-            <ReviewSnippet review={report.complaints.review} />
+            <ThemeReviewsBlock
+              themes={report.complaints.themes}
+              tone="negative"
+              featured={report.complaints.review}
+            />
           </CardContent>
         </Card>
       </div>

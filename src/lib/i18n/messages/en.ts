@@ -936,7 +936,7 @@ export const en = {
         description:
           "For businesses that want call handling plus monthly customer insight.",
         setup: "€499 setup",
-        monthly: "€349",
+        monthly: "€249",
         minutes: "500 AI call minutes/month",
         overage: "€0.30/min after included minutes",
         features: [
@@ -952,8 +952,8 @@ export const en = {
           "Includes the €299/month VoC report at a bundle discount",
         savings: {
           separate: "AI Receptionist (€179) + VoC report (€299) = €478/month",
-          bundle: "This plan: €349/month",
-          saving: "Save €129/month",
+          bundle: "This plan: €249/month",
+          saving: "Save €229/month",
         },
         cta: "bookDemo",
       },

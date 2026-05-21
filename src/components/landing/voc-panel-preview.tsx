@@ -147,7 +147,7 @@ function CompetitorChart({
               <motion.div
                 className={cn(
                   "h-full rounded-full",
-                  row.highlight ? "bg-google-blue" : "bg-google-gray-300"
+                  row.highlight ? "bg-google-blue" : "bg-google-gray-400"
                 )}
                 initial={{ width: 0 }}
                 animate={{ width: `${(row.rating / maxRating) * 100}%` }}
