@@ -2,6 +2,7 @@
 
 import type { DashboardBusiness } from "@/app/dashboard/page";
 import { Logo } from "@/components/landing/logo";
+import { CaseStudyEditor } from "@/components/voc/case-study-editor";
 import { SetupTagsCallout } from "@/components/voc/setup-tags-callout";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
@@ -41,6 +42,7 @@ export function DashboardClient({
   const [error, setError] = useState<string | null>(null);
   const [tagsColumnMissing, setTagsColumnMissing] = useState(initialTagsColumnMissing);
   const period = useMemo(() => currentPeriodKey(), []);
+  const [linkCopiedId, setLinkCopiedId] = useState<string | null>(null);
 
   const checkSchema = useCallback(async () => {
     const res = await fetch("/api/admin/voc/schema-check");
@@ -246,10 +248,13 @@ export function DashboardClient({
     setBusy(null);
   }
 
-  function copyLink(slug: string, reportPeriod: string) {
+  function copyLink(reportId: string, slug: string, reportPeriod: string) {
     const path = reportPath(slug, reportPeriod);
     const url = `${window.location.origin}${path}`;
-    void navigator.clipboard.writeText(url);
+    void navigator.clipboard.writeText(url).then(() => {
+      setLinkCopiedId(reportId);
+      setTimeout(() => setLinkCopiedId(null), 2000);
+    });
   }
 
   return (
@@ -437,16 +442,25 @@ export function DashboardClient({
                             <button
                               type="button"
                               className="text-google-blue hover:underline"
-                              onClick={() => copyLink(b.slug, latest.period)}
+                              onClick={() => copyLink(latest.id, b.slug, latest.period)}
                             >
-                              Copy link
+                              {linkCopiedId === latest.id ? "Link copied" : "Copy link"}
                             </button>
                           </>
                         ) : null}
                       </div>
-                    ) : (
+                    ) : null}
+                    {latest?.status === "ready" ? (
+                      <CaseStudyEditor
+                        reportId={latest.id}
+                        businessName={b.name}
+                        businessTags={b.tags ?? []}
+                        disabled={Boolean(busy)}
+                      />
+                    ) : null}
+                    {!latest ? (
                       <p className="mt-3 text-sm text-google-gray-500">No reports yet.</p>
-                    )}
+                    ) : null}
                   </li>
                 );
               })

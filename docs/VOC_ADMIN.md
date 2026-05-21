@@ -57,8 +57,22 @@ ADD COLUMN IF NOT EXISTS tags text[] NOT NULL DEFAULT '{}';
 ```
 
 Or: `node scripts/apply-business-tags.mjs` (prints the same SQL). Wait ~10s, then save tags on the dashboard.
+
+**Case studies (landing carousel):** Run migration `supabase/migrations/20260521120000_voc_case_studies.sql` in SQL Editor.
+
 4. Pipeline: Apify scrape → **OpenAI (UX researcher persona)** analyses real reviews to match the [demo report layout](/#voc-demos) → saved to `voc_reports`
 5. **Copy link** or open `/reports/{slug}/{period}`
+
+## Landing case studies
+
+On the dashboard, when a report is **ready**, use **Landing case study**:
+
+- **Show on website** — publishes to the homepage VoC carousel
+- **Filter tags** — e.g. `restaurant` (carousel filter pills)
+- **Show on** — `VoC carousel (landing)` (more placements later)
+- **Sort order** — lower numbers appear first
+
+Visitors on the homepage see cards in the carousel; clicking opens a **blurred preview** with **Get full report** (booking mailto). Full public URL still works via **Copy link**.
 
 AI rules (see `supabase/functions/_shared/voc-ai-prompt.ts`): evidence-only quotes from scraped reviews, demo-shaped JSON, British English, mention counts in themes.
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { VocCaseStudyCarousel } from "@/components/landing/voc-case-study-carousel";
 import { VocReportDialog } from "@/components/landing/voc-report-dialog";
 import { VocScoreCard } from "@/components/landing/voc-score-card";
 import { FadeIn } from "@/components/ui/section";
@@ -74,6 +75,8 @@ export function VocIndustryShowcase({
           {ui.subtitle}
         </p>
       </div>
+
+      <VocCaseStudyCarousel placement="voc-carousel" className="mb-8" />
 
       <ul className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {INDUSTRY_KEYS.map((key, index) => {

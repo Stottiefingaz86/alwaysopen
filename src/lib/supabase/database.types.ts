@@ -51,6 +51,60 @@ export type Database = {
         };
         Relationships: [];
       };
+      voc_case_studies: {
+        Row: {
+          business_id: string;
+          created_at: string;
+          id: string;
+          is_published: boolean;
+          placements: string[];
+          report_id: string;
+          sort_order: number;
+          tags: string[];
+          title: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          business_id: string;
+          created_at?: string;
+          id?: string;
+          is_published?: boolean;
+          placements?: string[];
+          report_id: string;
+          sort_order?: number;
+          tags?: string[];
+          title?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          business_id?: string;
+          created_at?: string;
+          id?: string;
+          is_published?: boolean;
+          placements?: string[];
+          report_id?: string;
+          sort_order?: number;
+          tags?: string[];
+          title?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "voc_case_studies_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "voc_case_studies_report_id_fkey";
+            columns: ["report_id"];
+            isOneToOne: true;
+            referencedRelation: "voc_reports";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       voc_reports: {
         Row: {
           business_id: string;

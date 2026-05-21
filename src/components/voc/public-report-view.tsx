@@ -58,10 +58,13 @@ export function PublicReportView({
   report,
   businessSlug,
   period,
+  previewMode = false,
 }: {
   report: VocReportData;
   businessSlug: string;
   period: string;
+  /** Landing preview — no share; tighter layout */
+  previewMode?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   const mr = report.monthlyReport;
@@ -74,62 +77,59 @@ export function PublicReportView({
     actionPlan: report.actionPlanSummary,
   };
 
-  async function shareReport() {
+  function copyReportLink() {
     const url = window.location.href;
-
-    if (typeof navigator !== "undefined" && navigator.share) {
-      try {
-        await navigator.share({
-          title: `${report.businessName} · VoC ${report.period}`,
-          url,
-        });
-        return;
-      } catch (err) {
-        if ((err as Error).name === "AbortError") return;
+    void navigator.clipboard.writeText(url).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      },
+      () => {
+        const textarea = document.createElement("textarea");
+        textarea.value = url;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2500);
+        } catch {
+          window.prompt("Copy this report link:", url);
+        }
+        document.body.removeChild(textarea);
       }
-    }
-
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-      return;
-    } catch {
-      /* fallback below */
-    }
-
-    const textarea = document.createElement("textarea");
-    textarea.value = url;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "fixed";
-    textarea.style.left = "-9999px";
-    document.body.appendChild(textarea);
-    textarea.select();
-    try {
-      document.execCommand("copy");
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      window.prompt("Copy this report link:", url);
-    }
-    document.body.removeChild(textarea);
+    );
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <div
+      className={cn(
+        "mx-auto max-w-3xl px-4 sm:px-6",
+        previewMode ? "py-6" : "py-10"
+      )}
+    >
       <header className="mb-8 overflow-hidden rounded-2xl border border-google-gray-200 bg-white shadow-google-card">
         <div className="flex items-center justify-between gap-3 border-b border-google-gray-100 bg-google-gray-50/60 px-4 py-2.5 sm:px-5">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-google-gray-500">
             Voice of Customer · {report.period}
           </p>
-          <button
-            type="button"
-            onClick={() => void shareReport()}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-blue transition-colors hover:border-google-blue/30 hover:bg-pastel-blue/40"
-          >
-            <Share2 className="size-3.5" aria-hidden />
-            {copied ? "Copied" : "Share"}
-          </button>
+          {previewMode ? (
+            <span className="rounded-full bg-pastel-blue/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-google-blue">
+              Sample
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={copyReportLink}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-blue transition-colors hover:border-google-blue/30 hover:bg-pastel-blue/40"
+            >
+              <Share2 className="size-3.5" aria-hidden />
+              {copied ? "Link copied" : "Copy link"}
+            </button>
+          )}
         </div>
 
         <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
@@ -285,9 +285,11 @@ export function PublicReportView({
         </CardContent>
       </Card>
 
-      <p className="mt-8 text-center text-xs text-google-gray-500">
-        Prepared by RingsAway · ringsaway.com
-      </p>
+      {!previewMode ? (
+        <p className="mt-8 text-center text-xs text-google-gray-500">
+          Prepared by RingsAway · ringsaway.com
+        </p>
+      ) : null}
     </div>
   );
 }
