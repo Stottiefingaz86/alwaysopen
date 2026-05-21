@@ -23,21 +23,13 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { scrollToAnchor } from "@/lib/hash-navigation";
+import {
+  scrollToAnchor,
+  scrollTargetFromHash,
+  serviceTabFromHash,
+  type ServiceTab,
+} from "@/lib/hash-navigation";
 import { useEffect, useState } from "react";
-
-function getServiceTabFromHash(hash: string): ServiceTab {
-  if (
-    hash === "#voice-of-customer" ||
-    hash === "#voc" ||
-    hash === "#voc-demos"
-  ) {
-    return "voc";
-  }
-  return "ai";
-}
-
-type ServiceTab = "ai" | "voc";
 
 function CornerMarks() {
   return (
@@ -138,8 +130,8 @@ function ServicePicker({
   vocPriceShort: string;
 }) {
   const tabs: { id: ServiceTab; label: string; icon: typeof Bot }[] = [
-    { id: "ai", label: labels.ai, icon: Bot },
     { id: "voc", label: labels.voc, icon: FileText },
+    { id: "ai", label: labels.ai, icon: Bot },
   ];
 
   return (
@@ -194,37 +186,33 @@ export function SolutionSection({
   const s = m.solution;
   const mailto = getBookingMailto(locale);
   const [activeService, setActiveService] = useState<ServiceTab>(() =>
-    typeof window === "undefined" ? "ai" : getServiceTabFromHash(window.location.hash)
+    typeof window === "undefined" ? "voc" : serviceTabFromHash(window.location.hash)
   );
 
   useEffect(() => {
-    const syncFromHash = () => {
-      setActiveService(getServiceTabFromHash(window.location.hash));
+    const applyHash = () => {
+      setActiveService(serviceTabFromHash(window.location.hash));
     };
-    syncFromHash();
-    window.addEventListener("hashchange", syncFromHash);
-    return () => window.removeEventListener("hashchange", syncFromHash);
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
   }, []);
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (activeService === "voc" && hash === "#voc-demos") {
-      scrollToAnchor("voc-demos");
-    }
-    if (activeService === "ai" && hash === "#industry-demos") {
-      scrollToAnchor("industry-demos");
-    }
+    const target = scrollTargetFromHash(window.location.hash);
+    if (!target) return;
+    const tab = serviceTabFromHash(window.location.hash);
+    if (tab !== activeService) return;
+    requestAnimationFrame(() => scrollToAnchor(target));
   }, [activeService]);
 
   const handleServiceChange = (tab: ServiceTab) => {
     setActiveService(tab);
-    const hash = window.location.hash;
-    if (tab === "ai" && (hash === "#voc-demos" || hash === "#voc" || hash === "#voice-of-customer")) {
-      window.history.replaceState(null, "", "#ai-receptionist");
-    }
-    if (tab === "voc" && hash === "#industry-demos") {
-      window.history.replaceState(null, "", "#voice-of-customer");
-    }
+    const hash = tab === "voc" ? "#voice-of-customer" : "#ai-receptionist";
+    window.history.replaceState(null, "", hash);
+    requestAnimationFrame(() =>
+      scrollToAnchor(tab === "voc" ? "voice-of-customer" : "ai-receptionist")
+    );
   };
 
   return (

@@ -8,6 +8,7 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { setLocationHash } from "@/lib/hash-navigation";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -61,7 +62,7 @@ export function Navbar() {
             </li>
           ))}
           <li>
-            <ServicesNavDropdown sectionLink={sectionLink} />
+            <ServicesNavDropdown sectionLink={sectionLink} onHome={onHome} />
           </li>
           {links.slice(1).map((link) => (
             <li key={link.href}>
@@ -122,20 +123,32 @@ export function Navbar() {
                 <ul className="space-y-1">
                   <li>
                     <a
-                      href={sectionLink("#ai-receptionist")}
+                      href={sectionLink("#voice-of-customer")}
                       className="block rounded-xl px-3 py-2.5 text-sm text-google-gray-700 hover:bg-google-gray-50"
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => {
+                        setOpen(false);
+                        if (onHome) {
+                          e.preventDefault();
+                          setLocationHash("#voice-of-customer");
+                        }
+                      }}
                     >
-                      {m.nav.serviceAi}
+                      {m.nav.serviceVoc}
                     </a>
                   </li>
                   <li>
                     <a
-                      href={sectionLink("#voice-of-customer")}
+                      href={sectionLink("#ai-receptionist")}
                       className="block rounded-xl px-3 py-2.5 text-sm text-google-gray-700 hover:bg-google-gray-50"
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => {
+                        setOpen(false);
+                        if (onHome) {
+                          e.preventDefault();
+                          setLocationHash("#ai-receptionist");
+                        }
+                      }}
                     >
-                      {m.nav.serviceVoc}
+                      {m.nav.serviceAi}
                     </a>
                   </li>
                 </ul>

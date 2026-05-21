@@ -1,18 +1,22 @@
 "use client";
 
 import { useLocale } from "@/components/providers/locale-provider";
+import { setLocationHash } from "@/lib/hash-navigation";
 import { cn } from "@/lib/utils";
 import { Bot, ChevronDown, FileText } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 
 type ServicesNavDropdownProps = {
   sectionLink: (hash: string) => string;
+  /** When true, use hash routing on the homepage instead of full navigation */
+  onHome?: boolean;
   className?: string;
   onNavigate?: () => void;
 };
 
 export function ServicesNavDropdown({
   sectionLink,
+  onHome = false,
   className,
   onNavigate,
 }: ServicesNavDropdownProps) {
@@ -23,18 +27,20 @@ export function ServicesNavDropdown({
 
   const items = [
     {
-      href: sectionLink("#ai-receptionist"),
-      label: m.nav.serviceAi,
-      icon: Bot,
-      description: m.solution.tabs.ai,
-    },
-    {
+      hash: "#voice-of-customer",
       href: sectionLink("#voice-of-customer"),
       label: m.nav.serviceVoc,
       icon: FileText,
       description: m.solution.tabs.voc,
     },
-  ];
+    {
+      hash: "#ai-receptionist",
+      href: sectionLink("#ai-receptionist"),
+      label: m.nav.serviceAi,
+      icon: Bot,
+      description: m.solution.tabs.ai,
+    },
+  ] as const;
 
   useEffect(() => {
     if (!open) return;
@@ -88,9 +94,13 @@ export function ServicesNavDropdown({
                 href={item.href}
                 role="menuitem"
                 className="flex gap-3 px-3 py-2.5 transition-colors hover:bg-google-gray-50"
-                onClick={() => {
+                onClick={(e) => {
                   setOpen(false);
                   onNavigate?.();
+                  if (onHome) {
+                    e.preventDefault();
+                    setLocationHash(item.hash);
+                  }
                 }}
               >
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-pastel-blue text-google-blue">

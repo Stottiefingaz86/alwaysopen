@@ -1,3 +1,28 @@
+export type ServiceTab = "ai" | "voc";
+
+/** Which in-page id to scroll to for services hashes (tabs mount lazily). */
+export function scrollTargetFromHash(hash: string): string | null {
+  if (hash === "#ai-receptionist") return "ai-receptionist";
+  if (hash === "#industry-demos") return "industry-demos";
+  if (hash === "#voice-of-customer" || hash === "#voc") return "voice-of-customer";
+  if (hash === "#voc-demos") return "voc-demos";
+  return null;
+}
+
+export function serviceTabFromHash(hash: string): ServiceTab {
+  if (hash === "#ai-receptionist" || hash === "#industry-demos") {
+    return "ai";
+  }
+  if (
+    hash === "#voice-of-customer" ||
+    hash === "#voc" ||
+    hash === "#voc-demos"
+  ) {
+    return "voc";
+  }
+  return "voc";
+}
+
 /** Scroll to an in-page anchor, retrying while lazy-mounted UI (e.g. tab panels) renders. */
 export function scrollToAnchor(
   id: string,
