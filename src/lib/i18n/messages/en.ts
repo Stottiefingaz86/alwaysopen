@@ -2,6 +2,8 @@ export const en = {
   nav: {
     phoneLine: "Phone line",
     services: "Services",
+    serviceAi: "AI Receptionist",
+    serviceVoc: "Voice of Customer",
     pricing: "Pricing",
     about: "About",
     news: "News",
@@ -142,18 +144,6 @@ export const en = {
     ],
     step: "Step",
   },
-  trust: {
-    title: "Everything your front desk should handle",
-    subtitle:
-      "AI on the phone, human-written monthly reports, without hiring another person to cover the desk.",
-    items: [
-      "Never miss enquiries",
-      "Available 24/7",
-      "Customer feedback reports",
-      "Hand-prepared reports",
-      "Booking automation",
-    ],
-  },
   problem: {
     eyebrow: "The problem",
     title: "Local businesses lose customers in two ways",
@@ -165,46 +155,528 @@ export const en = {
     ],
   },
   solution: {
-    eyebrow: "The solution",
-    title: "One system for phone calls, reviews and customer insight",
+    eyebrow: "Services",
+    title: "Two services. Clear roles.",
     subtitle:
-      "AI on your phone line, plus monthly customer feedback reports with clear actions and a Google Business plan.",
-    coreBadge: "Core product",
-    coreTitle: "AI Receptionist",
-    coreTagline: "Your business number, answered 24/7",
-    coreFeatures: [
-      "Answers your real phone line",
-      "Books appointments & handles FAQs",
-      "Sends confirmations automatically",
-    ],
-    coreNoteBefore: "The core of RingsAway: every caller reaches a trained agent on",
-    coreNoteEmphasis: "your",
-    coreNoteAfter: "number.",
-    howItWorks: "How it works",
-    liveOnLine: "Live on your line",
-    pickup: "24/7 pickup",
-    aiTrained: "AI trained",
-    pillar1Title: "Review & feedback reports",
-    pillar1Tagline: "Human insight, not auto-scores",
-    pillar1Desc:
-      "We read your Google Business profile, website comments, and any surveys, then summarise complaints, praise, and trends in plain language.",
-    pillar1Highlights: ["Google & web reviews", "Survey feedback", "Written by our team"],
-    pillar1Cta: "See how reports work",
-    pillar2Title: "Customer feedback (VoC)",
-    pillar2Tagline: "Listen, act, grow on Google",
-    pillar2Desc:
-      "Voice of the Customer in plain terms: we read what people say, explain why it matters, and send a monthly action plan plus Google Business strategy, prepared by our team, not software.",
-    pillar2Highlights: ["Plain-English reports", "Google Business plan", "Ranked actions"],
-    pillar2Cta: "What is VoC?",
-    chartLabel: "Monthly themes",
-    chartTrend: "↑ Improving",
-    sampleActions: ["Reply to 3-star reviews", "Post about evening slots"],
-    rating: "4.8",
+      "Your phone line and your customer feedback are different jobs. RingsAway offers AI Receptionist and Voice of Customer (VoC) as separate services, or together on one plan.",
+    pickerLabel: "Choose a service",
+    tabs: {
+      ai: "AI Receptionist",
+      voc: "Voice of Customer",
+    },
+    ai: {
+      badge: "Service 1",
+      title: "AI Receptionist",
+      tagline: "Your business number, answered 24/7",
+      description:
+        "A dedicated AI agent on your existing phone line. It picks up when you cannot, books appointments, answers FAQs, and sends confirmations. This is phone operations, not review analysis.",
+      features: [
+        "Answers your real business phone line",
+        "Books appointments and handles FAQs",
+        "Sends confirmations automatically",
+        "English and Spanish callers supported",
+      ],
+      howItWorks: "How the phone line works",
+      liveOnLine: "Live on your line",
+      pickup: "24/7 pickup",
+      aiTrained: "AI trained on your business",
+    },
+    voc: {
+      badge: "Service 2",
+      title: "Voice of Customer (VoC)",
+      tagline: "Monthly reports from what customers actually say",
+      description:
+        "A separate human-prepared report each month. We read Google reviews, website feedback, and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan.",
+      highlights: [
+        "Top complaints and praise themes",
+        "Sentiment trends month to month",
+        "Suggested Google review replies",
+        "Google Business strategy included",
+      ],
+      cta: "See what goes in your report",
+      reviewSource: "Google",
+      floatingReviews: [
+        {
+          quote:
+            "Best paella we've had on the coast — staff even remembered our anniversary.",
+          author: "Claire M.",
+          stars: 5,
+        },
+        {
+          quote: "Great food but we waited 25 minutes for a table on Friday night.",
+          author: "James T.",
+          stars: 3,
+        },
+        {
+          quote: "Lovely terrace and atmosphere. We'll definitely be back.",
+          author: "Antonio R.",
+          stars: 5,
+        },
+      ],
+    },
+  },
+  vocDemos: {
+    eyebrow: "Sample reports",
+    title: "Explore a VoC report by industry",
+    subtitle:
+      "Summary scores from Google or TripAdvisor reviews. Open a sample to see sentiment, gaps, themes, and monthly recommendations.",
+    tabsLabel: "Industry",
+    viewReport: "View sample report",
+    hideReport: "Hide sample report",
+    getMyReport: "Get my report",
+    comingSoon: "Coming soon",
+    comingSoonBlurb: "Sample VoC report for this industry is on the way.",
+    scoreLabel: "VoC score",
+    tiers: {
+      great: "Great",
+      good: "Good",
+      fair: "Fair",
+      bad: "Poor",
+    },
+    sourceGoogle: "Google",
+    sourceTripadvisor: "TripAdvisor",
+    reviewsAnalyzed: "{{count}} reviews analyzed",
+    report: {
+      sampleHeading: "What goes into your monthly report",
+      trendingTitle: "Trending topics",
+      replyLabel: "Suggested Google reply",
+    },
+    industries: {
+      restaurant: {
+        available: true,
+        tabName: "Restaurant",
+        businessName: "La Vista Marina",
+        location: "Manilva, Spain",
+        listingGapsTitle: "Listing & menu gaps",
+        source: "google",
+        reviewCount: 128,
+        score: 72,
+        scoreLabel: "Good",
+        period: "March 2026",
+        metrics: [
+          { key: "service", label: "Service", value: 88, color: "violet" },
+          { key: "food", label: "Food quality", value: 76, color: "amber" },
+          { key: "atmosphere", label: "Atmosphere", value: 82, color: "green" },
+          { key: "value", label: "Value for money", value: 64, color: "red" },
+        ],
+        sentiment: {
+          chartLabel: "Sentiment score",
+          trend: "↑ Improving",
+          months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+          bars: [48, 52, 55, 61, 68, 72],
+        },
+        menuGaps: [
+          "Evening menu not visible on Google Photos",
+          "Vegetarian options missing from Business description",
+          "Sunday hours outdated on listing",
+        ],
+        trending: [
+          { topic: "Wait times", count: 24, tone: "negative" },
+          { topic: "Fresh seafood", count: 31, tone: "positive" },
+          { topic: "Marina views", count: 18, tone: "positive" },
+          { topic: "Friday bookings", count: 14, tone: "negative" },
+          { topic: "Phone reservations", count: 12, tone: "positive" },
+        ],
+        positives: [
+          "Fresh seafood and daily catch praised in 31 reviews",
+          "Friendly team — phone bookings described as effortless",
+          "Marina views mentioned repeatedly as a reason to return",
+        ],
+        negatives: [
+          "Friday night booking delays and overwhelmed front-of-house",
+          "Limited vegan options called out in 9 reviews",
+          "Parking directions unclear for first-time visitors",
+        ],
+        recommendations: [
+          { priority: "High", text: "Update Sunday hours on Google Business this week" },
+          { priority: "High", text: "Reply to 4 unresolved 3-star reviews from February" },
+          { priority: "Medium", text: "Add evening menu photos and vegetarian dish tags" },
+          { priority: "Low", text: "Post parking tip in listing Q&A" },
+        ],
+        monthlyReport: {
+          complaints: {
+            themes: [
+              "Wait times on busy nights (24 mentions)",
+              "Friday booking handoff (14 mentions)",
+              "Parking and directions (6 mentions)",
+            ],
+            review: {
+              author: "James T.",
+              source: "Google",
+              stars: 2,
+              quote:
+                "Waited 25 minutes for a table we had booked. Staff were polite but clearly overwhelmed on a Friday night.",
+              tags: ["Wait times", "Booking"],
+            },
+          },
+          praise: {
+            themes: [
+              "Fresh seafood and daily catch (31 mentions)",
+              "Easy phone reservations (12 mentions)",
+              "Marina views and atmosphere (18 mentions)",
+            ],
+            review: {
+              author: "Sarah M.",
+              source: "Google",
+              stars: 5,
+              quote:
+                "Called after hours and got booked straight away. Friendly team and exactly the slot we wanted.",
+              tags: ["Booking ease", "After hours"],
+            },
+          },
+          competitors: {
+            chartLabel: "Average rating when mentioned",
+            note: "From 12 comparison mentions this month",
+            rows: [
+              { name: "La Vista Marina", rating: 4.6, highlight: true },
+              { name: "Coastal Bistro", rating: 4.2, highlight: false },
+              { name: "Harbour Kitchen", rating: 4.4, highlight: false },
+            ],
+          },
+          suggestions: {
+            reviewLabel: "3-star review",
+            reviewAuthor: "James T.",
+            reviewQuote:
+              "Waited 25 minutes for a table we had booked. Staff were polite but clearly overwhelmed.",
+            replyLabel: "Suggested Google reply",
+            replyText:
+              "Thank you for telling us, James. We missed your booking slot on Friday and that is on us. Please call us — we will reserve your next visit and include a complimentary starter.",
+          },
+          googleStrategy: [
+            "Prioritise replies to 3-star reviews from the last 30 days",
+            "Post one photo update per week (menu, terrace, team)",
+            "Highlight Sunday hours and holiday exceptions on the listing",
+          ],
+        },
+      },
+      salon: {
+        available: true,
+        tabName: "Salon",
+        businessName: "Coastal Hair Studio",
+        location: "Estepona, Spain",
+        listingGapsTitle: "Listing & service gaps",
+        source: "google",
+        reviewCount: 94,
+        score: 78,
+        scoreLabel: "Good",
+        period: "March 2026",
+        metrics: [
+          { key: "styling", label: "Styling skill", value: 91, color: "green" },
+          { key: "booking", label: "Booking ease", value: 74, color: "amber" },
+          { key: "atmosphere", label: "Salon experience", value: 85, color: "green" },
+          { key: "value", label: "Value", value: 70, color: "amber" },
+        ],
+        sentiment: {
+          chartLabel: "Sentiment score",
+          trend: "↑ Improving",
+          months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+          bars: [58, 61, 63, 70, 74, 78],
+        },
+        menuGaps: [
+          "Full price list not on Google Business",
+          "Bridal and event styling not mentioned in services",
+          "Online booking link in listing goes to outdated page",
+        ],
+        trending: [
+          { topic: "Colour correction", count: 22, tone: "positive" },
+          { topic: "Stylist consistency", count: 19, tone: "positive" },
+          { topic: "Saturday wait", count: 16, tone: "negative" },
+          { topic: "Walk-in availability", count: 11, tone: "neutral" },
+          { topic: "Scalp treatments", count: 9, tone: "positive" },
+        ],
+        positives: [
+          "Colour and balayage work praised in 22 reviews",
+          "Same stylist requests — clients trust the team",
+          "Clean, relaxed salon atmosphere mentioned often",
+        ],
+        negatives: [
+          "Saturday appointments running late in 16 reviews",
+          "Price surprises when extras added at checkout",
+          "Phone not answered during peak colour sessions",
+        ],
+        recommendations: [
+          { priority: "High", text: "Publish full service menu and price ranges on Google" },
+          { priority: "High", text: "Reply to 3 recent reviews mentioning Saturday delays" },
+          { priority: "Medium", text: "Fix booking URL and add bridal styling to services list" },
+          { priority: "Low", text: "Post walk-in policy in listing Q&A" },
+        ],
+        monthlyReport: {
+          complaints: {
+            themes: [
+              "Saturday appointment delays (16 mentions)",
+              "Price clarity at checkout (11 mentions)",
+              "Calls not answered during colour sessions (8 mentions)",
+            ],
+            review: {
+              author: "Elena R.",
+              source: "Google",
+              stars: 2,
+              quote:
+                "Love my colour but waited 40 minutes past my appointment time on Saturday. Nobody explained the delay.",
+              tags: ["Wait times", "Communication"],
+            },
+          },
+          praise: {
+            themes: [
+              "Colour and balayage results (22 mentions)",
+              "Same stylist loyalty (19 mentions)",
+              "Relaxed salon atmosphere (14 mentions)",
+            ],
+            review: {
+              author: "Michelle K.",
+              source: "Google",
+              stars: 5,
+              quote:
+                "Best balayage I have had on the coast. Emma listened, the result looks natural, and the salon feels calm.",
+              tags: ["Colour", "Stylist"],
+            },
+          },
+          competitors: {
+            chartLabel: "Average rating when mentioned",
+            note: "From 9 comparison mentions this month",
+            rows: [
+              { name: "Coastal Hair Studio", rating: 4.7, highlight: true },
+              { name: "Studio 45 Estepona", rating: 4.4, highlight: false },
+              { name: "Hair Lounge Marbella", rating: 4.3, highlight: false },
+            ],
+          },
+          suggestions: {
+            reviewLabel: "3-star review",
+            reviewAuthor: "Elena R.",
+            reviewQuote:
+              "Love my colour but waited 40 minutes past my appointment time on Saturday.",
+            replyLabel: "Suggested Google reply",
+            replyText:
+              "Thank you, Elena — waiting that long is not acceptable. Please message us with your next preferred slot and we will prioritise you with a complimentary treatment add-on.",
+          },
+          googleStrategy: [
+            "Publish full price list and bridal services on the listing",
+            "Reply to reviews mentioning Saturday waits within 48 hours",
+            "Add fresh interior and colour result photos monthly",
+          ],
+        },
+      },
+      estateAgency: {
+        available: true,
+        tabName: "Estate agency",
+        businessName: "Marbella Homes",
+        location: "Marbella, Spain",
+        listingGapsTitle: "Listing & profile gaps",
+        source: "tripadvisor",
+        reviewCount: 67,
+        score: 69,
+        scoreLabel: "Fair",
+        period: "March 2026",
+        metrics: [
+          { key: "listings", label: "Property listings", value: 82, color: "green" },
+          { key: "response", label: "Response time", value: 58, color: "red" },
+          { key: "communication", label: "Communication", value: 71, color: "amber" },
+          { key: "trust", label: "Trust & transparency", value: 75, color: "amber" },
+        ],
+        sentiment: {
+          chartLabel: "Sentiment score",
+          trend: "↑ Improving",
+          months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+          bars: [52, 54, 56, 62, 66, 69],
+        },
+        menuGaps: [
+          "English-speaking team not highlighted on TripAdvisor profile",
+          "New-build portfolio photos missing from listing",
+          "Area guides for Manilva and Estepona not linked",
+        ],
+        trending: [
+          { topic: "Viewing punctuality", count: 18, tone: "negative" },
+          { topic: "Sea-view apartments", count: 25, tone: "positive" },
+          { topic: "Rental management", count: 14, tone: "positive" },
+          { topic: "Follow-up speed", count: 21, tone: "negative" },
+          { topic: "Local knowledge", count: 17, tone: "positive" },
+        ],
+        positives: [
+          "Strong knowledge of Costa del Sol neighbourhoods",
+          "Sea-view and marina properties well presented",
+          "Rental clients praise ongoing management contact",
+        ],
+        negatives: [
+          "Slow callback after enquiries mentioned in 21 reviews",
+          "Viewings rescheduled without notice in several cases",
+          "Fees and commission clarity questioned in 8 reviews",
+        ],
+        recommendations: [
+          { priority: "High", text: "Respond to all TripAdvisor enquiries within 4 business hours" },
+          { priority: "High", text: "Add new-build gallery and English team note to profile" },
+          { priority: "Medium", text: "Standardise viewing confirmation SMS for every booking" },
+          { priority: "Low", text: "Publish fee structure FAQ on profile" },
+        ],
+        monthlyReport: {
+          complaints: {
+            themes: [
+              "Slow follow-up after enquiries (21 mentions)",
+              "Viewings rescheduled without notice (12 mentions)",
+              "Fee transparency questions (8 mentions)",
+            ],
+            review: {
+              author: "David P.",
+              source: "TripAdvisor",
+              stars: 2,
+              quote:
+                "Interested in a sea-view rental but took three days to hear back. Viewing was then moved twice.",
+              tags: ["Response time", "Viewings"],
+            },
+          },
+          praise: {
+            themes: [
+              "Local area knowledge (17 mentions)",
+              "Sea-view property presentation (25 mentions)",
+              "Rental management contact (14 mentions)",
+            ],
+            review: {
+              author: "Claire W.",
+              source: "TripAdvisor",
+              stars: 5,
+              quote:
+                "Honest advice on neighbourhoods, smooth viewing, and they handled every question on our rental professionally.",
+              tags: ["Local knowledge", "Rentals"],
+            },
+          },
+          competitors: {
+            chartLabel: "Average rating when mentioned",
+            note: "From 11 comparison mentions this month",
+            rows: [
+              { name: "Marbella Homes", rating: 4.5, highlight: true },
+              { name: "Costa Living Estates", rating: 4.3, highlight: false },
+              { name: "Puerto Banús Properties", rating: 4.4, highlight: false },
+            ],
+          },
+          suggestions: {
+            reviewLabel: "3-star review",
+            reviewAuthor: "David P.",
+            reviewQuote:
+              "Interested in a sea-view rental but took three days to hear back. Viewing was then moved twice.",
+            replyLabel: "Suggested reply",
+            replyText:
+              "David, thank you for your patience — our response should have been same day. We have assigned a dedicated contact for your search and will confirm your next viewing by SMS.",
+          },
+          googleStrategy: [
+            "Highlight English-speaking team on TripAdvisor profile",
+            "Add new-build photo gallery and area guides for Manilva / Estepona",
+            "Post viewing availability updates weekly during peak season",
+          ],
+        },
+      },
+      clinic: {
+        available: true,
+        tabName: "Clinic",
+        businessName: "Manilva Medical Centre",
+        location: "Manilva, Spain",
+        listingGapsTitle: "Profile & service gaps",
+        source: "google",
+        reviewCount: 103,
+        score: 81,
+        scoreLabel: "Great",
+        period: "March 2026",
+        metrics: [
+          { key: "care", label: "Patient care", value: 89, color: "green" },
+          { key: "appointments", label: "Appointments", value: 76, color: "amber" },
+          { key: "staff", label: "Staff & bedside manner", value: 84, color: "green" },
+          { key: "facility", label: "Facility", value: 78, color: "amber" },
+        ],
+        sentiment: {
+          chartLabel: "Sentiment score",
+          trend: "↑ Improving",
+          months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+          bars: [65, 68, 70, 74, 78, 81],
+        },
+        menuGaps: [
+          "Accepted insurance providers not listed on Google",
+          "Urgent appointment hours unclear in listing",
+          "Parking and access instructions missing for new patients",
+        ],
+        trending: [
+          { topic: "GP wait times", count: 20, tone: "negative" },
+          { topic: "Friendly nurses", count: 28, tone: "positive" },
+          { topic: "English spoken", count: 24, tone: "positive" },
+          { topic: "Telephone booking", count: 15, tone: "positive" },
+          { topic: "Prescription delays", count: 11, tone: "negative" },
+        ],
+        positives: [
+          "Nursing staff warmth praised in 28 reviews",
+          "English and Spanish both handled well at reception",
+          "Telephone booking described as quick and clear",
+        ],
+        negatives: [
+          "GP appointment availability frustrating in 20 reviews",
+          "Prescription collection wait times in 11 reviews",
+          "First-visit parking confusion for 6 reviewers",
+        ],
+        recommendations: [
+          { priority: "High", text: "List accepted insurers and urgent-care hours on Google" },
+          { priority: "High", text: "Reply to February reviews about GP wait times" },
+          { priority: "Medium", text: "Add parking map and access notes to Business profile" },
+          { priority: "Low", text: "Post prescription collection times in Q&A" },
+        ],
+        monthlyReport: {
+          complaints: {
+            themes: [
+              "GP appointment availability (20 mentions)",
+              "Prescription collection waits (11 mentions)",
+              "Parking for first visits (6 mentions)",
+            ],
+            review: {
+              author: "Robert H.",
+              source: "Google",
+              stars: 2,
+              quote:
+                "Nurses were lovely but could not get a GP slot for two weeks. Felt stuck for a simple issue.",
+              tags: ["GP access", "Appointments"],
+            },
+          },
+          praise: {
+            themes: [
+              "Nursing staff warmth (28 mentions)",
+              "English and Spanish at reception (24 mentions)",
+              "Clear telephone booking (15 mentions)",
+            ],
+            review: {
+              author: "Linda S.",
+              source: "Google",
+              stars: 5,
+              quote:
+                "Reception sorted my appointment in English quickly. Nurses were kind and explained everything clearly.",
+              tags: ["Staff", "Booking"],
+            },
+          },
+          competitors: {
+            chartLabel: "Average rating when mentioned",
+            note: "From 7 comparison mentions this month",
+            rows: [
+              { name: "Manilva Medical Centre", rating: 4.5, highlight: true },
+              { name: "Clínica Estepona", rating: 4.2, highlight: false },
+              { name: "Sabinillas Health", rating: 4.1, highlight: false },
+            ],
+          },
+          suggestions: {
+            reviewLabel: "3-star review",
+            reviewAuthor: "Robert H.",
+            reviewQuote:
+              "Nurses were lovely but could not get a GP slot for two weeks. Felt stuck for a simple issue.",
+            replyLabel: "Suggested Google reply",
+            replyText:
+              "Robert, we are sorry you struggled to book. We have opened extra GP telephone slots this month — please call reception and we will fit you in or direct you to the right urgent pathway.",
+          },
+          googleStrategy: [
+            "List accepted insurers and urgent-care hours prominently",
+            "Reply to reviews about GP waits with clear next steps",
+            "Add parking map and first-visit instructions to photos and Q&A",
+          ],
+        },
+      },
+    },
   },
   pipeline: {
     eyebrow: "How it works",
     title: "How RingsAway works for your business",
-    subtitle: "From every customer touchpoint to clear actions, in one connected flow.",
+    subtitle:
+      "AI Receptionist handles live calls. VoC turns reviews and feedback into monthly actions. Together they cover the full loop.",
     inLabel: "In",
     inItems: ["Calls to your number", "Customer reviews", "Enquiries"],
     brandLabel: "RingsAway",
@@ -226,6 +698,7 @@ export const en = {
     introEmphasis: "doing something about it",
     introAfter:
       ", including your Google Business profile, where many people decide whether to call you.",
+    viewDemoReports: "View demo reports",
     whatTitle: "What is VoC?",
     whatBody:
       "Voice of the Customer (VoC) means listening to what people say about your business: Google reviews, your website, surveys, and feedback after visits. Then we help you make sense of it together.",

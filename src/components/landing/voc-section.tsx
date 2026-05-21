@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { CtaButton } from "@/components/landing/cta-button";
 import { VocPanelPreview } from "@/components/landing/voc-panel-preview";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -21,6 +22,8 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import { setLocationHash } from "@/lib/hash-navigation";
+import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -47,8 +50,21 @@ const explainerIcons = [MessageSquare, TrendingUp, MapPin] as const;
 
 export function VocSection() {
   const { m, locale } = useLocale();
+  const pathname = usePathname();
   const v = m.voc;
   const [activeItem, setActiveItem] = useState<PanelKey>("complaints");
+  const demoReportsHref = pathname === "/" ? "#voc-demos" : "/#voc-demos";
+
+  const navigateToDemoReports = (
+    event: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    event.preventDefault();
+    if (pathname === "/") {
+      setLocationHash("#voc-demos");
+      return;
+    }
+    window.location.href = "/#voc-demos";
+  };
 
   const explainers = useMemo(
     () => [
@@ -73,7 +89,10 @@ export function VocSection() {
   const activePanel = panels.find((p) => p.key === activeItem)!;
 
   return (
-    <section id="voc" className="relative overflow-x-clip bg-pastel-blue/30 py-16 md:py-24">
+    <section
+      id="voc"
+      className="relative overflow-x-clip bg-pastel-blue/30 py-16 md:py-24 scroll-mt-24"
+    >
       <div className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6 md:space-y-14">
         <FadeIn>
           <div className="mx-auto max-w-3xl space-y-5 text-center">
@@ -98,6 +117,15 @@ export function VocSection() {
                 </>
               )}
             </p>
+            <div className="flex justify-center pt-2">
+              <CtaButton
+                href={demoReportsHref}
+                size="default"
+                onClick={navigateToDemoReports}
+              >
+                {v.viewDemoReports}
+              </CtaButton>
+            </div>
           </div>
         </FadeIn>
 

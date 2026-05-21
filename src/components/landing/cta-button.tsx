@@ -6,6 +6,7 @@ type CtaButtonProps = {
   variant?: "primary" | "secondary";
   size?: "sm" | "default" | "lg";
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   children: React.ReactNode;
 };
 
@@ -36,6 +37,7 @@ export function CtaButton({
   variant = "primary",
   size = "default",
   className,
+  onClick,
   children,
 }: CtaButtonProps) {
   const classes = cn(
@@ -45,9 +47,13 @@ export function CtaButton({
     className
   );
 
-  if (href.startsWith("mailto:") || href.startsWith("http")) {
+  if (
+    href.startsWith("mailto:") ||
+    href.startsWith("http") ||
+    href.startsWith("#")
+  ) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={classes} onClick={onClick}>
         {children}
       </a>
     );

@@ -47,7 +47,7 @@ export function AboutSection() {
                 <p>{m.about.p3}</p>
               </div>
 
-              <div className="mt-8 flex flex-col gap-3">
+              <div className="mt-8 flex flex-row flex-wrap gap-3">
                 <CtaButton href={mailto} size="default">
                   {getTalkOverCoffeeCta(locale)}
                 </CtaButton>

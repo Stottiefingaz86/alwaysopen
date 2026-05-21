@@ -1,5 +1,6 @@
 "use client";
 
+import { FrontDeskIconGraphic } from "@/components/landing/front-desk-icon-graphic";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import { FileText, Search, Users } from "lucide-react";
@@ -11,6 +12,7 @@ export function AddOnsSection() {
 
   return (
     <Section background="gray">
+      <FrontDeskIconGraphic />
       <SectionHeader title={m.addOns.title} subtitle={m.addOns.subtitle} />
 
       <FadeIn>

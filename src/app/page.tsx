@@ -3,9 +3,7 @@ import { Navbar } from "@/components/landing/navbar";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { Hero } from "@/components/landing/hero";
 import { StatsBar } from "@/components/landing/stats-bar";
-import { IndustryShowcaseSection } from "@/components/landing/industry-showcase-section";
 import { PhoneReceptionistSection } from "@/components/landing/phone-receptionist-section";
-import { TrustBar } from "@/components/landing/trust-bar";
 import { ProblemSection } from "@/components/landing/problem-section";
 import { SolutionSection } from "@/components/landing/solution-section";
 import { PipelineSection } from "@/components/landing/pipeline";
@@ -46,11 +44,9 @@ export default function Home() {
       <main className="overflow-x-clip">
         <Hero />
         <PhoneReceptionistSection />
-        <IndustryShowcaseSection />
-        <StatsBar />
-        <TrustBar />
-        <ProblemSection />
         <SolutionSection />
+        <StatsBar />
+        <ProblemSection />
         <PipelineSection />
         <VocSection />
         <PricingSection />

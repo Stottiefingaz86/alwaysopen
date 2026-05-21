@@ -1,7 +1,7 @@
 "use client";
 
 import { IndustryAgentDialog } from "@/components/landing/industry-agent-dialog";
-import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
+import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import {
   INDUSTRY_AGENT_IDS,
@@ -37,7 +37,19 @@ const INDUSTRY_CARDS: IndustryCard[] = [
   { key: "clinic", icon: Stethoscope, available: false },
 ];
 
-export function IndustryShowcaseSection() {
+type IndustryShowcaseProps = {
+  className?: string;
+  id?: string;
+  /** Renders inside the AI Receptionist service card (no duplicate section chrome). */
+  embedded?: boolean;
+};
+
+/** Live industry call demos — embedded in AI Receptionist service panel */
+export function IndustryShowcase({
+  className,
+  id = "industry-demos",
+  embedded = false,
+}: IndustryShowcaseProps) {
   const { m } = useLocale();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [activeIndustry, setActiveIndustry] = useState<IndustryAgentKey | null>(
@@ -58,15 +70,38 @@ export function IndustryShowcaseSection() {
     : undefined;
 
   return (
-    <Section id="industry-demos" className="bg-google-gray-50/80">
-      <SectionHeader
-        eyebrow={m.industries.eyebrow}
-        title={m.industries.title}
-        subtitle={m.industries.subtitle}
-        centered
-      />
+    <div
+      id={id}
+      className={cn("scroll-mt-24", className)}
+    >
+      <div className={cn(embedded ? "mb-6" : "mb-8 text-center md:mb-10")}>
+        <p
+          className={cn(
+            "text-xs font-semibold uppercase tracking-wider text-google-blue",
+            embedded && "text-google-gray-500"
+          )}
+        >
+          {m.industries.eyebrow}
+        </p>
+        <h3
+          className={cn(
+            "mt-2 font-medium tracking-tight text-foreground",
+            embedded ? "text-lg md:text-xl" : "text-xl md:text-2xl"
+          )}
+        >
+          {m.industries.title}
+        </h3>
+        <p
+          className={cn(
+            "mt-2 text-sm leading-relaxed text-google-gray-500",
+            embedded ? "max-w-3xl" : "mx-auto max-w-2xl md:text-base"
+          )}
+        >
+          {m.industries.subtitle}
+        </p>
+      </div>
 
-      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {INDUSTRY_CARDS.map((card, index) => {
           const copy = industryCopy[card.key];
           const isAvailable =
@@ -99,14 +134,14 @@ export function IndustryShowcaseSection() {
                   >
                     <card.icon className="size-6" strokeWidth={1.5} />
                   </span>
-                  <h3
+                  <h4
                     className={cn(
                       "mt-4 text-base font-medium",
                       isAvailable ? "text-foreground" : "text-google-gray-500"
                     )}
                   >
                     {copy.name}
-                  </h3>
+                  </h4>
                   {"venue" in copy && copy.venue && (
                     <p className="mt-1 text-sm font-medium text-amber-800/90">
                       {copy.venue}
@@ -149,6 +184,6 @@ export function IndustryShowcaseSection() {
           promptPhrases={activeCopy.prompts}
         />
       )}
-    </Section>
+    </div>
   );
 }

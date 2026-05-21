@@ -61,6 +61,9 @@ interface SectionHeaderProps {
   subtitle?: string;
   centered?: boolean;
   eyebrow?: string;
+  /** Tighter spacing for sections with controls directly below the header */
+  compact?: boolean;
+  className?: string;
 }
 
 export function SectionHeader({
@@ -68,6 +71,8 @@ export function SectionHeader({
   subtitle,
   centered = true,
   eyebrow,
+  compact = false,
+  className,
 }: SectionHeaderProps) {
   return (
     <motion.div
@@ -75,10 +80,19 @@ export function SectionHeader({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-      className={cn("mb-14 md:mb-20", centered && "text-center")}
+      className={cn(
+        compact ? "mb-8 md:mb-10" : "mb-14 md:mb-20",
+        centered && "text-center",
+        className
+      )}
     >
       {eyebrow && (
-        <SectionEyebrow className={centered ? "block" : undefined}>
+        <SectionEyebrow
+          className={cn(
+            centered && "block",
+            compact ? "mb-2" : "mb-4"
+          )}
+        >
           {eyebrow}
         </SectionEyebrow>
       )}
@@ -86,7 +100,14 @@ export function SectionHeader({
         {title}
       </h2>
       {subtitle && (
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-google-gray-500 md:text-lg md:leading-8">
+        <p
+          className={cn(
+            "mx-auto max-w-2xl leading-relaxed text-google-gray-500",
+            compact
+              ? "mt-3 text-base"
+              : "mt-5 text-base md:text-lg md:leading-8"
+          )}
+        >
           {subtitle}
         </p>
       )}

@@ -3,6 +3,7 @@
 import { CtaButton } from "@/components/landing/cta-button";
 import { LanguageSelector } from "@/components/landing/language-selector";
 import { Logo } from "@/components/landing/logo";
+import { ServicesNavDropdown } from "@/components/landing/services-nav-dropdown";
 import { useLocale } from "@/components/providers/locale-provider";
 import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
@@ -22,7 +23,6 @@ export function Navbar() {
 
   const links = [
     { href: sectionLink("#phone-receptionist"), label: m.nav.phoneLine },
-    { href: sectionLink("#services"), label: m.nav.services },
     { href: sectionLink("#pricing"), label: m.nav.pricing },
     { href: sectionLink("#about"), label: m.nav.about },
     { href: sectionLink("#news"), label: m.nav.news },
@@ -50,7 +50,20 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6 lg:px-8">
         <Logo />
         <ul className="hidden items-center gap-8 md:flex">
-          {links.map((link) => (
+          {links.slice(0, 1).map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                className="text-sm text-google-gray-700 transition-colors hover:text-google-blue"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <ServicesNavDropdown sectionLink={sectionLink} />
+          </li>
+          {links.slice(1).map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
@@ -91,7 +104,43 @@ export function Navbar() {
             className="overflow-hidden border-t border-google-gray-200/60 bg-background/95 backdrop-blur-md md:hidden"
           >
             <ul className="flex flex-col gap-1 px-4 py-4">
-              {links.map((link) => (
+              {links.slice(0, 1).map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="block rounded-xl px-4 py-3 text-google-gray-700 hover:bg-google-gray-50"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+              <li className="px-4 py-2">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-google-gray-400">
+                  {m.nav.services}
+                </p>
+                <ul className="space-y-1">
+                  <li>
+                    <a
+                      href={sectionLink("#ai-receptionist")}
+                      className="block rounded-xl px-3 py-2.5 text-sm text-google-gray-700 hover:bg-google-gray-50"
+                      onClick={() => setOpen(false)}
+                    >
+                      {m.nav.serviceAi}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={sectionLink("#voice-of-customer")}
+                      className="block rounded-xl px-3 py-2.5 text-sm text-google-gray-700 hover:bg-google-gray-50"
+                      onClick={() => setOpen(false)}
+                    >
+                      {m.nav.serviceVoc}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {links.slice(1).map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
