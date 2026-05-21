@@ -44,6 +44,55 @@ export const en = {
     errorConnection: "Connection error. Please try again.",
     errorMic: "Allow microphone access to speak with our AI agent.",
   },
+  industries: {
+    eyebrow: "Live demos",
+    title: "Hear RingsAway by industry",
+    subtitle:
+      "Try a live AI receptionist tuned for your type of business. More industries are on the way.",
+    comingSoon: "Coming soon",
+    tryDemo: "Try live demo",
+    items: {
+      restaurant: {
+        name: "Restaurant",
+        venue: "La Vista Marina, Manilva",
+        description:
+          "Table bookings, opening hours, dietary questions, and busy service nights handled on your line.",
+        modalTitle: "La Vista Marina, Manilva",
+        modalDescription:
+          "Speak with the AI receptionist for La Vista Marina. Allow the microphone when prompted.",
+        prompts: [
+          "I'd like to book a table for four tonight",
+          "Do you have vegetarian options?",
+          "What are your opening hours on Sunday?",
+          "Can I change my reservation to 8pm?",
+        ],
+      },
+      salon: {
+        name: "Salon",
+        description:
+          "Appointment booking, stylist availability, and service questions while your team is with clients.",
+        modalTitle: "Salon demo",
+        modalDescription: "Coming soon.",
+        prompts: [],
+      },
+      estateAgency: {
+        name: "Estate agency",
+        description:
+          "Viewing requests, property questions, and callback capture for buyers and renters.",
+        modalTitle: "Estate agency demo",
+        modalDescription: "Coming soon.",
+        prompts: [],
+      },
+      clinic: {
+        name: "Clinic",
+        description:
+          "Appointment scheduling, location and hours, and calm handling of patient enquiries.",
+        modalTitle: "Clinic demo",
+        modalDescription: "Coming soon.",
+        prompts: [],
+      },
+    },
+  },
   stats: {
     title: "Built for how local customers actually call you",
     subtitle:

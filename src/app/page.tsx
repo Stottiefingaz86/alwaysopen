@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/landing/navbar";
 import { Hero } from "@/components/landing/hero";
 import { StatsBar } from "@/components/landing/stats-bar";
+import { IndustryShowcaseSection } from "@/components/landing/industry-showcase-section";
 import { PhoneReceptionistSection } from "@/components/landing/phone-receptionist-section";
 import { TrustBar } from "@/components/landing/trust-bar";
 import { ProblemSection } from "@/components/landing/problem-section";
@@ -28,6 +29,7 @@ export default function Home() {
       <main className="overflow-x-clip">
         <Hero />
         <PhoneReceptionistSection />
+        <IndustryShowcaseSection />
         <StatsBar />
         <TrustBar />
         <ProblemSection />

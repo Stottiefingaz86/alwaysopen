@@ -1,7 +1,43 @@
-/** ElevenLabs Conversational AI — Chris */
+/** ElevenLabs Conversational AI — Chris (homepage hero) */
 export const ELEVENLABS_AGENT = {
   name: "Chris",
   id: "agent_8601ks0784njem2rdqg7yy725gnr",
+} as const;
+
+/** Restaurant industry demo agent */
+export const RESTAURANT_AGENT = {
+  name: "Restaurant",
+  id: "agent_6001ks4pwkcgep3smf9jcfg9phvy",
+} as const;
+
+export type IndustryAgentKey = "restaurant" | "salon" | "estateAgency" | "clinic";
+
+export const INDUSTRY_AGENT_IDS: Partial<Record<IndustryAgentKey, string>> = {
+  restaurant: RESTAURANT_AGENT.id,
+};
+
+/** Siri orb palettes per industry demo */
+export const INDUSTRY_ORB_COLORS: Partial<
+  Record<
+    IndustryAgentKey,
+    { bg: string; c1: string; c2: string; c3: string; glow: string }
+  >
+> = {
+  restaurant: {
+    bg: "oklch(98% 0.02 85)",
+    c1: "oklch(52% 0.14 45)",
+    c2: "oklch(72% 0.16 75)",
+    c3: "oklch(48% 0.12 25)",
+    glow: "bg-amber-500/15",
+  },
+};
+
+export const DEFAULT_ORB_COLORS = {
+  bg: "oklch(98% 0.008 240)",
+  c1: "oklch(55% 0.14 240)",
+  c2: "oklch(72% 0.12 220)",
+  c3: "oklch(65% 0.1 235)",
+  glow: "bg-google-blue/10",
 } as const;
 
 export const ELEVENLABS_WIDGET_SCRIPT =

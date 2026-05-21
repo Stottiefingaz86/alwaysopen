@@ -44,6 +44,55 @@ export const es = {
     errorConnection: "Error de conexión. Inténtalo de nuevo.",
     errorMic: "Permite el acceso al micrófono para hablar con nuestro agente IA.",
   },
+  industries: {
+    eyebrow: "Demos en vivo",
+    title: "Escucha RingsAway por sector",
+    subtitle:
+      "Prueba una recepcionista IA adaptada a tu tipo de negocio. Más sectores en camino.",
+    comingSoon: "Próximamente",
+    tryDemo: "Probar demo en vivo",
+    items: {
+      restaurant: {
+        name: "Restaurante",
+        venue: "La Vista Marina, Manilva",
+        description:
+          "Reservas de mesa, horarios, preguntas dietéticas y noches de mucho servicio atendidas en tu línea.",
+        modalTitle: "La Vista Marina, Manilva",
+        modalDescription:
+          "Habla con la recepcionista IA de La Vista Marina. Permite el micrófono cuando se solicite.",
+        prompts: [
+          "Quisiera reservar una mesa para cuatro esta noche",
+          "¿Tenéis opciones vegetarianas?",
+          "¿Cuál es el horario el domingo?",
+          "¿Puedo cambiar mi reserva a las 20:00?",
+        ],
+      },
+      salon: {
+        name: "Salón",
+        description:
+          "Citas, disponibilidad de estilistas y consultas de servicios mientras el equipo atiende en sala.",
+        modalTitle: "Demo salón",
+        modalDescription: "Próximamente.",
+        prompts: [],
+      },
+      estateAgency: {
+        name: "Inmobiliaria",
+        description:
+          "Solicitudes de visitas, preguntas sobre propiedades y captación de llamadas de compradores e inquilinos.",
+        modalTitle: "Demo inmobiliaria",
+        modalDescription: "Próximamente.",
+        prompts: [],
+      },
+      clinic: {
+        name: "Clínica",
+        description:
+          "Programación de citas, ubicación y horarios, y gestión tranquila de consultas de pacientes.",
+        modalTitle: "Demo clínica",
+        modalDescription: "Próximamente.",
+        prompts: [],
+      },
+    },
+  },
   stats: {
     title: "Diseñado para cómo te llaman los clientes locales",
     subtitle:
