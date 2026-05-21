@@ -8,6 +8,25 @@
 | `/dashboard` | Add businesses, generate reports, copy links |
 | `/reports/{business-slug}/{period}` | Public client report (e.g. `/reports/la-vista-marina/2026-05`) |
 
+## Vercel (production — required for `/login` and `/dashboard`)
+
+`NEXT_PUBLIC_*` variables are **embedded at build time**. After adding or changing them, trigger a **new deployment** (Redeploy).
+
+| Variable | Scope | Required for |
+|----------|--------|----------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Production, Preview | Login, dashboard, public reports |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Production, Preview | Login, dashboard |
+| `SUPABASE_SERVICE_ROLE_KEY` | Production, Preview | Dashboard APIs, report pages, admin routes |
+| `APIFY_API_TOKEN` | Production | Generate report (also set in Supabase Edge secrets) |
+| `RESEND_API_KEY` | Production | Contact form (optional for VoC) |
+| `LEADS_TO_EMAIL` | Production | Contact form |
+
+Copy values from your local `.env.local` (Supabase → Project Settings → API).
+
+**Symptom:** Login stuck on “Signing in…” with no error → almost always missing `NEXT_PUBLIC_SUPABASE_*` on Vercel or deploy without redeploy after adding them.
+
+Edge function secrets (`OPENAI_API_KEY`, `APIFY_API_TOKEN`, `SUPABASE_SERVICE_ROLE_KEY`) are set in **Supabase Dashboard → Edge Functions → Secrets**, not Vercel.
+
 ## One-time setup
 
 1. Copy `.env.example` → `.env.local` and set:
@@ -69,7 +88,7 @@ On the dashboard, when a report is **ready**, use **Landing case study**:
 
 - **Show on website** — publishes to the homepage VoC carousel
 - **Filter tags** — e.g. `restaurant` (carousel filter pills)
-- **Show on** — `VoC carousel (landing)` (more placements later)
+- **Show on** — `VoC reports row (landing grid)` (and legacy carousel id); both are checked by default
 - **Sort order** — lower numbers appear first
 
 Visitors on the homepage see cards in the carousel; clicking opens a **blurred preview** with **Get full report** (booking mailto). Full public URL still works via **Copy link**.

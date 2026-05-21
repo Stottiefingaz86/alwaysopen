@@ -3,9 +3,13 @@
 import type { DashboardBusiness } from "@/app/dashboard/page";
 import { Logo } from "@/components/landing/logo";
 import { CaseStudyEditor } from "@/components/voc/case-study-editor";
+import { SetupCaseStudiesCallout } from "@/components/voc/setup-case-studies-callout";
 import { SetupTagsCallout } from "@/components/voc/setup-tags-callout";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
+import {
+  createClientWithConfig,
+  getSupabaseBrowserConfig,
+} from "@/lib/supabase/client";
 import {
   BUSINESS_TAG_OPTIONS,
   formatTagLabel,
@@ -41,6 +45,7 @@ export function DashboardClient({
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [tagsColumnMissing, setTagsColumnMissing] = useState(initialTagsColumnMissing);
+  const [caseStudiesTableMissing, setCaseStudiesTableMissing] = useState(false);
   const period = useMemo(() => currentPeriodKey(), []);
   const [linkCopiedId, setLinkCopiedId] = useState<string | null>(null);
 
@@ -48,6 +53,7 @@ export function DashboardClient({
     const res = await fetch("/api/admin/voc/schema-check");
     const json = await res.json().catch(() => ({}));
     setTagsColumnMissing(json.tagsColumn === false);
+    setCaseStudiesTableMissing(json.caseStudiesTable === false);
     if (json.tagsColumn === true && error?.includes("tags")) {
       setError(null);
     }
@@ -58,8 +64,11 @@ export function DashboardClient({
   }, [checkSchema]);
 
   async function signOut() {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    const cfg = await getSupabaseBrowserConfig();
+    if (cfg) {
+      const supabase = createClientWithConfig(cfg);
+      await supabase.auth.signOut();
+    }
     router.push("/login");
     router.refresh();
   }
@@ -123,7 +132,9 @@ export function DashboardClient({
   }
 
   async function pollReportUntilDone(reportId: string, businessId: string) {
-    const supabase = createClient();
+    const cfg = await getSupabaseBrowserConfig();
+    if (!cfg) return;
+    const supabase = createClientWithConfig(cfg);
     const maxAttempts = 80;
 
     for (let i = 0; i < maxAttempts; i += 1) {
@@ -277,6 +288,14 @@ export function DashboardClient({
             onFixed={() => {
               void checkSchema();
               setError(null);
+            }}
+          />
+        ) : null}
+
+        {caseStudiesTableMissing ? (
+          <SetupCaseStudiesCallout
+            onFixed={() => {
+              void checkSchema();
             }}
           />
         ) : null}

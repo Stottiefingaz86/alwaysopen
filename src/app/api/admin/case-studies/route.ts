@@ -1,9 +1,13 @@
 import { requireAdminSession } from "@/lib/admin/require-admin";
+import { isCaseStudiesTableMissing } from "@/lib/supabase/case-studies-migration-sql";
 import {
   normalizeCaseStudyTags,
   normalizePlacements,
 } from "@/lib/voc/case-studies";
 import { NextResponse } from "next/server";
+
+const CASE_STUDIES_MIGRATION_HINT =
+  "Create the voc_case_studies table first — use “Copy SQL” in the red setup box on the dashboard, or run supabase/migrations/20260521120000_voc_case_studies.sql in Supabase SQL Editor.";
 
 export async function GET() {
   const session = await requireAdminSession();
@@ -17,7 +21,14 @@ export async function GET() {
     .order("sort_order", { ascending: true });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const msg = error.message ?? "Could not load case studies";
+    if (isCaseStudiesTableMissing(msg)) {
+      return NextResponse.json(
+        { error: CASE_STUDIES_MIGRATION_HINT, needsMigration: true },
+        { status: 503 }
+      );
+    }
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 
   return NextResponse.json({ items: data ?? [] });
@@ -81,13 +92,10 @@ export async function POST(request: Request) {
 
   if (error) {
     const msg = error.message ?? "Could not save case study";
-    if (msg.includes("voc_case_studies") && msg.includes("schema")) {
+    if (isCaseStudiesTableMissing(msg)) {
       return NextResponse.json(
-        {
-          error:
-            "Run migration supabase/migrations/20260521120000_voc_case_studies.sql first.",
-        },
-        { status: 500 }
+        { error: CASE_STUDIES_MIGRATION_HINT, needsMigration: true },
+        { status: 503 }
       );
     }
     return NextResponse.json({ error: msg }, { status: 500 });

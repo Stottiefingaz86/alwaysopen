@@ -6,6 +6,7 @@ import { StatsBar } from "@/components/landing/stats-bar";
 import { PhoneReceptionistSection } from "@/components/landing/phone-receptionist-section";
 import { ProblemSection } from "@/components/landing/problem-section";
 import { SolutionSection } from "@/components/landing/solution-section";
+import { listPublishedCaseStudies } from "@/lib/voc/list-published-case-studies";
 import { PipelineSection } from "@/components/landing/pipeline";
 import { VocSection } from "@/components/landing/voc-section";
 import { NewsSection } from "@/components/landing/news-section";
@@ -34,8 +35,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
   const newsImageVersions = getNewsImageVersions();
+  const { items: landingCaseStudies } = await listPublishedCaseStudies();
 
   return (
     <>
@@ -43,7 +45,7 @@ export default function Home() {
       <main className="overflow-x-clip">
         <Hero />
         <PhoneReceptionistSection />
-        <SolutionSection />
+        <SolutionSection initialCaseStudies={landingCaseStudies} />
         <StatsBar />
         <ProblemSection />
         <PipelineSection />

@@ -216,16 +216,16 @@ export const es = {
     },
   },
   vocDemos: {
-    eyebrow: "Informes de ejemplo",
-    title: "Explora un informe VoC por sector",
+    eyebrow: "Informes de clientes",
+    title: "Informes VoC reales de reseñas de Google",
     subtitle:
-      "Puntuaciones resumen de reseñas de Google o TripAdvisor. Abre una muestra para ver sentimiento, carencias, temas y recomendaciones mensuales.",
+      "Puntuaciones y temas de negocios reales que analizamos. Abra un informe para ver sentimiento, quejas, elogios y acciones mensuales — el mismo entregable que recibe usted.",
     tabsLabel: "Sector",
-    viewReport: "Ver informe de ejemplo",
-    hideReport: "Ocultar informe de ejemplo",
+    viewReport: "Ver informe",
+    hideReport: "Ocultar informe",
     getMyReport: "Quiero mi informe",
     comingSoon: "Próximamente",
-    comingSoonBlurb: "Informe VoC de ejemplo para este sector en camino.",
+    comingSoonBlurb: "Informe VoC para este sector en camino.",
     scoreLabel: "Puntuación VoC",
     tiers: {
       great: "Excelente",
@@ -683,8 +683,16 @@ export const es = {
     loadingReport: "Cargando informe…",
     reportUnavailable: "No se pudo cargar este informe.",
     defaultTitle: "Informe VoC",
-    previewFootnote: "Vista previa — solicite el informe mensual completo para su negocio.",
+    previewFootnote: "Informes VoC mensuales preparados para su negocio por RingsAway.",
+    paywallTitle: "Para ver el informe completo",
+    paywallBody:
+      "Quejas, elogios, competencia, borradores de respuesta y el plan de acción de {{business}} están en el informe mensual completo.",
     getFullReport: "Obtener informe completo",
+    getInTouch: "Contactar",
+    emptyGridHint:
+      "Publique un informe listo desde el panel (Caso de estudio → fila de informes VoC) para mostrarlo aquí.",
+    searchPlaceholder: "Buscar por nombre o ubicación…",
+    noSearchResults: "Ningún informe coincide con su búsqueda o filtro.",
   },
   pipeline: {
     eyebrow: "Cómo funciona",
@@ -712,7 +720,7 @@ export const es = {
     introEmphasis: "hacer algo al respecto",
     introAfter:
       ", incluido tu perfil de Google Business, donde mucha gente decide si te llama.",
-    viewDemoReports: "Ver informes de demostración",
+    viewDemoReports: "Ver informes de clientes",
     whatTitle: "¿Qué es VoC?",
     whatBody:
       "Voz del Cliente (VoC) significa escuchar lo que la gente dice de tu negocio: reseñas Google, tu web, encuestas y feedback tras la visita. Luego te ayudamos a darle sentido.",

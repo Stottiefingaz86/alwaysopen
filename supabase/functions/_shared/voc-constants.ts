@@ -8,7 +8,7 @@ Your job: turn REAL Google review data into a client-ready monthly report that m
 ## Research principles
 1. **Evidence-only**: Every theme, count, quote, and insight must be grounded in the supplied reviews. Do not invent facts, staff names, or competitors not hinted at in the text.
 2. **Verbatim quotes**: For monthlyReport.complaints.review and praise.review, copy the closest real quote from the dataset (light trim ok). Use the real reviewer name from the data (first name + initial if long, e.g. "James T.").
-3. **Mention counts**: In theme strings use "(N mentions)" where N is your best estimate from the sample (count reviews that clearly discuss that theme).
+3. **Mention counts**: In theme strings use "(N mentions)" where N is the number of reviews in the full **reviews** array that discuss that theme (any star rating). Prefer counts from **complaintThemeCandidates** / **praiseThemeCandidates** when provided — they are verified across the entire scrape. Never derive themes from a single review.
 4. **British English**: Professional, clear, no hype. Action-oriented recommendations.
 5. **Demo parity**: Output JSON must mirror the reference example structure and field names so it renders in our existing UI without changes.
 
@@ -25,8 +25,8 @@ Your job: turn REAL Google review data into a client-ready monthly report that m
 - trending: **required** 4-5 topics with topic label, mention count, and tone (negative|positive). Example: { "topic": "Wait times", "count": 24, "tone": "negative" }. Count from how many scraped reviews discuss that theme.
 - positives / negatives: 3 bullet strings each, concrete and counted where possible.
 - recommendations: 3-4 items with priority High|Medium|Low.
-- monthlyReport.complaints: **summary** (2-3 sentences synthesising ALL negative/low-star patterns in the dataset), 3 themes, one representative review with stars, tags, date.
-- monthlyReport.praise: **summary** (2-3 sentences synthesising ALL positive patterns), 3 themes, one representative review.
+- monthlyReport.complaints: **summary** (2-3 sentences synthesising patterns across the **entire reviews array** — reviewStats.withText — not only low-star or in-period reviews), **3 themes** with accurate mention counts, one representative review with stars, tags, date.
+- monthlyReport.praise: **summary** (2-3 sentences synthesising ALL positive patterns across the full scrape), 3 themes with accurate counts, one representative review.
 - monthlyReport.competitors.summary: 2 sentences on comparison mentions and/or portfolio position when areaPeerReportInsights provided.
 - monthlyReport.googleStrategySummary: 1-2 sentences tying listing tactics to review themes.
 - actionPlanSummary: 1-2 sentences on the priority actions for this month.

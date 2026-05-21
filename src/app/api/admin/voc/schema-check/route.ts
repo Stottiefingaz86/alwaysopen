@@ -1,25 +1,42 @@
 import { requireAdminSession } from "@/lib/admin/require-admin";
 import { NextResponse } from "next/server";
 
-/** Returns whether businesses.tags exists (PostgREST schema cache). */
+import { isCaseStudiesTableMissing } from "@/lib/supabase/case-studies-migration-sql";
+
+/** Returns whether required VoC dashboard tables/columns exist. */
 export async function GET() {
   const session = await requireAdminSession();
   if (!session.ok) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { error } = await session.supabase
+  const { error: tagsError } = await session.supabase
     .from("businesses")
     .select("tags")
     .limit(1);
 
-  if (error?.message?.includes("tags") && error.message.includes("schema cache")) {
-    return NextResponse.json({ tagsColumn: false, message: error.message });
+  let tagsColumn = true;
+  if (tagsError?.message?.includes("tags") && tagsError.message.includes("schema cache")) {
+    tagsColumn = false;
+  } else if (tagsError) {
+    tagsColumn = false;
   }
 
-  if (error) {
-    return NextResponse.json({ tagsColumn: false, message: error.message });
+  const { error: caseError } = await session.supabase
+    .from("voc_case_studies")
+    .select("id")
+    .limit(1);
+
+  let caseStudiesTable = true;
+  if (caseError && isCaseStudiesTableMissing(caseError.message)) {
+    caseStudiesTable = false;
+  } else if (caseError) {
+    caseStudiesTable = false;
   }
 
-  return NextResponse.json({ tagsColumn: true });
+  return NextResponse.json({
+    tagsColumn,
+    caseStudiesTable,
+    message: caseError?.message ?? tagsError?.message,
+  });
 }

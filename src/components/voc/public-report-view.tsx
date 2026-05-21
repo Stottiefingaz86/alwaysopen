@@ -108,17 +108,22 @@ export function PublicReportView({
     <div
       className={cn(
         "mx-auto max-w-3xl px-4 sm:px-6",
-        previewMode ? "py-6" : "py-10"
+        previewMode ? "py-4 sm:py-5" : "py-10"
       )}
     >
-      <header className="mb-8 overflow-hidden rounded-2xl border border-google-gray-200 bg-white shadow-google-card">
+      <header
+        className={cn(
+          "overflow-hidden rounded-2xl border border-google-gray-200 bg-white shadow-google-card",
+          previewMode ? "mb-5" : "mb-8"
+        )}
+      >
         <div className="flex items-center justify-between gap-3 border-b border-google-gray-100 bg-google-gray-50/60 px-4 py-2.5 sm:px-5">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-google-gray-500">
             Voice of Customer · {report.period}
           </p>
           {previewMode ? (
             <span className="rounded-full bg-pastel-blue/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-google-blue">
-              Sample
+              Preview
             </span>
           ) : (
             <button
@@ -181,7 +186,12 @@ export function PublicReportView({
       </header>
 
       {report.executiveSummary ? (
-        <Card className="mb-8 border-google-blue/20 bg-pastel-blue/20 shadow-google-card">
+        <Card
+          className={cn(
+            "border-google-blue/20 bg-pastel-blue/20 shadow-google-card",
+            previewMode ? "mb-5" : "mb-8"
+          )}
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-medium">Executive summary</CardTitle>
           </CardHeader>
@@ -193,7 +203,7 @@ export function PublicReportView({
         </Card>
       ) : null}
 
-      <div className="mb-8">
+      <div className={previewMode ? "mb-0" : "mb-8"}>
         {report.areaMetricBenchmark && report.areaMetricBenchmark.peerCount > 0 ? (
           <p className="mb-3 text-xs text-google-gray-500">
             Area average from {report.areaMetricBenchmark.peerCount} other{" "}
@@ -247,7 +257,12 @@ export function PublicReportView({
       </div>
 
       {report.marketGaps ? (
-        <Card className="mb-8 border-amber-200/60 bg-amber-50/30 shadow-google-card">
+        <Card
+          className={cn(
+            "border-amber-200/60 bg-amber-50/30 shadow-google-card",
+            previewMode ? "mb-5" : "mb-8"
+          )}
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-medium">
               {report.marketGaps.title}
@@ -260,14 +275,24 @@ export function PublicReportView({
       ) : null}
 
       {report.trending.length > 0 ? (
-        <Card className="mb-8 border-google-gray-200 shadow-google-card">
+        <Card
+          className={cn(
+            "border-google-gray-200 shadow-google-card",
+            previewMode ? "mb-5" : "mb-8"
+          )}
+        >
           <CardContent className="pt-6">
             <TrendingTopicsBlock items={report.trending} />
           </CardContent>
         </Card>
       ) : null}
 
-      <Card className={cn("border-google-gray-200 shadow-google-card")}>
+      <Card
+        className={cn(
+          "border-google-gray-200 shadow-google-card",
+          previewMode ? "mb-6" : ""
+        )}
+      >
         <CardContent className="pt-6">
           <VocMonthlyReportBody
             {...({

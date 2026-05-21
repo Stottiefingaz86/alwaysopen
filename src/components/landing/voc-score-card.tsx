@@ -3,19 +3,17 @@
 import { VocScoreGauge } from "@/components/landing/voc-score-gauge";
 import { Progress } from "@/components/ui/progress";
 import type { Messages } from "@/lib/i18n/messages/en";
+import type { VocReportCardModel } from "@/lib/voc/report-card";
 import { getVocScoreTier } from "@/lib/voc-score-tier";
 import { cn } from "@/lib/utils";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 
 const GOOGLE_ICON = "/google-my-business-icon.svg";
 
-type VocIndustryDemo =
-  Messages["vocDemos"]["industries"][keyof Messages["vocDemos"]["industries"]];
-
 type VocScoreCardProps = {
-  demo: VocIndustryDemo;
+  card: VocReportCardModel;
   ui: Messages["vocDemos"];
-  industryLabel: string;
   onViewReport?: () => void;
   className?: string;
 };
@@ -24,17 +22,16 @@ const ghostButtonClass =
   "inline-flex h-11 w-full items-center justify-center rounded-full border-[1.5px] border-google-gray-200 bg-white px-5 text-sm font-medium text-google-blue shadow-google transition-all hover:border-google-blue hover:bg-pastel-blue active:scale-[0.98]";
 
 export function VocScoreCard({
-  demo,
+  card,
   ui,
-  industryLabel,
   onViewReport,
   className,
 }: VocScoreCardProps) {
-  const isAvailable = demo.available;
-  const source = demo.source as "google" | "tripadvisor";
+  const isAvailable = card.available;
+  const source = card.source;
   const sourceLabel =
     source === "tripadvisor" ? ui.sourceTripadvisor : ui.sourceGoogle;
-  const tier = isAvailable ? getVocScoreTier(demo.score) : "fair";
+  const tier = isAvailable ? getVocScoreTier(card.score) : "fair";
   const tierLabel = ui.tiers[tier];
 
   return (
@@ -54,20 +51,36 @@ export function VocScoreCard({
           </span>
         )}
 
-        <header className="space-y-0.5">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-google-gray-500">
-            {industryLabel}
-          </p>
+        <header className="space-y-1.5">
+          {card.tagLabels.length > 0 ? (
+            <div className="flex flex-wrap gap-1">
+              {card.tagLabels.slice(0, 4).map((label) => (
+                <span
+                  key={label}
+                  className="rounded-full border border-google-gray-200 bg-pastel-blue/40 px-2 py-0.5 text-[10px] font-medium text-google-blue"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-google-gray-500">
+              {card.industryLabel}
+            </p>
+          )}
           <p
             className={cn(
               "line-clamp-2 min-h-[2.5rem] text-base font-medium leading-snug",
               isAvailable ? "text-foreground" : "text-google-gray-500"
             )}
           >
-            {demo.businessName}
+            {card.businessName}
           </p>
-          {demo.location ? (
-            <p className="truncate text-xs text-google-gray-500">{demo.location}</p>
+          {card.location ? (
+            <p className="flex min-w-0 items-center gap-1 text-xs text-google-gray-500">
+              <MapPin className="size-3 shrink-0 text-google-gray-400" aria-hidden />
+              <span className="truncate">{card.location}</span>
+            </p>
           ) : (
             <p className="h-4" aria-hidden />
           )}
@@ -93,19 +106,19 @@ export function VocScoreCard({
                 {sourceLabel}
                 <span className="text-google-gray-400">
                   {" · "}
-                  {ui.reviewsAnalyzed.replace("{{count}}", String(demo.reviewCount))}
+                  {ui.reviewsAnalyzed.replace("{{count}}", String(card.reviewCount))}
                 </span>
               </p>
             </div>
 
             <VocScoreGauge
-              score={demo.score}
+              score={card.score}
               label={ui.scoreLabel}
               qualityLabel={tierLabel}
             />
 
             <ul className="flex flex-col gap-2.5">
-              {demo.metrics.slice(0, 3).map((metric) => (
+              {card.metrics.slice(0, 3).map((metric) => (
                 <li key={metric.key}>
                   <div className="mb-1 flex items-center justify-between gap-2 text-[10px]">
                     <span className="min-w-0 truncate font-medium text-google-gray-600">
@@ -125,7 +138,7 @@ export function VocScoreCard({
             </ul>
 
             <p className="mt-auto pt-1 text-[10px] text-google-gray-400">
-              {demo.period}
+              {card.period}
             </p>
           </>
         ) : (

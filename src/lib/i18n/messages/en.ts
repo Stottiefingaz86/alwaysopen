@@ -216,16 +216,16 @@ export const en = {
     },
   },
   vocDemos: {
-    eyebrow: "Sample reports",
-    title: "Explore a VoC report by industry",
+    eyebrow: "Client reports",
+    title: "Real VoC reports from Google reviews",
     subtitle:
-      "Summary scores from Google or TripAdvisor reviews. Open a sample to see sentiment, gaps, themes, and monthly recommendations.",
+      "Scores and themes from real businesses we analyse. Open a report to see sentiment, complaints, praise, and monthly actions — the same deliverable you receive.",
     tabsLabel: "Industry",
-    viewReport: "View sample report",
-    hideReport: "Hide sample report",
+    viewReport: "View report",
+    hideReport: "Hide report",
     getMyReport: "Get my report",
     comingSoon: "Coming soon",
-    comingSoonBlurb: "Sample VoC report for this industry is on the way.",
+    comingSoonBlurb: "VoC report for this industry is on the way.",
     scoreLabel: "VoC score",
     tiers: {
       great: "Great",
@@ -673,8 +673,8 @@ export const en = {
     },
   },
   caseStudies: {
-    carouselEyebrow: "Real reports",
-    carouselTitle: "See VoC reports from businesses we analyse",
+    carouselEyebrow: "Client reports",
+    carouselTitle: "Real VoC reports from Google reviews",
     filterAll: "All",
     viewReport: "View report",
     scrollPrev: "Previous",
@@ -683,8 +683,16 @@ export const en = {
     loadingReport: "Loading report…",
     reportUnavailable: "This report could not be loaded.",
     defaultTitle: "VoC report",
-    previewFootnote: "Preview — request the full monthly report for your business.",
+    previewFootnote: "Monthly VoC reports prepared for your business by RingsAway.",
+    paywallTitle: "To see the full report",
+    paywallBody:
+      "Complaints, praise, competitor benchmarks, reply drafts, and your action plan for {{business}} are in the complete monthly deliverable.",
     getFullReport: "Get full report",
+    getInTouch: "Get in touch",
+    emptyGridHint:
+      "Publish a ready report from the dashboard (Landing case study → VoC reports row) to show it here.",
+    searchPlaceholder: "Search reports by name or location…",
+    noSearchResults: "No reports match your search or filter.",
   },
   pipeline: {
     eyebrow: "How it works",
@@ -712,7 +720,7 @@ export const en = {
     introEmphasis: "doing something about it",
     introAfter:
       ", including your Google Business profile, where many people decide whether to call you.",
-    viewDemoReports: "View demo reports",
+    viewDemoReports: "View client reports",
     whatTitle: "What is VoC?",
     whatBody:
       "Voice of the Customer (VoC) means listening to what people say about your business: Google reviews, your website, surveys, and feedback after visits. Then we help you make sense of it together.",

@@ -6,13 +6,15 @@ import {
   formatTagLabel,
   normalizeBusinessTags,
 } from "@/lib/voc/business-tags";
+import { SetupCaseStudiesCallout } from "@/components/voc/setup-case-studies-callout";
 import {
   CASE_STUDY_PLACEMENTS,
+  DEFAULT_CASE_STUDY_PLACEMENTS,
   normalizePlacements,
   type CaseStudyPlacement,
 } from "@/lib/voc/case-studies";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type CaseStudyEditorProps = {
   reportId: string;
@@ -41,42 +43,54 @@ export function CaseStudyEditor({
   const [enabled, setEnabled] = useState(false);
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [placements, setPlacements] = useState<CaseStudyPlacement[]>(["voc-carousel"]);
+  const [placements, setPlacements] = useState<CaseStudyPlacement[]>([
+    ...DEFAULT_CASE_STUDY_PLACEMENTS,
+  ]);
   const [sortOrder, setSortOrder] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [tableMissing, setTableMissing] = useState(false);
+
+  const loadCaseStudy = useCallback(async () => {
+    setLoading(true);
+    setTableMissing(false);
+    try {
+      const res = await fetch("/api/admin/case-studies");
+      const json = (await res.json()) as {
+        items?: CaseStudyRow[];
+        error?: string;
+        needsMigration?: boolean;
+      };
+      if (!res.ok) {
+        if (json.needsMigration || res.status === 503) {
+          setTableMissing(true);
+          setError(null);
+          return;
+        }
+        throw new Error(json.error ?? "Could not load case studies");
+      }
+      const row = json.items?.find((i) => i.report_id === reportId);
+      if (row) {
+        setEnabled(true);
+        setTitle(row.title ?? "");
+        setTags(row.tags?.length ? row.tags : businessTags);
+        setPlacements(normalizePlacements(row.placements));
+        setSortOrder(row.sort_order ?? 0);
+      } else {
+        setEnabled(false);
+        setTags(businessTags.length ? [...businessTags] : ["restaurant"]);
+        setPlacements([...DEFAULT_CASE_STUDY_PLACEMENTS]);
+        setSortOrder(0);
+      }
+    } catch {
+      setTags(businessTags.length ? [...businessTags] : []);
+    } finally {
+      setLoading(false);
+    }
+  }, [reportId, businessTags]);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/admin/case-studies");
-        if (!res.ok) throw new Error("Could not load case studies");
-        const json = (await res.json()) as { items?: CaseStudyRow[] };
-        const row = json.items?.find((i) => i.report_id === reportId);
-        if (cancelled) return;
-        if (row) {
-          setEnabled(true);
-          setTitle(row.title ?? "");
-          setTags(row.tags?.length ? row.tags : businessTags);
-          setPlacements(normalizePlacements(row.placements));
-          setSortOrder(row.sort_order ?? 0);
-        } else {
-          setEnabled(false);
-          setTags(businessTags.length ? [...businessTags] : ["restaurant"]);
-          setPlacements(["voc-carousel"]);
-          setSortOrder(0);
-        }
-      } catch {
-        if (!cancelled) setTags(businessTags.length ? [...businessTags] : []);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [reportId, businessTags]);
+    void loadCaseStudy();
+  }, [loadCaseStudy]);
 
   function toggleTag(tag: string) {
     setTags((prev) =>
@@ -122,8 +136,19 @@ export function CaseStudyEditor({
           is_published: true,
         }),
       });
-      const j = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error((j as { error?: string }).error ?? "Save failed");
+      const j = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        needsMigration?: boolean;
+      };
+      if (!res.ok) {
+        if (j.needsMigration || res.status === 503) {
+          setTableMissing(true);
+          setError(null);
+          return;
+        }
+        throw new Error(j.error ?? "Save failed");
+      }
+      setTableMissing(false);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Save failed");
     } finally {
@@ -150,11 +175,17 @@ export function CaseStudyEditor({
         </label>
       </div>
       <p className="mt-1 text-xs text-google-gray-500">
-        Appears in the VoC carousel on the homepage. Visitors see a preview popup with
-        &ldquo;Get full report&rdquo;.
+        Appears in the VoC reports row on the homepage (same card layout as samples). Visitors
+        open a preview with &ldquo;Get full report&rdquo;.
       </p>
 
-      {enabled ? (
+      {tableMissing ? (
+        <div className="mt-4">
+          <SetupCaseStudiesCallout onFixed={() => void loadCaseStudy()} />
+        </div>
+      ) : null}
+
+      {enabled && !tableMissing ? (
         <div className="mt-4 space-y-4">
           <div>
             <label className="text-xs font-medium text-google-gray-700">
@@ -239,7 +270,7 @@ export function CaseStudyEditor({
         type="button"
         size="sm"
         className="mt-4"
-        disabled={disabled || saving}
+        disabled={disabled || saving || tableMissing}
         onClick={() => void save()}
       >
         {saving ? "Saving…" : enabled ? "Save case study" : "Remove from website"}

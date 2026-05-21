@@ -3,7 +3,7 @@ import { normalizeBusinessTags, formatTagLabel } from "@/lib/voc/business-tags";
 /** Where a case study may appear on the marketing site */
 export const CASE_STUDY_PLACEMENTS = [
   { id: "voc-carousel", label: "VoC carousel (landing)" },
-  { id: "voc-demos", label: "VoC industry demos row" },
+  { id: "voc-demos", label: "VoC reports row (landing grid)" },
 ] as const;
 
 export type CaseStudyPlacement = (typeof CASE_STUDY_PLACEMENTS)[number]["id"];
@@ -18,7 +18,7 @@ export function normalizePlacements(input: unknown): CaseStudyPlacement[] {
     if (!allowed.has(id) || out.includes(id)) continue;
     out.push(id);
   }
-  return out.length ? out : ["voc-carousel"];
+  return out.length ? out : [...DEFAULT_CASE_STUDY_PLACEMENTS];
 }
 
 export function normalizeCaseStudyTags(input: unknown): string[] {
@@ -32,13 +32,22 @@ export type CaseStudyListItem = {
   location: string;
   slug: string;
   period: string;
+  periodLabel: string;
   tags: string[];
   tagLabels: string[];
   score: number;
   scoreLabel: string;
   reviewCount: number;
+  source: "google" | "tripadvisor";
+  metrics: { key: string; label: string; value: number; color: "violet" | "amber" | "green" | "red" }[];
   placements: CaseStudyPlacement[];
 };
+
+/** Default placements for new publishes — main landing grid + legacy carousel id */
+export const DEFAULT_CASE_STUDY_PLACEMENTS: CaseStudyPlacement[] = [
+  "voc-demos",
+  "voc-carousel",
+];
 
 export function caseStudyDisplayTitle(
   title: string | null | undefined,

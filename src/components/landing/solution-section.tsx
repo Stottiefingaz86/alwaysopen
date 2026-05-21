@@ -5,6 +5,7 @@ import { SiriOrb } from "@/components/ui/siri-orb";
 import { CtaButton } from "@/components/landing/cta-button";
 import { IndustryShowcase } from "@/components/landing/industry-showcase-section";
 import { VocIndustryShowcase } from "@/components/landing/voc-industry-showcase";
+import type { CaseStudyListItem } from "@/lib/voc/case-studies";
 import { VocFloatingReviewsVisual } from "@/components/landing/voc-floating-reviews-visual";
 import { PhoneRingPulse } from "@/components/landing/decorations";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
@@ -170,7 +171,11 @@ function ServicePicker({
   );
 }
 
-export function SolutionSection() {
+export function SolutionSection({
+  initialCaseStudies = [],
+}: {
+  initialCaseStudies?: CaseStudyListItem[];
+}) {
   const { m, locale } = useLocale();
   const s = m.solution;
   const mailto = getBookingMailto(locale);
@@ -354,7 +359,10 @@ export function SolutionSection() {
                   </div>
 
                   <div className="border-t border-google-gray-100 bg-google-gray-50/40 px-5 py-8 md:px-8 md:py-10 lg:px-10">
-                    <VocIndustryShowcase embedded />
+                    <VocIndustryShowcase
+                      embedded
+                      initialPublished={initialCaseStudies}
+                    />
                   </div>
                 </article>
               </FadeIn>

@@ -11,7 +11,14 @@ import {
 } from "./review-metrics.ts";
 import type { ReplySuggestionItem, ReviewLike } from "./review-metrics.ts";
 import { DEMO_REPORT_EXAMPLE, VOC_UX_RESEARCHER_SYSTEM } from "./voc-constants.ts";
-import { buildReviewCorpus, themesWithVerifiedCounts } from "./theme-match.ts";
+import {
+  buildReviewCorpus,
+  COMPLAINT_THEME_SEEDS,
+  computeSectionThemesFromReviews,
+  PRAISE_THEME_SEEDS,
+  resolveReportThemes,
+  reviewTextMatchesTheme,
+} from "./theme-match.ts";
 
 export { DEMO_REPORT_EXAMPLE, VOC_UX_RESEARCHER_SYSTEM };
 
@@ -70,6 +77,18 @@ export function buildAnalysisUserPayload(input: {
     })
   );
 
+  const corpus = input.reviews.filter((r) => r.text.length > 12);
+  const complaintThemeCandidates = computeSectionThemesFromReviews(
+    corpus,
+    COMPLAINT_THEME_SEEDS,
+    6
+  );
+  const praiseThemeCandidates = computeSectionThemesFromReviews(
+    corpus,
+    PRAISE_THEME_SEEDS,
+    6
+  );
+
   return JSON.stringify({
     task: "Produce a VoC monthly report JSON matching demoReportLayout exactly.",
     client: {
@@ -78,15 +97,24 @@ export function buildAnalysisUserPayload(input: {
       period: input.period,
       placeRating: input.placeRating,
     },
+    analysisScope: {
+      instruction:
+        "Analyze EVERY review in reviews[]. Complaint and praise themes must reflect patterns across the full scrape (reviewStats.withText), not a single review or only the report month. Use complaintThemeCandidates and praiseThemeCandidates for mention counts unless you recount across all reviews.",
+      reviewsInPayload: input.reviews.length,
+      reviewsWithText: corpus.length,
+      lowStarInPayload: corpus.filter((r) => (r.stars ?? 5) <= 3).length,
+    },
     computedSentiment,
     comparisonReviewCandidates,
     unrepliedLowStarReviews,
+    complaintThemeCandidates,
+    praiseThemeCandidates,
     areaPeerReportInsights: input.areaPeerReportInsights ?? [],
     reviewStats: buildReviewStats(input.reviews),
     reviews: input.reviews,
     demoReportLayout: DEMO_REPORT_EXAMPLE,
     outputContract: {
-      note: "Copy the shape of demoReportLayout. Use computedSentiment for score/sentiment. All quotes must come from the reviews array. Include date on complaint/praise reviews and competitor mentions.",
+      note: "Copy the shape of demoReportLayout. Use computedSentiment for score/sentiment. All quotes must come from the reviews array. Theme mention counts must match the full reviews array (see complaintThemeCandidates). Include date on complaint/praise reviews and competitor mentions.",
       requiredTopLevelKeys: [
         "businessName",
         "location",
@@ -157,14 +185,38 @@ export function normalizeVocReport(
     };
   };
 
+  const pickQuoteForTheme = (
+    pool: ReviewForAi[],
+    themeLine: string | undefined,
+    preferLow: boolean
+  ) => {
+    const withText = pool.filter((r) => r.text.length > 12);
+    if (!withText.length) return null;
+    const lowStar = withText.filter((r) => (r.stars ?? 5) <= 3);
+    const searchPool = preferLow && lowStar.length ? lowStar : withText;
+    if (themeLine) {
+      const match = searchPool.find((r) =>
+        reviewTextMatchesTheme(r.text, themeLine)
+      );
+      if (match) {
+        return {
+          author: shortenAuthor(match.author),
+          stars: match.stars ?? undefined,
+          quote: match.text.slice(0, 280),
+          date: formatReviewDate(match.date),
+        };
+      }
+    }
+    return pickQuote(preferLow, searchPool);
+  };
+
   const periodReviews = input.reviews.filter(
     (r) => r.text.length > 12 && parseReviewMonth(r.date) === input.periodKey
   );
   const reviewsInPeriod = periodReviews.length;
   const scrapedTotal = input.reviewCount;
 
-  const complaintFallback = pickQuote(true, periodReviews);
-  const praiseFallback = pickQuote(false, periodReviews);
+  const corpusAll = input.reviews.filter((r) => r.text.length > 12);
 
   const monthly = (raw.monthlyReport ?? {}) as Record<string, unknown>;
   const complaints = (monthly.complaints ?? {}) as Record<string, unknown>;
@@ -180,21 +232,27 @@ export function normalizeVocReport(
       ? r.date
       : fallback?.date ?? null;
 
-  const complaintPoolAll = input.reviews.filter(
-    (r) => r.text.length > 12 && (r.stars ?? 5) <= 3
+  const complaintThemes = resolveReportThemes(
+    stringArray(complaints.themes, 3),
+    corpusAll,
+    COMPLAINT_THEME_SEEDS,
+    3
   );
-  const praisePoolAll = input.reviews.filter(
-    (r) => r.text.length > 12 && (r.stars ?? 5) >= 4
+  const praiseThemes = resolveReportThemes(
+    stringArray(praise.themes, 3),
+    corpusAll,
+    PRAISE_THEME_SEEDS,
+    3
   );
 
-  const complaintThemes = themesWithVerifiedCounts(
-    stringArray(complaints.themes, 2),
-    complaintPoolAll
+  const topComplaintTheme = complaintThemes[0];
+  const topPraiseTheme = praiseThemes[0];
+  const complaintFallback = pickQuoteForTheme(
+    corpusAll,
+    topComplaintTheme,
+    true
   );
-  const praiseThemes = themesWithVerifiedCounts(
-    stringArray(praise.themes, 2),
-    praisePoolAll
-  );
+  const praiseFallback = pickQuoteForTheme(corpusAll, topPraiseTheme, false);
 
   const reviewCorpus = buildReviewCorpus(input.reviews);
   const negativeLines = stringArray(raw.negatives, 2);
@@ -237,7 +295,7 @@ export function normalizeVocReport(
     menuGaps: stringArray(raw.menuGaps, 2),
     trending: resolveTrendingTopics(
       normalizeTrending(raw.trending),
-      periodReviews,
+      corpusAll,
       stringArray(raw.positives, 0),
       stringArray(raw.negatives, 0)
     ),
@@ -266,7 +324,7 @@ export function normalizeVocReport(
         },
         moreReviews: normalizeMoreReviews(
           complaints.moreReviews,
-          pickMoreReviewSnippets(periodReviews, {
+          pickMoreReviewSnippets(corpusAll, {
             preferLow: true,
             excludeQuote: String(complaintReview.quote ?? complaintFallback?.quote ?? ""),
           })
@@ -288,7 +346,7 @@ export function normalizeVocReport(
         },
         moreReviews: normalizeMoreReviews(
           praise.moreReviews,
-          pickMoreReviewSnippets(periodReviews, {
+          pickMoreReviewSnippets(corpusAll, {
             preferLow: false,
             excludeQuote: String(praiseReview.quote ?? praiseFallback?.quote ?? ""),
           })
@@ -365,8 +423,8 @@ function buildSectionSummaryFallback(
       : "Limited positive text in this sample.";
   }
   return tone === "negative"
-    ? `Across this month's reviews, customers most often raise: ${joined}. The quote below is one example — themes reflect the wider pattern, not a single reviewer.`
-    : `Across this month's reviews, customers most often praise: ${joined}. The standout quote illustrates what repeats in five-star feedback.`;
+    ? `Across all scraped Google reviews, customers most often raise: ${joined}. The quote below is one example — themes are counted across the full review set, not a single reviewer.`
+    : `Across all scraped Google reviews, customers most often praise: ${joined}. The standout quote illustrates what repeats in positive feedback.`;
 }
 
 function normalizeMarketGaps(val: unknown) {

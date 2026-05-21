@@ -128,6 +128,95 @@ export function themesWithVerifiedCounts(
   });
 }
 
+/** Seed labels for server-side theme frequency across the full scrape. */
+export const COMPLAINT_THEME_SEEDS = [
+  "Service delays & wait times",
+  "Slow service",
+  "Order accuracy problems",
+  "Food quality issues",
+  "Value for money concerns",
+  "Staff attitude",
+  "Cleanliness & hygiene",
+  "Parking & access",
+  "Booking & reservations",
+  "Unavailable items & stock",
+];
+
+export const PRAISE_THEME_SEEDS = [
+  "Exceptional service",
+  "Food quality",
+  "Atmosphere & ambience",
+  "Value for money",
+  "Friendly staff",
+  "Fresh ingredients",
+  "Great location & views",
+];
+
+export type SectionThemeCandidate = {
+  label: string;
+  count: number;
+  line: string;
+};
+
+/** Count theme mentions across every review with text (any star rating). */
+export function computeSectionThemesFromReviews(
+  reviews: ReviewLike[],
+  seedLabels: readonly string[],
+  maxThemes = 6
+): SectionThemeCandidate[] {
+  const corpus = reviews.filter((r) => r.text.trim().length > 12);
+  return seedLabels
+    .map((label) => ({
+      label,
+      count: countThemeMentions(corpus, label),
+    }))
+    .filter((t) => t.count > 0)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, maxThemes)
+    .map((t) => ({
+      ...t,
+      line: `${t.label} (${t.count} mention${t.count === 1 ? "" : "s"})`,
+    }));
+}
+
+/** Merge AI theme labels with server counts from the full review corpus. */
+export function resolveReportThemes(
+  aiThemeLines: string[],
+  reviews: ReviewLike[],
+  seedLabels: readonly string[],
+  maxThemes = 3
+): string[] {
+  const corpus = reviews.filter((r) => r.text.trim().length > 12);
+  const computed = computeSectionThemesFromReviews(corpus, seedLabels, 8);
+  const aiLabels = aiThemeLines
+    .map((line) => themeLabelWithoutCount(line))
+    .filter((l) => l.length > 2);
+
+  const orderedLabels: string[] = [];
+  const seen = new Set<string>();
+  const add = (label: string) => {
+    const key = label.toLowerCase();
+    if (seen.has(key) || !label) return;
+    seen.add(key);
+    orderedLabels.push(label);
+  };
+
+  for (const c of computed) add(c.label);
+  for (const a of aiLabels) add(a);
+
+  if (!orderedLabels.length && computed.length) {
+    return computed.slice(0, maxThemes).map((c) => c.line);
+  }
+
+  const lines = orderedLabels
+    .slice(0, maxThemes)
+    .map((l) => `${l} (0 mentions)`);
+  const verified = themesWithVerifiedCounts(lines, corpus);
+  const hasSignal = verified.some((t) => !/\(\s*0\s*mentions?\)/i.test(t));
+  if (hasSignal) return verified;
+  return computed.slice(0, maxThemes).map((c) => c.line);
+}
+
 function shortenAuthor(name: string): string {
   const t = name.trim();
   if (!t || t === "Anonymous") return "Reviewer";
