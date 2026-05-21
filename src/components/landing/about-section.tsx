@@ -4,7 +4,7 @@ import { BorderBeam } from "@/components/ui/border-beam";
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn, Section } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import {
   Clock,
   Heart,
@@ -22,7 +22,7 @@ const factIcons = [Languages, Users, Clock, Sparkles] as const;
 
 export function AboutSection() {
   const { m, locale } = useLocale();
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
   const facts = m.about.facts.map((label, i) => ({
     icon: factIcons[i] ?? Languages,
     label,
@@ -48,7 +48,7 @@ export function AboutSection() {
               </div>
 
               <div className="mt-8 flex flex-row flex-wrap gap-3">
-                <CtaButton href={mailto} size="default">
+                <CtaButton href={contactHref} size="default">
                   {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
                 <CtaButton href="#faq" variant="secondary" size="default">

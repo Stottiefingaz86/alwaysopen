@@ -5,7 +5,7 @@ import { LanguageSelector } from "@/components/landing/language-selector";
 import { Logo } from "@/components/landing/logo";
 import { ServicesNavDropdown } from "@/components/landing/services-nav-dropdown";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { setLocationHash } from "@/lib/hash-navigation";
@@ -29,7 +29,7 @@ export function Navbar() {
     { href: sectionLink("#news"), label: m.nav.news },
   ];
 
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(onHome);
   const talkCta = getTalkOverCoffeeCta(locale);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export function Navbar() {
           <CtaButton href={sectionLink("#pricing")} variant="secondary" size="sm">
             {m.nav.ctaPricing}
           </CtaButton>
-          <CtaButton href={mailto} size="sm">
+          <CtaButton href={contactHref} size="sm">
             {talkCta}
           </CtaButton>
           <LanguageSelector />
@@ -168,7 +168,7 @@ export function Navbar() {
                 <CtaButton href={sectionLink("#pricing")} variant="secondary">
                   {m.nav.ctaPricing}
                 </CtaButton>
-                <CtaButton href={mailto}>{talkCta}</CtaButton>
+                <CtaButton href={contactHref}>{talkCta}</CtaButton>
               </li>
             </ul>
           </motion.div>

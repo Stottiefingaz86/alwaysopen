@@ -3,11 +3,11 @@
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 
 export function FinalCta() {
   const { m, locale } = useLocale();
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
 
   return (
     <section className="py-16 md:py-28">
@@ -22,7 +22,7 @@ export function FinalCta() {
             </p>
 
             <div className="mx-auto mt-10 flex max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
-              <CtaButton href={mailto} size="lg">
+              <CtaButton href={contactHref} size="lg">
                 {getTalkOverCoffeeCta(locale)}
               </CtaButton>
               <CtaButton href="#pricing" variant="secondary" size="lg">

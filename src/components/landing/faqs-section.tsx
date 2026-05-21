@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { FadeIn, Section } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeLink } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeLink } from "@/lib/contact";
 import {
   Calendar,
   Clock,
@@ -30,7 +30,7 @@ const faqIcons: Record<string, LucideIcon> = {
 
 export function FaqsSection() {
   const { m, locale } = useLocale();
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
 
   return (
     <Section id="faq" background="gray">
@@ -45,7 +45,7 @@ export function FaqsSection() {
               <p className="mt-4 text-sm text-google-gray-500">
                 {m.faq.introBefore}{" "}
                 <a
-                  href={mailto}
+                  href={contactHref}
                   className="font-medium text-google-blue hover:underline"
                 >
                   {getTalkOverCoffeeLink(locale)}

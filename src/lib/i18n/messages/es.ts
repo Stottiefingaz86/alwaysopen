@@ -1114,6 +1114,28 @@ export const es = {
       "Llamé fuera de horario y me reservaron al momento. Ojalá lo hubieran hecho años atrás.",
     tags: ["Facilidad de reserva", "Fuera de horario"],
   },
+  contactForm: {
+    eyebrow: "Contacto",
+    title: "Hablemos con un café",
+    subtitle:
+      "Cuéntanos tu negocio y qué necesitas — recepción IA, informes VoC o ambos. Te responderemos por email.",
+    nameLabel: "Nombre",
+    namePlaceholder: "Tu nombre",
+    emailLabel: "Email",
+    emailPlaceholder: "tu@negocio.com",
+    businessLabel: "Negocio",
+    businessPlaceholder: "Salón, clínica, restaurante…",
+    phoneLabel: "Teléfono (opcional)",
+    phonePlaceholder: "+34 …",
+    messageLabel: "Mensaje",
+    messagePlaceholder: "¿De qué te gustaría hablar?",
+    submit: "Enviar mensaje",
+    sending: "Enviando…",
+    success: "Gracias — tu mensaje se ha enviado. Te responderemos por email pronto.",
+    errorGeneric:
+      "No pudimos enviar tu mensaje. Inténtalo de nuevo o escribe a christopher.hunt86@gmail.com.",
+    privacy: "Solo usamos tus datos para responder a esta consulta.",
+  },
   contact: {
     talkCoffee: "Hablemos con un café ☕",
     talkCoffeeLink: "Hablemos con un café ☕",

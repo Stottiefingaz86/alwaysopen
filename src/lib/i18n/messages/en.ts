@@ -1114,6 +1114,28 @@ export const en = {
       "Called after hours and got booked straight away. Wish they'd done this years ago.",
     tags: ["Booking ease", "After hours"],
   },
+  contactForm: {
+    eyebrow: "Contact",
+    title: "Talk over coffee",
+    subtitle:
+      "Tell us about your business and what you need — AI reception, VoC reports, or both. We will get back to you by email.",
+    nameLabel: "Name",
+    namePlaceholder: "Your name",
+    emailLabel: "Email",
+    emailPlaceholder: "you@business.com",
+    businessLabel: "Business",
+    businessPlaceholder: "Salon, clinic, restaurant…",
+    phoneLabel: "Phone (optional)",
+    phonePlaceholder: "+34 …",
+    messageLabel: "Message",
+    messagePlaceholder: "What would you like to discuss?",
+    submit: "Send message",
+    sending: "Sending…",
+    success: "Thanks — your message is on its way. We will reply by email soon.",
+    errorGeneric:
+      "We could not send your message. Please try again or email christopher.hunt86@gmail.com.",
+    privacy: "We only use your details to reply to this enquiry.",
+  },
   contact: {
     talkCoffee: "Talk Over Coffee ☕",
     talkCoffeeLink: "Talk over coffee ☕",

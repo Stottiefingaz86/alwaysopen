@@ -8,7 +8,7 @@ import {
   getCategoryLabel,
   type NewsItem,
 } from "@/lib/news-content";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { NewsArticleContent } from "@/components/landing/news-article-content";
 import { ArrowLeft, FileText, Sparkles } from "lucide-react";
@@ -22,7 +22,7 @@ export function NewsArticleView({
   imageVersions: Record<string, string>;
 }) {
   const { m, locale } = useLocale();
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(false);
 
   const categoryClass =
     article.category === "article"
@@ -112,7 +112,7 @@ export function NewsArticleView({
             )}
             {m.news.fromTeam}
           </p>
-          <CtaButton href={mailto} size="default">
+          <CtaButton href={contactHref} size="default">
             {getTalkOverCoffeeCta(locale)}
           </CtaButton>
         </div>

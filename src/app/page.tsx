@@ -15,6 +15,7 @@ import { PricingSection } from "@/components/landing/pricing";
 import { AboutSection } from "@/components/landing/about-section";
 import { FaqsSection } from "@/components/landing/faqs-section";
 import { FinalCta } from "@/components/landing/final-cta";
+import { ContactSection } from "@/components/landing/contact-section";
 import { Footer } from "@/components/landing/footer";
 
 /** Re-read public/news mtimes when you replace an image file */
@@ -55,6 +56,7 @@ export default async function Home() {
         <AboutSection />
         <FaqsSection />
         <FinalCta />
+        <ContactSection />
       </main>
       <Footer />
     </>

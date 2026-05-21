@@ -5,12 +5,12 @@ import { FadeIn } from "@/components/ui/section";
 import { DotGrid, PhoneRingPulse } from "@/components/landing/decorations";
 import { AgentShowcase } from "@/components/landing/agent-showcase";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import { Check } from "lucide-react";
 
 export function Hero() {
   const { m, locale } = useLocale();
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
 
   return (
     <section className="relative overflow-hidden bg-white pb-6 pt-4 md:pb-12 md:pt-8">
@@ -58,7 +58,7 @@ export function Hero() {
 
             <FadeIn delay={0.1}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <CtaButton href={mailto} size="lg">
+                <CtaButton href={contactHref} size="lg">
                   {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
                 <CtaButton href="#pricing" variant="secondary" size="lg">

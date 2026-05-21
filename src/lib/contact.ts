@@ -5,6 +5,16 @@ import { es } from "@/lib/i18n/messages/es";
 export const BOOK_MEETING_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "christopher.hunt86@gmail.com";
 
+export const LEADS_TO_EMAIL =
+  process.env.LEADS_TO_EMAIL ?? "christopher.hunt86@gmail.com";
+
+export const CONTACT_SECTION_ID = "contact";
+
+/** In-page contact form anchor (home vs other routes). */
+export function getContactHref(onHome = true) {
+  return onHome ? `#${CONTACT_SECTION_ID}` : `/#${CONTACT_SECTION_ID}`;
+}
+
 /** Demo line to speak with the RingsAway AI agent by phone */
 export const AI_AGENT_PHONE_DISPLAY = "+34 919 93 52 38";
 export const AI_AGENT_PHONE_TEL = "+34919935238";

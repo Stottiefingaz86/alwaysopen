@@ -10,7 +10,7 @@ import { VocFloatingReviewsVisual } from "@/components/landing/voc-floating-revi
 import { PhoneRingPulse } from "@/components/landing/decorations";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import type { Messages } from "@/lib/i18n/messages/en";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
@@ -184,7 +184,7 @@ export function SolutionSection({
 }) {
   const { m, locale } = useLocale();
   const s = m.solution;
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
   const [activeService, setActiveService] = useState<ServiceTab>(() =>
     typeof window === "undefined" ? "voc" : serviceTabFromHash(window.location.hash)
   );
@@ -286,7 +286,7 @@ export function SolutionSection({
                         <CtaButton href="#phone-receptionist" size="default">
                           {s.ai.howItWorks}
                         </CtaButton>
-                        <CtaButton href={mailto} variant="secondary" size="default">
+                        <CtaButton href={contactHref} variant="secondary" size="default">
                           {getTalkOverCoffeeCta(locale)}
                         </CtaButton>
                       </div>

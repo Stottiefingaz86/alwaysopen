@@ -2,11 +2,11 @@
 
 import { Logo } from "@/components/landing/logo";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto, getTalkOverCoffeeCta } from "@/lib/contact";
+import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 
 export function Footer() {
   const { m, locale } = useLocale();
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
 
   const links = [
     { href: "/login", label: "Admin" },
@@ -16,7 +16,7 @@ export function Footer() {
     { href: "#phone-receptionist", label: m.nav.phoneLine },
     { href: "#about", label: m.nav.about },
     { href: "#faq", label: m.faq.eyebrow },
-    { href: mailto, label: getTalkOverCoffeeCta(locale) },
+    { href: contactHref, label: getTalkOverCoffeeCta(locale) },
   ];
 
   return (
