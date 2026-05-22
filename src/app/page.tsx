@@ -8,6 +8,7 @@ import { ProblemSection } from "@/components/landing/problem-section";
 import { SolutionSection } from "@/components/landing/solution-section";
 import { listPublishedCaseStudies } from "@/lib/voc/list-published-case-studies";
 import { PipelineSection } from "@/components/landing/pipeline";
+import { IntegrationsSection } from "@/components/landing/integrations-section";
 import { VocSection } from "@/components/landing/voc-section";
 import { NewsSection } from "@/components/landing/news-section";
 import { getNewsImageVersions } from "@/lib/news-image-versions";
@@ -50,6 +51,7 @@ export default async function Home() {
         <StatsBar />
         <ProblemSection />
         <PipelineSection />
+        <IntegrationsSection />
         <VocSection />
         <PricingSection />
         <NewsSection imageVersions={newsImageVersions} />

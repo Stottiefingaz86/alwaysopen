@@ -748,6 +748,56 @@ export const es = {
     searchPlaceholder: "Buscar por nombre o ubicación…",
     noSearchResults: "Ningún informe coincide con su búsqueda o filtro.",
   },
+  integrations: {
+    eyebrow: "Integraciones",
+    title: "Funciona con las herramientas que ya usas",
+    subtitle:
+      "Conecta calendarios, plataformas de reservas, mensajería y CRM. Integramos RingsAway con tu stack en la configuración.",
+    footnote:
+      "¿Necesitas otra cosa? Cuéntanos en el formulario de contacto — integraciones a medida en Enterprise.",
+    categories: {
+      restaurants: {
+        title: "Restaurantes",
+        items: {
+          coverManager: "CoverManager",
+          openTable: "OpenTable",
+          googleCalendar: "Google Calendar",
+        },
+      },
+      salonsBeauty: {
+        title: "Salones y belleza",
+        items: {
+          timely: "Timely",
+          fresha: "Fresha",
+          treatwell: "Treatwell",
+        },
+      },
+      propertyTourism: {
+        title: "Propiedad y turismo",
+        items: {
+          airbnb: "Airbnb",
+          bookingCom: "Booking.com",
+        },
+      },
+      communication: {
+        title: "Comunicación",
+        items: {
+          twilio: "Twilio",
+          whatsapp: "WhatsApp",
+          gmail: "Gmail",
+          zadarma: "Zadarma",
+        },
+      },
+      businessTools: {
+        title: "Herramientas de negocio",
+        items: {
+          googleCalendar: "Google Calendar",
+          outlook: "Outlook",
+          hubspot: "HubSpot",
+        },
+      },
+    },
+  },
   pipeline: {
     eyebrow: "Cómo funciona",
     title: "Cómo RingsAway trabaja para tu negocio",

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Microsoft Outlook">
+  <path fill="#0078D4" d="M24 7.5v9L13.5 21V3L24 7.5z"/>
+  <path fill="#0364B8" d="M13.5 3v18L0 16.5V7.5L13.5 3z"/>
+  <path fill="#28A8EA" d="M0 7.5h9.75c2.07 0 3.75 1.68 3.75 3.75S11.82 15 9.75 15H0V7.5z"/>
+  <path fill="#fff" d="M3.5 10.25h4.5a1.25 1.25 0 1 0 0-2.5h-4.5v2.5z"/>
+</svg>
