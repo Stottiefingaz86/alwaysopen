@@ -1,0 +1,3 @@
+# Edge function settings (deploy with: node scripts/deploy-voc-edge.mjs)
+[functions.generate-voc-report]
+verify_jwt = false

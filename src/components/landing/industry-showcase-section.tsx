@@ -1,6 +1,7 @@
 "use client";
 
 import { IndustryAgentDialog } from "@/components/landing/industry-agent-dialog";
+import { RestaurantDemoCard } from "@/components/landing/restaurant-demo-card";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import {
@@ -103,6 +104,10 @@ export function IndustryShowcase({
 
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {INDUSTRY_CARDS.map((card, index) => {
+          if (card.key === "restaurant") {
+            return <RestaurantDemoCard key={card.key} index={index} />;
+          }
+
           const copy = industryCopy[card.key];
           const isAvailable =
             card.available && Boolean(INDUSTRY_AGENT_IDS[card.key]);
@@ -142,11 +147,13 @@ export function IndustryShowcase({
                   >
                     {copy.name}
                   </h4>
-                  {"venue" in copy && copy.venue && (
+                  {"venue" in copy &&
+                  typeof copy.venue === "string" &&
+                  copy.venue ? (
                     <p className="mt-1 text-sm font-medium text-amber-800/90">
                       {copy.venue}
                     </p>
-                  )}
+                  ) : null}
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-google-gray-500">
                     {copy.description}
                   </p>

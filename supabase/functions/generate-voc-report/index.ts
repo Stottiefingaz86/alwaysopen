@@ -242,13 +242,18 @@ async function analyzeWithOpenAI(input: {
 
 const APIFY_MAX_REVIEWS = 40;
 const APIFY_POLL_MS = 4000;
-const APIFY_MAX_WAIT_MS = 300_000; // 5 min background scrape
+/** Keep under Supabase edge max duration (~150s free / 400s paid). */
+const APIFY_MAX_WAIT_MS = 140_000;
 
 function apifyTokenParam(token: string) {
   return `token=${encodeURIComponent(token)}`;
 }
 
-async function scrapeGoogleReviews(placeId: string, token: string): Promise<ScrapedReview[]> {
+async function scrapeGoogleReviews(
+  placeId: string,
+  token: string,
+  onPoll?: () => Promise<void>
+): Promise<ScrapedReview[]> {
   const startRes = await fetch(
     `https://api.apify.com/v2/acts/${ACTOR}/runs?${apifyTokenParam(token)}`,
     {
@@ -274,6 +279,7 @@ async function scrapeGoogleReviews(placeId: string, token: string): Promise<Scra
   const deadline = Date.now() + APIFY_MAX_WAIT_MS;
   while (Date.now() < deadline) {
     await new Promise((r) => setTimeout(r, APIFY_POLL_MS));
+    if (onPoll) await onPoll();
     const statusRes = await fetch(
       `https://api.apify.com/v2/actor-runs/${runId}?${apifyTokenParam(token)}`
     );
@@ -301,7 +307,7 @@ async function scrapeGoogleReviews(placeId: string, token: string): Promise<Scra
   }
 
   throw new Error(
-    "Google review scrape timed out after 5 minutes — try again or use a place with fewer reviews"
+    "Google review scrape timed out — try Generate again (Apify may still be running in the background)"
   );
 }
 
@@ -314,10 +320,13 @@ async function patchReport(
   reportId: string,
   patch: Record<string, unknown>
 ) {
-  await supabase
+  const { error } = await supabase
     .from("voc_reports")
     .update({ ...patch, updated_at: nowIso() })
     .eq("id", reportId);
+  if (error) {
+    throw new Error(`Could not update report: ${error.message}`);
+  }
 }
 
 async function failReport(
@@ -369,9 +378,20 @@ async function runScrapePhase(
     throw new Error("APIFY_API_TOKEN not set in Supabase Edge Function secrets");
   }
 
-  await patchReport(supabase, reportId, { status: "scraping", error_message: null });
+  await patchReport(supabase, reportId, {
+    status: "scraping",
+    error_message: "Scraping Google reviews…",
+  });
 
-  const reviews = await scrapeGoogleReviews(business.google_place_id!, apifyToken);
+  const reviews = await scrapeGoogleReviews(
+    business.google_place_id!,
+    apifyToken,
+    async () => {
+      await patchReport(supabase, reportId, {
+        error_message: "Scraping Google reviews… (waiting on Apify)",
+      });
+    }
+  );
 
   await patchReport(supabase, reportId, {
     status: "analyzing",

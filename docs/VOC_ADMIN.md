@@ -35,9 +35,12 @@ Edge function secrets (`OPENAI_API_KEY`, `APIFY_API_TOKEN`, `SUPABASE_SERVICE_RO
    - `SUPABASE_SERVICE_ROLE_KEY` (server only)
    - `APIFY_API_TOKEN`
 
-2. In **Supabase Dashboard → Edge Functions → Secrets**, add:
+2. In **Supabase Dashboard → Edge Functions → Secrets**, add (required for Generate to finish):
    - `APIFY_API_TOKEN` — must match `.env.local`
    - `OPENAI_API_KEY` — enables full AI VoC reports (falls back to basic scoring if missing)
+   - `SUPABASE_SERVICE_ROLE_KEY` — same as Vercel (edge uses it for DB + analyze handoff)
+
+   **Stuck on `scraping` with 0 reviews?** Usually the edge function is missing `APIFY_API_TOKEN`, was not redeployed after code changes, or hit the platform time limit. Dashboard → **Mark failed** → fix secrets → `node scripts/deploy-voc-edge.mjs` → **Generate** again.
 
    Optional local CLI: `APIFY_CLI_TOKEN` in `.env.local` for `apify` CLI workflows.
 

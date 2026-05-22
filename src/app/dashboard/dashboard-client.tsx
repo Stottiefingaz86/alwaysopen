@@ -20,7 +20,7 @@ import { reportPath } from "@/lib/voc/slug";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
 
 type ReportFilter =
@@ -31,7 +31,8 @@ type ReportFilter =
   | "failed"
   | "no-report";
 
-const STUCK_MS = 12 * 60 * 1000;
+const STUCK_MS = 8 * 60 * 1000;
+const RUNNING_POLL_MS = 5000;
 
 function isReportStuck(report: {
   status: string;
@@ -150,6 +151,75 @@ export function DashboardClient({
   useEffect(() => {
     void checkSchema();
   }, [checkSchema]);
+
+  const runningTargets = useMemo(
+    () =>
+      businesses.flatMap((b) =>
+        b.voc_reports
+          .filter((r) => r.status === "scraping" || r.status === "analyzing")
+          .map((r) => ({ reportId: r.id, businessId: b.id }))
+      ),
+    [businesses]
+  );
+  const runningTargetsRef = useRef(runningTargets);
+  runningTargetsRef.current = runningTargets;
+  const runningPollKey = useMemo(
+    () => runningTargets.map((t) => t.reportId).sort().join(","),
+    [runningTargets]
+  );
+
+  /** Keep UI in sync when a run continues after refresh or edge `waitUntil` background work. */
+  useEffect(() => {
+    if (!runningPollKey) return;
+
+    let cancelled = false;
+
+    const tick = async () => {
+      const cfg = await getSupabaseBrowserConfig();
+      if (!cfg || cancelled) return;
+      const supabase = createClientWithConfig(cfg);
+
+      for (const { reportId, businessId } of runningTargetsRef.current) {
+        const { data } = await supabase
+          .from("voc_reports")
+          .select(
+            "id, period, status, public_slug, review_count, generated_at, created_at, updated_at, error_message"
+          )
+          .eq("id", reportId)
+          .single();
+        if (!data || cancelled) continue;
+
+        setBusinesses((prev) =>
+          prev.map((b) =>
+            b.id === businessId
+              ? {
+                  ...b,
+                  voc_reports: b.voc_reports.map((r) =>
+                    r.id === reportId
+                      ? {
+                          ...r,
+                          status: data.status,
+                          review_count: data.review_count,
+                          generated_at: data.generated_at,
+                          updated_at: data.updated_at ?? r.updated_at,
+                          error_message: data.error_message ?? null,
+                        }
+                      : r
+                  ),
+                }
+              : b
+          )
+        );
+      }
+    };
+
+    void tick();
+    const timer = window.setInterval(() => void tick(), RUNNING_POLL_MS);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [runningPollKey]);
 
   async function signOut() {
     const cfg = await getSupabaseBrowserConfig();
@@ -715,17 +785,30 @@ export function DashboardClient({
                         ) : null}
                       </div>
                     ) : null}
-                    {latest?.status === "failed" && latest.error_message ? (
-                      <p className="mt-2 text-xs text-google-red" role="alert">
+                    {latest?.error_message &&
+                    (latest.status === "failed" ||
+                      latest.status === "scraping" ||
+                      latest.status === "analyzing") ? (
+                      <p
+                        className={cn(
+                          "mt-2 text-xs",
+                          latest.status === "failed"
+                            ? "text-google-red"
+                            : "text-google-gray-600"
+                        )}
+                        role={latest.status === "failed" ? "alert" : "status"}
+                      >
                         {latest.error_message}
                       </p>
                     ) : null}
-                    {latest && (stuck || (running && latest.review_count > 0)) ? (
+                    {latest && (stuck || running) ? (
                       <div className="mt-3 rounded-lg border border-amber-200/80 bg-amber-50/80 px-3 py-2.5">
                         <p className="text-xs text-amber-950">
                           {stuck
-                            ? "This run may have stopped when the edge function shut down in production (common after scrape, during analyze)."
-                            : "Scrape finished — if analysis hangs, continue without re-scraping."}
+                            ? "This run may have stopped when the edge function shut down. Check Supabase → Edge Functions → Secrets (APIFY_API_TOKEN, OPENAI_API_KEY), then Mark failed and Generate again."
+                            : latest.review_count > 0
+                              ? "Scrape finished — if analysis hangs, use Continue analysis."
+                              : "Still scraping (2–5 min). If this lasts more than 8 minutes, use Mark failed and Generate again."}
                         </p>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {latest.review_count > 0 ? (
