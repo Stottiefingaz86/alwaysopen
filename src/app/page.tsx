@@ -7,7 +7,6 @@ import { PhoneReceptionistSection } from "@/components/landing/phone-receptionis
 import { ProblemSection } from "@/components/landing/problem-section";
 import { SolutionSection } from "@/components/landing/solution-section";
 import { listPublishedCaseStudies } from "@/lib/voc/list-published-case-studies";
-import { PipelineSection } from "@/components/landing/pipeline";
 import { IntegrationsSection } from "@/components/landing/integrations-section";
 import { VocSection } from "@/components/landing/voc-section";
 import { NewsSection } from "@/components/landing/news-section";
@@ -50,7 +49,6 @@ export default async function Home() {
         <SolutionSection initialCaseStudies={landingCaseStudies} />
         <StatsBar />
         <ProblemSection />
-        <PipelineSection />
         <IntegrationsSection />
         <VocSection />
         <PricingSection />

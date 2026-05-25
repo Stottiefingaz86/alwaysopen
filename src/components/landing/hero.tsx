@@ -2,7 +2,8 @@
 
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
-import { DotGrid, PhoneRingPulse } from "@/components/landing/decorations";
+import { DotGrid } from "@/components/landing/decorations";
+import { cn } from "@/lib/utils";
 import { AgentShowcase } from "@/components/landing/agent-showcase";
 import { useLocale } from "@/components/providers/locale-provider";
 import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
@@ -20,16 +21,25 @@ export function Hero() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_1.05fr] lg:items-center lg:gap-10">
           <div className="relative z-10 lg:pt-2">
             <FadeIn>
-              <p className="mb-4 inline-flex items-center gap-2 text-sm text-google-gray-500">
-                <PhoneRingPulse />
+              <p className="mb-4 text-sm text-google-gray-600">
+                <span aria-hidden>🟢 </span>
                 {m.hero.eyebrow}
               </p>
             </FadeIn>
 
             <FadeIn delay={0.05}>
-              <h1 className="max-w-lg text-balance text-[1.75rem] font-normal leading-[1.15] tracking-tight text-foreground sm:text-[2.125rem] lg:text-[2.5rem]">
-                {m.hero.title}{" "}
-                <span className="text-google-blue">{m.hero.titleHighlight}</span>
+              <h1 className="max-w-xl text-balance text-[1.75rem] font-normal leading-[1.2] tracking-tight text-foreground sm:text-[2.125rem] lg:text-[2.5rem]">
+                {m.hero.titleLines.map((line, index) => (
+                  <span
+                    key={line}
+                    className={cn(
+                      "block",
+                      index === m.hero.titleLines.length - 1 && "text-google-blue"
+                    )}
+                  >
+                    {line}
+                  </span>
+                ))}
               </h1>
             </FadeIn>
 
@@ -65,6 +75,7 @@ export function Hero() {
                   {m.hero.viewPricing}
                 </CtaButton>
               </div>
+              <p className="mt-3 max-w-md text-sm text-google-gray-500">{m.hero.ctaMicro}</p>
             </FadeIn>
           </div>
 
