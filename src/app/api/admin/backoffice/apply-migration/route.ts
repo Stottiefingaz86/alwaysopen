@@ -24,6 +24,7 @@ export async function POST() {
   const migrationFiles = [
     "20260522120000_backoffice.sql",
     "20260523120000_usage_elevenlabs_only.sql",
+    "20260526100000_demo_platform_credentials.sql",
   ];
 
   const client = new pg.Client({ connectionString: dbUrl });

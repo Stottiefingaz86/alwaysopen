@@ -54,11 +54,34 @@ const checklistLabels: Record<keyof OnboardingChecklist, string> = {
   client_live: "Client live",
 };
 
+function isWebUrl(value: string) {
+  return /^https?:\/\//i.test(value);
+}
+
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
+  const text = value?.trim() ?? "";
+
   return (
     <div>
       <p className="text-xs font-medium uppercase tracking-wide text-google-gray-500">{label}</p>
-      <p className="mt-1 text-sm text-foreground">{value?.trim() ? value : "—"}</p>
+      {!text ? (
+        <p className="mt-1 text-sm text-foreground">—</p>
+      ) : isWebUrl(text) ? (
+        <a
+          href={text}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 block break-all text-sm text-google-blue hover:underline"
+        >
+          {text}
+        </a>
+      ) : text.includes("@") && !text.includes(" ") ? (
+        <a href={`mailto:${text}`} className="mt-1 block text-sm text-google-blue hover:underline">
+          {text}
+        </a>
+      ) : (
+        <p className="mt-1 text-sm text-foreground">{text}</p>
+      )}
     </div>
   );
 }
@@ -342,8 +365,9 @@ export function ClientDetailClient({
         {tab === "Credentials" && (
           <div className="space-y-6">
             <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-              Credentials are masked by default. Store secrets securely; production should use
-              encrypted vault storage.
+              OAuth platforms (ElevenLabs, n8n) use Google sign-in — no password is stored here.
+              API keys for sync live in server env vars (<code className="rounded bg-white px-1 text-xs">ELEVENLABS_API_KEY</code>,{" "}
+              <code className="rounded bg-white px-1 text-xs">N8N_API_KEY</code>).
             </p>
             {credentials.length === 0 ? (
               <p className="text-sm text-google-gray-500">No credentials saved yet.</p>

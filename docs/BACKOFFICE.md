@@ -61,3 +61,12 @@ Content-Type: application/json
 ## Seed client
 
 **RingsAway Demo / Internal Test Client** — Restaurant demo, Receptionist + Insight, €249/mo, 500 minutes. Usage starts at 0 until ElevenLabs sync.
+
+**Platform logins (OAuth, not stored as passwords):**
+
+| Platform | Login | URL |
+|----------|-------|-----|
+| ElevenLabs | christopher.hunt86@gmail.com (Google OAuth) | https://elevenlabs.io/app/sign-in |
+| n8n Cloud | christopher.hunt86@gmail.com (Google OAuth) | https://stottiefingaz.app.n8n.cloud/signin |
+
+Recorded under the demo client **Credentials** tab. API automation uses env keys, not OAuth sessions.
