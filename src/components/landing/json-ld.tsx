@@ -83,7 +83,7 @@ export function JsonLd() {
         },
         featureList: [
           "Restaurant AI receptionist demo",
-          "Salon demo (coming soon)",
+          "Brows by Sarah salon demo",
           "Estate agency demo (coming soon)",
           "Clinic demo (coming soon)",
         ],

@@ -2,6 +2,7 @@
 
 import { IndustryAgentDialog } from "@/components/landing/industry-agent-dialog";
 import { RestaurantDemoCard } from "@/components/landing/restaurant-demo-card";
+import { SalonDemoCard } from "@/components/landing/salon-demo-card";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import {
@@ -33,7 +34,12 @@ const INDUSTRY_CARDS: IndustryCard[] = [
     available: true,
     accentIcon: "bg-amber-50 text-amber-800",
   },
-  { key: "salon", icon: Scissors, available: false },
+  {
+    key: "salon",
+    icon: Scissors,
+    available: true,
+    accentIcon: "bg-pink-50 text-pink-700",
+  },
   { key: "estateAgency", icon: Building2, available: false },
   { key: "clinic", icon: Stethoscope, available: false },
 ];
@@ -106,6 +112,9 @@ export function IndustryShowcase({
         {INDUSTRY_CARDS.map((card, index) => {
           if (card.key === "restaurant") {
             return <RestaurantDemoCard key={card.key} index={index} />;
+          }
+          if (card.key === "salon") {
+            return <SalonDemoCard key={card.key} index={index} />;
           }
 
           const copy = industryCopy[card.key];

@@ -40,6 +40,7 @@ export type IndustryAgentKey = "restaurant" | "salon" | "estateAgency" | "clinic
 
 export const INDUSTRY_AGENT_IDS: Partial<Record<IndustryAgentKey, string>> = {
   restaurant: RESTAURANT_AGENT.id,
+  salon: BROWS_BY_SARAH_AGENT.id,
 };
 
 /** Siri orb palettes per industry demo */
@@ -55,6 +56,13 @@ export const INDUSTRY_ORB_COLORS: Partial<
     c2: "oklch(72% 0.16 75)",
     c3: "oklch(48% 0.12 25)",
     glow: "bg-amber-500/15",
+  },
+  salon: {
+    bg: BROWS_BY_SARAH_ORB_COLORS.bg,
+    c1: BROWS_BY_SARAH_ORB_COLORS.c1,
+    c2: BROWS_BY_SARAH_ORB_COLORS.c2,
+    c3: BROWS_BY_SARAH_ORB_COLORS.c3,
+    glow: BROWS_BY_SARAH_ORB_COLORS.glow,
   },
 };
 

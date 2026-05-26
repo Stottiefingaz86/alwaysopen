@@ -1,6 +1,9 @@
 "use client";
 
-import { AgentCallPanel } from "@/components/landing/agent-call-panel";
+import {
+  AgentCallPanel,
+  type AgentCallPanelPhoneAlt,
+} from "@/components/landing/agent-call-panel";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +28,7 @@ type IndustryAgentDialogProps = {
   title: string;
   description: string;
   promptPhrases?: readonly string[];
+  phoneAlt?: AgentCallPanelPhoneAlt;
 };
 
 export function IndustryAgentDialog({
@@ -35,6 +39,7 @@ export function IndustryAgentDialog({
   title,
   description,
   promptPhrases,
+  phoneAlt,
 }: IndustryAgentDialogProps) {
   const palette = INDUSTRY_ORB_COLORS[industry] ?? DEFAULT_ORB_COLORS;
   const orbColors: SiriOrbProps["colors"] = {
@@ -67,6 +72,7 @@ export function IndustryAgentDialog({
             <AgentCallPanel
               active={open}
               showPhoneLink={false}
+              phoneAlt={phoneAlt}
               promptPhrases={promptPhrases}
               orbColors={orbColors}
               orbGlowClassName={palette.glow}
