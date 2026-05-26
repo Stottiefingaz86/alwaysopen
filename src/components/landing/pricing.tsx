@@ -78,7 +78,7 @@ export function PricingSection() {
           </div>
         </FadeIn>
 
-        <div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-3 md:items-stretch">
+        <div className="mt-8 grid gap-6 pt-3 md:mt-10 md:grid-cols-3 md:items-stretch">
           {plans.map(({ key, plan, popular, delay }) => {
             const isCustom = key === "custom";
 
@@ -87,16 +87,15 @@ export function PricingSection() {
                 <Card
                   className={cn(
                     "relative flex h-full flex-col overflow-visible border-google-gray-200 bg-white shadow-google-card",
-                    popular &&
-                      "z-[1] border-google-green/40 shadow-google-elevated md:-mt-2"
+                    popular && "z-[1] border-google-green/40 shadow-google-elevated"
                   )}
                 >
-                  {popular && (
+                  {popular ? (
                     <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-google-green px-3 py-1 text-[10px] font-semibold tracking-wider text-white shadow-google">
                       {p.popular}
                     </span>
-                  )}
-                  <CardHeader className={cn("space-y-4 pb-4", popular && "pt-7")}>
+                  ) : null}
+                  <CardHeader className="space-y-4 pb-4 pt-0">
                     <div>
                       <CardTitle className="text-lg font-semibold tracking-tight text-foreground">
                         {plan.name}
@@ -148,18 +147,6 @@ export function PricingSection() {
                       <p className="rounded-lg border border-google-green/25 bg-google-green/5 px-3 py-2 text-sm font-medium leading-snug text-google-green">
                         {plan.highlight}
                       </p>
-                    ) : null}
-
-                    {"savings" in plan && plan.savings ? (
-                      <div className="space-y-1 rounded-lg border border-google-green/20 bg-google-green/[0.07] px-3 py-2.5 text-xs leading-relaxed text-google-gray-600">
-                        <p>{plan.savings.separate}</p>
-                        <p className="font-medium text-foreground">
-                          {plan.savings.bundle}
-                        </p>
-                        <p className="font-semibold text-google-green">
-                          {plan.savings.saving}
-                        </p>
-                      </div>
                     ) : null}
 
                     <CtaButton

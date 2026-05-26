@@ -61,9 +61,9 @@ export const es = {
     comingSoon: "Próximamente",
     tryDemo: "Probar demo en vivo",
     restaurantWorkflow: {
-      packageLabel: "Paquete 1 — Recepcionista IA",
+      packageLabel: "Recepcionista IA",
       viewWorkflow: "Flujo",
-      modalTitle: "La Vista Marina — flujo Paquete 1",
+      modalTitle: "La Vista Marina — flujo Recepcionista IA",
       modalDescription:
         "Cómo llegan las llamadas a tu recepcionista IA y cómo las reservas y cancelaciones se sincronizan con Google Calendar y email.",
       caption:
@@ -1071,7 +1071,7 @@ export const es = {
     addOnsTitle: "Complementos opcionales",
     plans: {
       receptionist: {
-        name: "Paquete 1 — Recepcionista IA",
+        name: "Básico",
         description:
           "Para negocios que quieren llamadas atendidas, FAQs resueltas y citas reservadas.",
         setup: "499 € configuración",
@@ -1092,7 +1092,7 @@ export const es = {
         cta: "bookDemo",
       },
       bundle: {
-        name: "Paquete 2 — Recepcionista + Insight",
+        name: "Pro",
         description:
           "Para negocios que quieren atención de llamadas más insight mensual del cliente.",
         setup: "499 € configuración",
@@ -1100,25 +1100,21 @@ export const es = {
         minutes: "500 minutos IA/mes",
         overage: "0,30 €/min tras minutos incluidos",
         features: [
-          "Todo en Recepcionista IA",
+          "Todo lo incluido en Básico",
           "Informe mensual Voz del Cliente",
           "Análisis de reseñas Google",
           "Temas positivos y negativos",
           "Tendencias de quejas",
           "Recomendaciones de acción mensuales",
+          "Disparadores de post-cita y marketing",
           "Más minutos IA incluidos",
         ],
         highlight:
           "Incluye informes VoC mensuales (puntuales: 89 € cada uno)",
-        savings: {
-          separate: "Recepcionista IA 179 €/mes + informe VoC 89 € puntual",
-          bundle: "Este plan: 249 €/mes con VoC mensual incluido",
-          saving: "La mejor opción para llamadas e insight continuo",
-        },
         cta: "bookDemo",
       },
       custom: {
-        name: "Flujo personalizado",
+        name: "Business",
         description:
           "Para negocios que requieren flujos e integraciones a medida.",
         setup: "Personalizado",
@@ -1139,11 +1135,7 @@ export const es = {
     },
     addOns: [
       { title: "Informe Voz del Cliente", price: "89 € pago único" },
-      { title: "Integración WhatsApp Business", price: "200 € pago único" },
-      { title: "Integración reserva de mesas", price: "200 € pago único" },
       { title: "Automatización extra", price: "desde 250 € configuración" },
-      { title: "Calendario/usuario extra", price: "200 €/mes" },
-      { title: "Número de teléfono extra", price: "coste + 25 €/mes" },
     ],
   },
   addOns: {
@@ -1151,11 +1143,7 @@ export const es = {
     subtitle: "",
     items: [
       { title: "Informe Voz del Cliente", price: "89 € pago único" },
-      { title: "Integración WhatsApp Business", price: "200 € pago único" },
-      { title: "Integración reserva de mesas", price: "200 € pago único" },
       { title: "Automatización extra", price: "desde 250 € configuración" },
-      { title: "Calendario/usuario extra", price: "200 €/mes" },
-      { title: "Número de teléfono extra", price: "coste + 25 €/mes" },
     ],
   },
   about: {

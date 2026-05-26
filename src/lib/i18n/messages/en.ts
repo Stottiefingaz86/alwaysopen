@@ -61,9 +61,9 @@ export const en = {
     comingSoon: "Coming soon",
     tryDemo: "Try live demo",
     restaurantWorkflow: {
-      packageLabel: "Package 1 — AI Receptionist",
+      packageLabel: "AI Receptionist",
       viewWorkflow: "Workflow",
-      modalTitle: "La Vista Marina — Package 1 workflow",
+      modalTitle: "La Vista Marina — AI Receptionist workflow",
       modalDescription:
         "How calls reach your AI receptionist, then how bookings and cancellations sync to Google Calendar and email.",
       caption:
@@ -1071,7 +1071,7 @@ export const en = {
     addOnsTitle: "Optional add-ons",
     plans: {
       receptionist: {
-        name: "Package 1 — AI Receptionist",
+        name: "Basic",
         description:
           "For businesses that want calls answered, FAQs handled and appointments booked.",
         setup: "€499 setup",
@@ -1092,7 +1092,7 @@ export const en = {
         cta: "bookDemo",
       },
       bundle: {
-        name: "Package 2 — Receptionist + Insight",
+        name: "Pro",
         description:
           "For businesses that want call handling plus monthly customer insight.",
         setup: "€499 setup",
@@ -1100,25 +1100,21 @@ export const en = {
         minutes: "500 AI call minutes/month",
         overage: "€0.30/min after included minutes",
         features: [
-          "Everything in AI Receptionist",
+          "Everything in Basic",
           "Monthly Voice of Customer report",
           "Google review analysis",
           "Positive and negative themes",
           "Customer complaint trends",
           "Monthly action recommendations",
+          "Aftercare & marketing follow-up triggers",
           "More included AI minutes",
         ],
         highlight:
           "Includes monthly VoC reports (one-off reports are €89 each)",
-        savings: {
-          separate: "AI Receptionist €179/mo + VoC report €89 one-off",
-          bundle: "This plan: €249/mo with monthly VoC included",
-          saving: "Best value for calls plus ongoing customer insight",
-        },
         cta: "bookDemo",
       },
       custom: {
-        name: "Custom Workflow",
+        name: "Business",
         description:
           "For businesses requiring custom workflows and integrations.",
         setup: "Custom",
@@ -1139,11 +1135,7 @@ export const en = {
     },
     addOns: [
       { title: "Voice of Customer Report", price: "€89 one-off" },
-      { title: "WhatsApp Business Integration", price: "€200 one-off" },
-      { title: "Table Booking Integration", price: "€200 one-off" },
       { title: "Extra Automation", price: "from €250 setup" },
-      { title: "Extra Calendar/User", price: "€200/month" },
-      { title: "Extra Phone Number", price: "cost + €25/month" },
     ],
   },
   addOns: {
@@ -1151,11 +1143,7 @@ export const en = {
     subtitle: "",
     items: [
       { title: "Voice of Customer Report", price: "€89 one-off" },
-      { title: "WhatsApp Business Integration", price: "€200 one-off" },
-      { title: "Table Booking Integration", price: "€200 one-off" },
       { title: "Extra Automation", price: "from €250 setup" },
-      { title: "Extra Calendar/User", price: "€200/month" },
-      { title: "Extra Phone Number", price: "cost + €25/month" },
     ],
   },
   about: {
