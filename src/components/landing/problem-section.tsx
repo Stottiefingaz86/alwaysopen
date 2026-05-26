@@ -15,7 +15,7 @@ export function ProblemSection() {
   }));
 
   return (
-    <Section id="problems" background="pattern">
+    <Section id="problems" background="pattern" className="pt-0">
       <FadeIn>
         <div className="mx-auto max-w-2xl space-y-4 text-center">
           <p className="text-sm font-medium uppercase tracking-wider text-google-blue">

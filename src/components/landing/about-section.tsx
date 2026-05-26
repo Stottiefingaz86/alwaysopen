@@ -13,6 +13,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import { SectionSeparator } from "@/components/landing/section-separator";
 import {
   aboutSeparatorHeight,
   aboutSeparatorSrc,
@@ -127,18 +128,12 @@ export function AboutSection() {
       </div>
     </Section>
 
-    <FadeIn delay={0.1} className="block leading-[0]">
-      {/* Native img: full-res RGBA from /public (Next/Image was serving a cached, compressed copy). */}
-      <img
-        src={aboutSeparatorSrc}
-        alt=""
-        width={aboutSeparatorWidth}
-        height={aboutSeparatorHeight}
-        decoding="async"
-        className="block h-auto w-full"
-        aria-hidden
-      />
-    </FadeIn>
+    <SectionSeparator
+      src={aboutSeparatorSrc}
+      width={aboutSeparatorWidth}
+      height={aboutSeparatorHeight}
+      className="bg-white"
+    />
     </>
   );
 }

@@ -12,19 +12,14 @@ import {
   BarChart3,
   BellRing,
   Building2,
-  CalendarCheck,
   Check,
   ChevronRight,
   Globe,
-  Inbox,
   MessageCircle,
   Phone,
   RefreshCw,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
-
-const highlightIcons: LucideIcon[] = [Inbox, CalendarCheck, RefreshCw, BarChart3];
 
 const stepIcons: (LucideIcon | "ringsaway")[] = [
   MessageCircle,
@@ -294,45 +289,6 @@ export function PhoneReceptionistSection() {
           </ol>
         </div>
       </div>
-
-      <FadeIn delay={0.2}>
-        <div className="relative mt-12 overflow-hidden rounded-2xl border border-google-blue/15 bg-linear-to-br from-pastel-blue/40 via-white to-white shadow-google-elevated md:mt-14">
-          <div
-            className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-google-blue/5 blur-2xl"
-            aria-hidden
-          />
-          <div className="relative px-5 py-7 md:px-8 md:py-9">
-            <p className="text-center text-lg font-medium tracking-tight text-foreground md:text-xl">
-              {m.phone.highlight.headline}
-            </p>
-
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {m.phone.highlight.steps.map((phase, index) => {
-                const Icon = highlightIcons[index] ?? Sparkles;
-                return (
-                  <motion.li
-                    key={phase.label}
-                    className="group rounded-xl border border-google-gray-200/90 bg-white/90 p-4 shadow-google transition-all hover:-translate-y-0.5 hover:border-google-blue/25 hover:shadow-google-md"
-                    whileHover={{ scale: 1.01 }}
-                  >
-                    <span className="flex size-9 items-center justify-center rounded-lg bg-pastel-blue text-google-blue transition-colors group-hover:bg-google-blue group-hover:text-white">
-                      <Icon className="size-4" strokeWidth={1.75} />
-                    </span>
-                    <p className="mt-3 text-sm font-medium text-foreground">{phase.label}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-google-gray-500">
-                      {phase.description}
-                    </p>
-                  </motion.li>
-                );
-              })}
-            </ul>
-
-            <p className="mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed text-google-gray-500 md:text-base">
-              {m.phone.highlight.subtext}
-            </p>
-          </div>
-        </div>
-      </FadeIn>
     </Section>
   );
 }

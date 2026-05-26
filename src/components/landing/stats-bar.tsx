@@ -1,7 +1,13 @@
 "use client";
 
+import { SectionSeparator } from "@/components/landing/section-separator";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
+import {
+  statsSeparatorHeight,
+  statsSeparatorSrc,
+  statsSeparatorWidth,
+} from "@/lib/brand-assets";
 
 export function StatsBar() {
   const { m } = useLocale();
@@ -12,8 +18,9 @@ export function StatsBar() {
   ];
 
   return (
-    <section className="border-y border-google-gray-200 bg-white py-16 md:py-24">
-      <div className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6 md:space-y-14">
+    <>
+    <section className="flow-root overflow-visible border-t border-google-gray-200 bg-white pt-16 md:pt-24">
+      <div className="mx-auto max-w-5xl space-y-10 px-4 pb-0 sm:px-6 md:space-y-14">
         <FadeIn>
           <div className="max-w-xl space-y-4">
             <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
@@ -53,5 +60,13 @@ export function StatsBar() {
         </div>
       </div>
     </section>
+
+    <SectionSeparator
+      src={statsSeparatorSrc}
+      width={statsSeparatorWidth}
+      height={statsSeparatorHeight}
+      className="bg-white"
+    />
+    </>
   );
 }

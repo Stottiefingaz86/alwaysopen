@@ -270,17 +270,6 @@ export const en = {
     ],
     step: "Step",
     phases: ["Capture", "Convert", "Retain", "Improve"],
-    highlight: {
-      headline: "Capture → Convert → Retain → Improve",
-      subtext:
-        "RingsAway does more than answer calls. It helps local businesses grow through automation and customer insight.",
-      steps: [
-        { label: "Capture", description: "Answer every enquiry on phone, WhatsApp and web" },
-        { label: "Convert", description: "Book appointments and capture leads automatically" },
-        { label: "Retain", description: "Confirmations, reminders and repeat campaigns" },
-        { label: "Improve", description: "Monthly VoC reports and review insights" },
-      ],
-    },
   },
   problem: {
     eyebrow: "The problem",
