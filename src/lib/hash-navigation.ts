@@ -20,7 +20,7 @@ export function serviceTabFromHash(hash: string): ServiceTab {
   ) {
     return "voc";
   }
-  return "voc";
+  return "ai";
 }
 
 /** Scroll to an in-page anchor, retrying while lazy-mounted UI (e.g. tab panels) renders. */

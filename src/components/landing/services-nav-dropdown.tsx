@@ -27,18 +27,18 @@ export function ServicesNavDropdown({
 
   const items = [
     {
-      hash: "#voice-of-customer",
-      href: sectionLink("#voice-of-customer"),
-      label: m.nav.serviceVoc,
-      icon: FileText,
-      description: m.solution.tabs.voc,
-    },
-    {
       hash: "#ai-receptionist",
       href: sectionLink("#ai-receptionist"),
       label: m.nav.serviceAi,
       icon: Bot,
       description: m.solution.tabs.ai,
+    },
+    {
+      hash: "#voice-of-customer",
+      href: sectionLink("#voice-of-customer"),
+      label: m.nav.serviceVoc,
+      icon: FileText,
+      description: m.solution.tabs.voc,
     },
   ] as const;
 

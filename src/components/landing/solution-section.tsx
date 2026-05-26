@@ -130,8 +130,8 @@ function ServicePicker({
   vocPriceShort: string;
 }) {
   const tabs: { id: ServiceTab; label: string; icon: typeof Bot }[] = [
-    { id: "voc", label: labels.voc, icon: FileText },
     { id: "ai", label: labels.ai, icon: Bot },
+    { id: "voc", label: labels.voc, icon: FileText },
   ];
 
   return (
@@ -186,7 +186,7 @@ export function SolutionSection({
   const s = m.solution;
   const contactHref = getContactHref(true);
   const [activeService, setActiveService] = useState<ServiceTab>(() =>
-    typeof window === "undefined" ? "voc" : serviceTabFromHash(window.location.hash)
+    typeof window === "undefined" ? "ai" : serviceTabFromHash(window.location.hash)
   );
 
   useEffect(() => {
