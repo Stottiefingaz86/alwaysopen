@@ -33,7 +33,7 @@ export function FaqsSection() {
   const contactHref = getContactHref(true);
 
   return (
-    <Section id="faq" background="gray">
+    <Section id="faq" background="gray" className="pt-0">
       <div className="mx-auto max-w-5xl px-0">
         <div className="flex flex-col gap-10 md:flex-row md:gap-16">
           <FadeIn className="md:w-1/3">

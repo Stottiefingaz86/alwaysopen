@@ -13,6 +13,11 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import {
+  aboutSeparatorHeight,
+  aboutSeparatorSrc,
+  aboutSeparatorWidth,
+} from "@/lib/brand-assets";
 
 const MAP_QUERY = "La Chullera, Manilva, Málaga, Spain";
 const MAP_EMBED = `https://maps.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&hl=en&z=13&output=embed`;
@@ -29,7 +34,8 @@ export function AboutSection() {
   }));
 
   return (
-    <Section id="about" background="white">
+    <>
+    <Section id="about" background="white" className="pb-0">
       <div className="mx-auto max-w-5xl px-0">
         <div className="flex flex-col gap-10 md:flex-row md:gap-16">
           <FadeIn className="md:w-1/3">
@@ -120,5 +126,19 @@ export function AboutSection() {
         </div>
       </div>
     </Section>
+
+    <FadeIn delay={0.1} className="block leading-[0]">
+      {/* Native img: full-res RGBA from /public (Next/Image was serving a cached, compressed copy). */}
+      <img
+        src={aboutSeparatorSrc}
+        alt=""
+        width={aboutSeparatorWidth}
+        height={aboutSeparatorHeight}
+        decoding="async"
+        className="block h-auto w-full"
+        aria-hidden
+      />
+    </FadeIn>
+    </>
   );
 }

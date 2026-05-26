@@ -314,7 +314,7 @@ export const en = {
         "Sends confirmations automatically",
         "English and Spanish callers supported",
       ],
-      howItWorks: "How RingsAway works",
+      liveDemosCta: "Live demos",
       liveOnLine: "Live on your line",
       pickup: "24/7 pickup",
       aiTrained: "AI trained on your business",

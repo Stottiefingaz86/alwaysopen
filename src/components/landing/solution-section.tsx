@@ -2,7 +2,7 @@
 
 import { BorderBeam } from "@/components/ui/border-beam";
 import { SiriOrb } from "@/components/ui/siri-orb";
-import { CtaButton } from "@/components/landing/cta-button";
+import { SectionAnchorCta } from "@/components/landing/section-anchor-cta";
 import { IndustryShowcase } from "@/components/landing/industry-showcase-section";
 import { VocIndustryShowcase } from "@/components/landing/voc-industry-showcase";
 import type { CaseStudyListItem } from "@/lib/voc/case-studies";
@@ -11,7 +11,6 @@ import { PhoneRingPulse } from "@/components/landing/decorations";
 import { RingsAwayMark } from "@/components/landing/ringsaway-mark";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import type { Messages } from "@/lib/i18n/messages/en";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
@@ -182,9 +181,8 @@ export function SolutionSection({
 }: {
   initialCaseStudies?: CaseStudyListItem[];
 }) {
-  const { m, locale } = useLocale();
+  const { m } = useLocale();
   const s = m.solution;
-  const contactHref = getContactHref(true);
   const [activeService, setActiveService] = useState<ServiceTab>(() =>
     typeof window === "undefined" ? "ai" : serviceTabFromHash(window.location.hash)
   );
@@ -282,13 +280,11 @@ export function SolutionSection({
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <CtaButton href="#phone-receptionist" size="default">
-                          {s.ai.howItWorks}
-                        </CtaButton>
-                        <CtaButton href={contactHref} variant="secondary" size="default">
-                          {getTalkOverCoffeeCta(locale)}
-                        </CtaButton>
+                      <div className="mt-8">
+                        <SectionAnchorCta
+                          targetId="industry-demos"
+                          label={s.ai.liveDemosCta}
+                        />
                       </div>
                     </div>
                     <div className="border-t border-google-gray-100 p-4 lg:border-l lg:border-t-0 lg:p-6">

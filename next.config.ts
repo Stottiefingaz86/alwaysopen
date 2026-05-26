@@ -31,6 +31,9 @@ const nextConfig: NextConfig = {
       {
         pathname: "/client/**",
       },
+      {
+        pathname: "/seprator.png",
+      },
     ],
   },
 };
