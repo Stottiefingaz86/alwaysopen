@@ -8,6 +8,7 @@ import { VocIndustryShowcase } from "@/components/landing/voc-industry-showcase"
 import type { CaseStudyListItem } from "@/lib/voc/case-studies";
 import { VocFloatingReviewsVisual } from "@/components/landing/voc-floating-reviews-visual";
 import { PhoneRingPulse } from "@/components/landing/decorations";
+import { RingsAwayMark } from "@/components/landing/ringsaway-mark";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
@@ -20,7 +21,6 @@ import {
   Check,
   FileText,
   Phone,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -102,7 +102,7 @@ function ReceptionistVisual({ ai }: { ai: Messages["solution"]["ai"] }) {
         viewport={{ once: true }}
         transition={{ delay: 0.35 }}
       >
-        <Sparkles className="size-4 text-google-blue" />
+        <RingsAwayMark className="size-4" variant="brand" />
         <span className="text-xs font-medium text-google-gray-700">{ai.aiTrained}</span>
       </motion.div>
     </div>

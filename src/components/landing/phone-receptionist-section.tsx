@@ -3,6 +3,7 @@
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Card, CardContent } from "@/components/ui/card";
 import { FloatingBadge } from "@/components/landing/decorations";
+import { RingsAwayMark } from "@/components/landing/ringsaway-mark";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
@@ -25,9 +26,9 @@ import {
 
 const highlightIcons: LucideIcon[] = [Inbox, CalendarCheck, RefreshCw, BarChart3];
 
-const stepIcons: LucideIcon[] = [
+const stepIcons: (LucideIcon | "ringsaway")[] = [
   MessageCircle,
-  Sparkles,
+  "ringsaway",
   BellRing,
   RefreshCw,
   BarChart3,
@@ -73,7 +74,7 @@ function ChannelFlowDiagram({
         <ChevronRight className="size-4 shrink-0 text-google-blue/50" />
         <div className="flex flex-col items-center gap-1.5">
           <span className="flex size-10 items-center justify-center rounded-full border border-google-blue/30 bg-google-blue text-white shadow-google">
-            <Sparkles className="size-4" strokeWidth={1.75} />
+            <RingsAwayMark className="size-4" variant="white" />
           </span>
           <span className="text-[10px] font-medium uppercase tracking-wide text-google-blue">
             {brand}
@@ -202,7 +203,7 @@ export function PhoneReceptionistSection() {
           />
           <ol className="space-y-5 md:space-y-6">
             {steps.map((step, i) => {
-              const StepIcon = step.icon;
+              const stepIcon = step.icon;
               const isHighlight = i === 1;
 
               return (
@@ -218,7 +219,17 @@ export function PhoneReceptionistSection() {
                         )}
                         whileHover={{ scale: 1.05 }}
                       >
-                        <StepIcon className="size-5" strokeWidth={1.75} />
+                        {stepIcon === "ringsaway" ? (
+                          <RingsAwayMark
+                            className="size-5"
+                            variant={isHighlight ? "white" : "brand"}
+                          />
+                        ) : (
+                          (() => {
+                            const Icon = stepIcon;
+                            return <Icon className="size-5" strokeWidth={1.75} />;
+                          })()
+                        )}
                       </motion.span>
                       <span className="mt-2 text-[10px] font-bold tabular-nums text-google-blue/80">
                         {String(i + 1).padStart(2, "0")}
@@ -251,7 +262,9 @@ export function PhoneReceptionistSection() {
                               : "bg-google-gray-50 text-google-gray-600"
                           )}
                         >
-                          {isHighlight && <Sparkles className="size-3" />}
+                          {isHighlight && (
+                            <RingsAwayMark className="size-3" variant="brand" />
+                          )}
                           {step.badge}
                         </p>
                       )}

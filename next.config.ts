@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
         pathname: "/logo_icon.png",
       },
       {
+        pathname: "/iconwhite.png",
+      },
+      {
         pathname: "/google-my-business-icon.svg",
       },
       {
