@@ -1,5 +1,5 @@
 import { WorkflowsClient } from "@/app/admin/workflows/workflows-client";
-import { getBackofficeDb } from "@/lib/backoffice/db";
+import { getN8nConfig, getN8nWorkflowHealthOverview, syncN8nWorkflowHealthToDb } from "@/lib/n8n-api";
 import { requireAdminSession } from "@/lib/admin/require-admin";
 import { redirect } from "next/navigation";
 
@@ -7,19 +7,32 @@ export default async function AdminWorkflowsPage() {
   const session = await requireAdminSession();
   if (!session.ok) redirect("/login");
 
-  const db = getBackofficeDb();
-  const { data, error } = await db
-    .from("workflow_health")
-    .select("*, clients ( business_name )")
-    .order("updated_at", { ascending: false });
+  const { configured } = getN8nConfig();
+  let n8nError: string | null = null;
+  let syncNote: string | null = null;
 
-  const rows = (data ?? []).map((w) => ({
-    ...w,
-    client_name:
-      (w.clients as { business_name: string } | null)?.business_name ?? "Unknown",
-  }));
+  if (configured) {
+    const sync = await syncN8nWorkflowHealthToDb();
+    if (!sync.ok) {
+      n8nError = sync.error;
+    } else {
+      syncNote = `Synced ${sync.synced} client-linked workflow(s) from n8n.`;
+    }
+  }
+
+  const { rows: n8nRows, error: overviewError } = configured
+    ? await getN8nWorkflowHealthOverview()
+    : { rows: [], error: undefined };
+
+  if (overviewError) n8nError = overviewError;
 
   return (
-    <WorkflowsClient userEmail={session.user.email ?? ""} workflows={rows} error={error?.message} />
+    <WorkflowsClient
+      userEmail={session.user.email ?? ""}
+      workflows={n8nRows}
+      n8nConfigured={configured}
+      n8nError={n8nError}
+      syncNote={syncNote}
+    />
   );
 }

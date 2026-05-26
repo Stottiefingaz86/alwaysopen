@@ -26,6 +26,21 @@ Internal operations dashboard at `/admin` (after sign-in at `/login` → `/admin
 | `N8N_API_KEY` | n8n Settings → API — lists workflows in client Integrations |
 | `N8N_WEBHOOK_BASE_URL` | Optional base for webhook URLs in docs |
 
+## n8n workflow health (live API)
+
+**Admin → Workflows** loads all workflows and the last ~100 executions from n8n, then shows:
+
+- Last run time and status
+- Health (healthy / warning / failed)
+- Success % over recent runs
+- **Client workflows** vs **unlinked** workflows
+
+On each page load, client-linked workflows are synced into `workflow_health` for the dashboard and client detail.
+
+`POST /api/admin/backoffice/n8n/sync-health` — manual refresh.
+
+Requires `N8N_API_BASE_URL` + `N8N_API_KEY` (same as Integrations workflow picker).
+
 ## Linking n8n workflows to clients
 
 1. **Integrations tab** (per client): pick from your n8n instance or paste the **editor** URL  
