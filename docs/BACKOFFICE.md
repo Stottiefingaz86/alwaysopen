@@ -18,7 +18,9 @@ Internal operations dashboard at `/admin` (after sign-in at `/login` → `/admin
 | `RESEND_API_KEY` | Contact form |
 | `ELEVENLABS_API_KEY` | **Required** — billable minutes come only from ElevenLabs API sync |
 | `WORKFLOW_LOG_SECRET` | n8n `POST /api/workflow-log` (Bearer token) |
-| `STRIPE_SECRET_KEY` | Payments (future) |
+| `RESEND_API_KEY` | Send invoice emails from hello@ringsaway.com |
+| `RESEND_FROM_EMAIL` | Prefer `RingsAway <hello@ringsaway.com>` after domain verification |
+| `STRIPE_SECRET_KEY` | Optional — future hosted invoice links |
 | `TWILIO_ACCOUNT_SID` + `TWILIO_AUTH_TOKEN` | Twilio (future) |
 | `N8N_API_BASE_URL` | n8n instance, e.g. `https://stottiefingaz.app.n8n.cloud` |
 | `N8N_API_KEY` | n8n Settings → API — lists workflows in client Integrations |

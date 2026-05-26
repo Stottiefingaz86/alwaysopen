@@ -91,6 +91,7 @@ export type ClientPayment = {
   amount: number | null;
   status: string;
   invoice_url: string | null;
+  invoice_sent_at: string | null;
   due_date: string | null;
   paid_date: string | null;
   setup_fee_paid: boolean;

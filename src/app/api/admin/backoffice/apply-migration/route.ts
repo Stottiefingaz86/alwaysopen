@@ -25,6 +25,7 @@ export async function POST() {
     "20260522120000_backoffice.sql",
     "20260523120000_usage_elevenlabs_only.sql",
     "20260526100000_demo_platform_credentials.sql",
+    "20260526110000_payment_invoice_sent.sql",
   ];
 
   const client = new pg.Client({ connectionString: dbUrl });

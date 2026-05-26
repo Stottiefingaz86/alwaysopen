@@ -162,6 +162,8 @@ export function ClientDetailClient({
   const pct = verifiedUsagePercent(usage);
   const hasAgent = Boolean(integrations?.elevenlabs_agent_id?.trim());
   const [usageSyncing, setUsageSyncing] = useState(false);
+  const [invoiceSending, setInvoiceSending] = useState<string | null>(null);
+  const [invoiceError, setInvoiceError] = useState<string | null>(null);
 
   async function generateReport() {
     setGenerating(true);
@@ -208,6 +210,31 @@ export function ClientDetailClient({
       setSaveError("Save failed");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function sendInvoice(paymentId: string, kind: "monthly" | "setup") {
+    setInvoiceSending(`${paymentId}:${kind}`);
+    setInvoiceError(null);
+    try {
+      const res = await fetch(
+        `/api/admin/backoffice/clients/${client.id}/payments/${paymentId}/send-invoice`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind }),
+        }
+      );
+      const json = (await res.json()) as { error?: string; sentTo?: string };
+      if (!res.ok) {
+        setInvoiceError(json.error ?? "Could not send invoice");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setInvoiceError("Could not send invoice");
+    } finally {
+      setInvoiceSending(null);
     }
   }
 
@@ -397,28 +424,78 @@ export function ClientDetailClient({
 
         {tab === "Payments" && (
           <div className="space-y-4">
+            <p className="rounded-xl border border-google-gray-200 bg-google-gray-50 px-4 py-3 text-sm text-google-gray-700">
+              Invoices are emailed from <strong>hello@ringsaway.com</strong> to the client contact
+              email on Overview. Verify your domain in Resend for production delivery.
+            </p>
+            {invoiceError ? (
+              <p className="text-sm text-google-red">{invoiceError}</p>
+            ) : null}
             {payments.length === 0 ? (
               <p className="text-sm text-google-gray-500">No payment records.</p>
             ) : (
               payments.map((p) => (
-                <div key={p.id} className="grid gap-4 rounded-xl border border-google-gray-200 p-4 sm:grid-cols-2">
-                  <Field label="Stripe customer" value={p.stripe_customer_id} />
-                  <Field label="Stripe subscription" value={p.stripe_subscription_id} />
-                  <Field label="Amount" value={p.amount != null ? formatEuro(Number(p.amount)) : null} />
-                  <Field label="Status" value={p.status} />
-                  <Field label="Due date" value={p.due_date} />
-                  <Field label="Paid date" value={p.paid_date} />
-                  <Field label="Setup fee paid" value={p.setup_fee_paid ? "Yes" : "No"} />
-                  {p.invoice_url ? (
-                    <a
-                      href={p.invoice_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-google-blue hover:underline"
+                <div key={p.id} className="rounded-xl border border-google-gray-200 p-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Field label="Stripe customer" value={p.stripe_customer_id} />
+                    <Field label="Stripe subscription" value={p.stripe_subscription_id} />
+                    <Field label="Amount" value={p.amount != null ? formatEuro(Number(p.amount)) : null} />
+                    <Field label="Status" value={p.status} />
+                    <Field label="Due date" value={p.due_date} />
+                    <Field label="Paid date" value={p.paid_date} />
+                    <Field label="Setup fee paid" value={p.setup_fee_paid ? "Yes" : "No"} />
+                    <Field
+                      label="Last invoice sent"
+                      value={
+                        p.invoice_sent_at
+                          ? new Date(p.invoice_sent_at).toLocaleString()
+                          : null
+                      }
+                    />
+                    {p.invoice_url ? (
+                      <div>
+                        <p className="text-xs font-medium uppercase tracking-wide text-google-gray-500">
+                          Invoice link
+                        </p>
+                        <a
+                          href={p.invoice_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 block break-all text-sm text-google-blue hover:underline"
+                        >
+                          View invoice
+                        </a>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2 border-t border-google-gray-100 pt-4">
+                    <Button
+                      type="button"
+                      disabled={
+                        Boolean(invoiceSending) || !client.contact_email?.trim()
+                      }
+                      onClick={() => sendInvoice(p.id, "monthly")}
                     >
-                      View invoice
-                    </a>
-                  ) : null}
+                      {invoiceSending === `${p.id}:monthly` ? "Sending…" : "Send invoice"}
+                    </Button>
+                    {!p.setup_fee_paid && Number(client.setup_fee) > 0 ? (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        disabled={
+                          Boolean(invoiceSending) || !client.contact_email?.trim()
+                        }
+                        onClick={() => sendInvoice(p.id, "setup")}
+                      >
+                        {invoiceSending === `${p.id}:setup` ? "Sending…" : "Send setup fee invoice"}
+                      </Button>
+                    ) : null}
+                    {!client.contact_email?.trim() ? (
+                      <p className="w-full text-xs text-amber-800">
+                        Add contact email on Overview to send invoices.
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
               ))
             )}
