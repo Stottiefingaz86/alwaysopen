@@ -21,20 +21,17 @@ export function BrowsBySarahDemo() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-50 px-4 py-10">
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-lg">
-        <div className="border-b border-neutral-100 px-5 py-5 text-center">
-          <div className="mx-auto mb-3 flex max-w-[220px] justify-center">
+        <div className="border-b border-neutral-100 px-4 py-3 text-center">
+          <div className="mx-auto flex max-w-[140px] justify-center">
             <Image
               src={BROWS_BY_SARAH_AGENT.logoSrc}
               alt={`${BROWS_BY_SARAH_AGENT.name} logo`}
-              width={440}
-              height={248}
+              width={280}
+              height={157}
               className="h-auto w-full object-contain"
               priority
             />
           </div>
-          <p className="mt-1 text-sm text-neutral-500">
-            Tap the orb to try the AI receptionist
-          </p>
         </div>
 
         <ConversationProvider
@@ -44,6 +41,12 @@ export function BrowsBySarahDemo() {
           <AgentCallPanel
             active
             showPhoneLink={false}
+            phoneAlt={{
+              phoneDisplay: BROWS_BY_SARAH_AGENT.businessPhone.display,
+              phoneTel: BROWS_BY_SARAH_AGENT.businessPhone.tel,
+              hint: BROWS_BY_SARAH_AGENT.businessPhone.hint,
+              muted: BROWS_BY_SARAH_AGENT.businessPhone.muted,
+            }}
             orbColors={orbColors}
             orbGlowClassName={BROWS_BY_SARAH_ORB_COLORS.glow}
             className="min-h-[480px] border-0 shadow-none"

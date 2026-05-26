@@ -11,10 +11,22 @@ import { Loader2, Phone, PhoneOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
+export type AgentCallPanelPhoneAlt = {
+  /** e.g. "or call" */
+  orCallLabel?: string;
+  /** Shown greyed when `muted`; uses tel link when set and not muted */
+  phoneDisplay: string;
+  phoneTel?: string;
+  hint: string;
+  muted?: boolean;
+};
+
 type AgentCallPanelProps = {
   /** End the session when the parent closes (e.g. dialog) */
   active?: boolean;
   showPhoneLink?: boolean;
+  /** Custom phone line below Start call (client demo business number) */
+  phoneAlt?: AgentCallPanelPhoneAlt;
   promptPhrases?: readonly string[];
   orbColors?: SiriOrbProps["colors"];
   orbGlowClassName?: string;
@@ -24,6 +36,7 @@ type AgentCallPanelProps = {
 export function AgentCallPanel({
   active = true,
   showPhoneLink = true,
+  phoneAlt,
   promptPhrases,
   orbColors,
   orbGlowClassName = "bg-google-blue/10",
@@ -130,7 +143,27 @@ export function AgentCallPanel({
               )}
               {isConnecting ? m.agent.connecting : m.agent.startCall}
             </button>
-            {showPhoneLink && (
+            {phoneAlt && (
+              <div className="mt-3 space-y-1 text-center">
+                <p className="text-sm text-google-gray-500">
+                  {phoneAlt.orCallLabel ?? m.agent.callOr}
+                </p>
+                {phoneAlt.muted || !phoneAlt.phoneTel ? (
+                  <p className="text-sm font-medium text-google-gray-400">
+                    {phoneAlt.phoneDisplay}
+                  </p>
+                ) : (
+                  <a
+                    href={`tel:${phoneAlt.phoneTel}`}
+                    className="text-sm font-medium text-google-gray-600 hover:text-google-blue hover:underline"
+                  >
+                    {phoneAlt.phoneDisplay}
+                  </a>
+                )}
+                <p className="text-xs leading-snug text-google-gray-500">{phoneAlt.hint}</p>
+              </div>
+            )}
+            {showPhoneLink && !phoneAlt && (
               <p className="mt-3 text-center text-sm text-google-gray-500">
                 {m.agent.callOr}{" "}
                 <a

@@ -11,10 +11,21 @@ export const RESTAURANT_AGENT = {
 } as const;
 
 /** Brows by Sarah client demo */
+const browsBusinessPhoneDisplay =
+  process.env.NEXT_PUBLIC_BROWS_BY_SARAH_PHONE_DISPLAY?.trim();
+const browsBusinessPhoneTel = process.env.NEXT_PUBLIC_BROWS_BY_SARAH_PHONE_TEL?.trim();
+
 export const BROWS_BY_SARAH_AGENT = {
   name: "Brows by Sarah",
   id: "agent_2501ksj0adbneyrtd0j63xchjxzq",
   logoSrc: "/client/logo-Fg_7i3sF.png",
+  businessPhone: {
+    display: browsBusinessPhoneDisplay || "Business phone number",
+    tel: browsBusinessPhoneTel,
+    /** Grey placeholder until the client's number is wired in */
+    muted: !browsBusinessPhoneTel,
+    hint: "Customers can call your business number for this agent to answer",
+  },
 } as const;
 
 export const BROWS_BY_SARAH_ORB_COLORS = {
