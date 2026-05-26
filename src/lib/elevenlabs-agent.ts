@@ -14,6 +14,7 @@ export const RESTAURANT_AGENT = {
 export const BROWS_BY_SARAH_AGENT = {
   name: "Brows by Sarah",
   id: "agent_2501ksj0adbneyrtd0j63xchjxzq",
+  logoSrc: "/client/logo-Fg_7i3sF.png",
 } as const;
 
 export const BROWS_BY_SARAH_ORB_COLORS = {

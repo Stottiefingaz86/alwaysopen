@@ -8,6 +8,7 @@ import {
 } from "@/lib/elevenlabs-agent";
 import { ConversationProvider } from "@elevenlabs/react";
 import type { SiriOrbProps } from "@/components/ui/siri-orb";
+import Image from "next/image";
 
 const orbColors: SiriOrbProps["colors"] = {
   bg: BROWS_BY_SARAH_ORB_COLORS.bg,
@@ -20,8 +21,17 @@ export function BrowsBySarahDemo() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-50 px-4 py-10">
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-lg">
-        <div className="border-b border-neutral-100 px-5 py-4 text-center">
-          <p className="text-lg font-medium text-neutral-900">Brows by Sarah</p>
+        <div className="border-b border-neutral-100 px-5 py-5 text-center">
+          <div className="mx-auto mb-3 flex max-w-[220px] justify-center">
+            <Image
+              src={BROWS_BY_SARAH_AGENT.logoSrc}
+              alt={`${BROWS_BY_SARAH_AGENT.name} logo`}
+              width={440}
+              height={248}
+              className="h-auto w-full object-contain"
+              priority
+            />
+          </div>
           <p className="mt-1 text-sm text-neutral-500">
             Tap the orb to try the AI receptionist
           </p>
