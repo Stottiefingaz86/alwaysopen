@@ -25,7 +25,9 @@ export async function POST(
 
   const { data: client, error: clientError } = await db
     .from("clients")
-    .select("id, business_name, contact_name, contact_email, package_name, setup_fee, monthly_fee")
+    .select(
+      "id, business_name, contact_name, contact_email, package_name, setup_fee, monthly_fee, payment_status"
+    )
     .eq("id", clientId)
     .single();
 

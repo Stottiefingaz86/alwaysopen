@@ -43,6 +43,8 @@ export default async function ClientDetailPage({
 
   if (error || !client) notFound();
 
+  const n8nWorkflowNames = await getN8nWorkflowNameMap().catch(() => ({}));
+
   const usageLogs = (client.usage_logs ?? []) as UsageLog[];
   const usage = usageLogs.find((u) => u.month === month) ?? usageLogs[0] ?? null;
 
