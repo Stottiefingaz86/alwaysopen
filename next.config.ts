@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
       {
         pathname: "/integrations/**",
       },
+      {
+        pathname: "/client/**",
+      },
     ],
   },
 };
