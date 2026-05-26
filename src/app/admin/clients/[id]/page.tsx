@@ -1,6 +1,7 @@
 import { ClientDetailClient } from "@/app/admin/clients/[id]/client-detail-client";
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
 import { DEFAULT_ONBOARDING, type UsageLog } from "@/lib/backoffice/types";
+import { getN8nWorkflowNameMap } from "@/lib/n8n-api";
 import { syncElevenLabsUsageForClient } from "@/lib/elevenlabs-usage";
 import { requireAdminSession } from "@/lib/admin/require-admin";
 import { notFound, redirect } from "next/navigation";
@@ -66,6 +67,7 @@ export default async function ClientDetailPage({
       reports={client.client_voc_reports ?? []}
       elevenLabsConfigured={elevenLabsConfigured}
       usageSyncError={usageSyncError}
+      n8nWorkflowNames={n8nWorkflowNames}
     />
   );
 }

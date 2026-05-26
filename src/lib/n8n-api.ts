@@ -1,7 +1,11 @@
 /** n8n Cloud / self-hosted REST API (v1). */
 
 import { getBackofficeDb } from "@/lib/backoffice/db";
-import { linksFromIntegration, type N8nClientWorkflowLink } from "@/lib/n8n-client-links";
+import {
+  buildClientWorkflowBindings,
+  linksFromIntegration,
+  type N8nClientWorkflowLink,
+} from "@/lib/n8n-client-links";
 import { mcpSearchExecutions, mcpSearchWorkflows } from "@/lib/n8n-mcp";
 import { n8nEditorUrl } from "@/lib/n8n-url";
 
@@ -247,26 +251,36 @@ function computeWorkflowHealth(executions: N8nExecutionSummary[]) {
   };
 }
 
-export async function loadClientWorkflowLinks(): Promise<Map<string, N8nClientWorkflowLink>> {
+export async function loadClientWorkflowBindings() {
   const db = getBackofficeDb();
   const { data: clients } = await db
     .from("clients")
     .select("id, business_name, client_integrations ( n8n_booking_workflow_url, n8n_cancel_workflow_url, n8n_voc_workflow_url )");
 
-  const byWorkflowId = new Map<string, N8nClientWorkflowLink>();
-  for (const client of clients ?? []) {
-    const integration = Array.isArray(client.client_integrations)
-      ? client.client_integrations[0]
-      : client.client_integrations;
-    for (const link of linksFromIntegration(
-      client.id,
-      client.business_name,
-      integration as Parameters<typeof linksFromIntegration>[2]
-    )) {
-      byWorkflowId.set(link.workflowId, link);
-    }
+  return buildClientWorkflowBindings(clients ?? []);
+}
+
+/** @deprecated Use loadClientWorkflowBindings */
+export async function loadClientWorkflowLinks(): Promise<Map<string, N8nClientWorkflowLink>> {
+  const bindings = await loadClientWorkflowBindings();
+  const map = new Map<string, N8nClientWorkflowLink>();
+  for (const b of bindings.values()) {
+    map.set(b.workflowId, {
+      clientId: b.clientId,
+      clientName: b.clientName,
+      workflowId: b.workflowId,
+      workflowType: b.roles[0] ?? "booking",
+      editorUrl: b.editorUrl,
+    });
   }
-  return byWorkflowId;
+  return map;
+}
+
+export async function getN8nWorkflowNameMap(): Promise<Record<string, string>> {
+  const { workflows } = await listN8nWorkflows();
+  const map: Record<string, string> = {};
+  for (const w of workflows) map[w.id] = w.name;
+  return map;
 }
 
 export async function getN8nWorkflowHealthOverview(): Promise<{
@@ -299,12 +313,12 @@ export async function getN8nWorkflowHealthOverview(): Promise<{
     byWorkflowId.set(ex.workflowId, list);
   }
 
-  const clientLinks = await loadClientWorkflowLinks();
+  const clientBindings = await loadClientWorkflowBindings();
 
   const rows: N8nWorkflowHealthRow[] = workflows.map((wf) => {
     const wfExecutions = byWorkflowId.get(wf.id) ?? [];
     const health = computeWorkflowHealth(wfExecutions);
-    const link = clientLinks.get(wf.id);
+    const binding = clientBindings.get(wf.id);
     const availableInMcp = wf.availableInMcp ?? false;
     let errorMessage = health.errorMessage;
     if (wfExecutions.length === 0 && !availableInMcp && mcpConfigured && !restConfigured) {
@@ -317,9 +331,9 @@ export async function getN8nWorkflowHealthOverview(): Promise<{
       workflowName: wf.name,
       active: wf.active,
       editorUrl: wf.editorUrl,
-      clientId: link?.clientId ?? null,
-      clientName: link?.clientName ?? null,
-      workflowType: link?.workflowType ?? null,
+      clientId: binding?.clientId ?? null,
+      clientName: binding?.clientName ?? null,
+      workflowType: binding?.roles.length ? binding.roles.join(", ") : null,
       lastRun: health.lastRun,
       lastStatus: health.lastStatus,
       healthStatus: health.healthStatus,

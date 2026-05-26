@@ -42,3 +42,46 @@ export function linksFromIntegration(
   }
   return links;
 }
+
+export type ClientWorkflowBinding = {
+  clientId: string;
+  clientName: string;
+  workflowId: string;
+  roles: ("booking" | "cancel" | "voc")[];
+  editorUrl: string;
+};
+
+/** One entry per workflow ID (merges booking/cancel/voc when same URL used twice). */
+export function buildClientWorkflowBindings(
+  clients: {
+    id: string;
+    business_name: string;
+    client_integrations: IntegrationRow | IntegrationRow[] | null;
+  }[]
+) {
+  const byWorkflowId = new Map<string, ClientWorkflowBinding>();
+
+  for (const client of clients) {
+    const integration = Array.isArray(client.client_integrations)
+      ? client.client_integrations[0]
+      : client.client_integrations;
+    for (const link of linksFromIntegration(client.id, client.business_name, integration)) {
+      const existing = byWorkflowId.get(link.workflowId);
+      if (existing) {
+        if (!existing.roles.includes(link.workflowType)) {
+          existing.roles.push(link.workflowType);
+        }
+        continue;
+      }
+      byWorkflowId.set(link.workflowId, {
+        clientId: link.clientId,
+        clientName: link.clientName,
+        workflowId: link.workflowId,
+        roles: [link.workflowType],
+        editorUrl: link.editorUrl,
+      });
+    }
+  }
+
+  return byWorkflowId;
+}

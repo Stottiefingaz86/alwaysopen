@@ -24,6 +24,7 @@ import type {
   UsageLog,
   WorkflowHealth,
 } from "@/lib/backoffice/types";
+import { parseN8nWorkflowId } from "@/lib/n8n-url";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -56,6 +57,51 @@ const checklistLabels: Record<keyof OnboardingChecklist, string> = {
 
 function isWebUrl(value: string) {
   return /^https?:\/\//i.test(value);
+}
+
+function N8nWorkflowField({
+  label,
+  role,
+  url,
+  workflowNames,
+}: {
+  label: string;
+  role: string;
+  url: string | null | undefined;
+  workflowNames: Record<string, string>;
+}) {
+  const text = url?.trim() ?? "";
+  const id = text ? parseN8nWorkflowId(text) : null;
+  const n8nName = id ? workflowNames[id] : null;
+
+  return (
+    <div className="rounded-xl border border-google-gray-100 bg-google-gray-50/60 p-4">
+      <p className="text-xs font-medium uppercase tracking-wide text-google-gray-500">{label}</p>
+      <p className="mt-0.5 text-[11px] text-google-gray-500">Role: {role}</p>
+      {!text ? (
+        <p className="mt-2 text-sm text-google-gray-500">Not linked</p>
+      ) : (
+        <>
+          {n8nName ? (
+            <p className="mt-2 text-sm font-medium text-foreground">
+              {n8nName}
+              <span className="ml-2 font-normal text-google-gray-500">(in n8n)</span>
+            </p>
+          ) : id ? (
+            <p className="mt-2 text-sm text-amber-800">Workflow ID {id} — open n8n to verify name</p>
+          ) : null}
+          <a
+            href={text}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1 block break-all text-sm text-google-blue hover:underline"
+          >
+            {text}
+          </a>
+        </>
+      )}
+    </div>
+  );
 }
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
@@ -133,6 +179,7 @@ export function ClientDetailClient({
   reports,
   elevenLabsConfigured,
   usageSyncError,
+  n8nWorkflowNames,
 }: {
   userEmail: string;
   client: Client;
@@ -144,6 +191,7 @@ export function ClientDetailClient({
   reports: ClientVocReport[];
   elevenLabsConfigured: boolean;
   usageSyncError?: string | null;
+  n8nWorkflowNames: Record<string, string>;
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<(typeof tabs)[number]>("Overview");
@@ -367,17 +415,35 @@ export function ClientDetailClient({
 
         {tab === "Integrations" && !editing && (
           <div className="grid gap-6 sm:grid-cols-2">
-            <p className="sm:col-span-2 text-sm text-google-gray-600">
-              n8n links are editor URLs (open workflow in n8n). Use <strong>Edit</strong> to browse
-              workflows from your instance or paste a URL like{" "}
-              <span className="font-mono text-xs">…/workflow/mzpH8ceGar3qjnuN</span>.
+            <p className="sm:col-span-2 rounded-xl border border-google-blue/20 bg-google-blue/5 px-4 py-3 text-sm text-google-gray-800">
+              Each <strong>client</strong> gets their own n8n workflow(s). Name workflows in n8n after
+              the business (e.g. &quot;Mario&apos;s Bistro — bookings&quot;) — then pick them here with{" "}
+              <strong>Edit</strong>. Live list: <Link href="/admin/workflows" className="text-google-blue hover:underline">Admin → Workflows</Link>.
             </p>
             <Field label="ElevenLabs agent ID" value={integrations?.elevenlabs_agent_id} />
             <Field label="ElevenLabs agent URL" value={integrations?.elevenlabs_agent_url} />
             <Field label="ElevenLabs phone number ID" value={integrations?.elevenlabs_phone_number_id} />
-            <Field label="n8n booking workflow" value={integrations?.n8n_booking_workflow_url} />
-            <Field label="n8n cancellation workflow" value={integrations?.n8n_cancel_workflow_url} />
-            <Field label="n8n VoC workflow" value={integrations?.n8n_voc_workflow_url} />
+            <div className="sm:col-span-2">
+              <h3 className="text-sm font-medium text-foreground">n8n workflows for this client</h3>
+            </div>
+            <N8nWorkflowField
+              label="Booking"
+              role="Primary reception / bookings"
+              url={integrations?.n8n_booking_workflow_url}
+              workflowNames={n8nWorkflowNames}
+            />
+            <N8nWorkflowField
+              label="Cancellation"
+              role="Cancellations & changes"
+              url={integrations?.n8n_cancel_workflow_url}
+              workflowNames={n8nWorkflowNames}
+            />
+            <N8nWorkflowField
+              label="VoC"
+              role="Voice-of-customer / insights"
+              url={integrations?.n8n_voc_workflow_url}
+              workflowNames={n8nWorkflowNames}
+            />
             <Field label="Google Calendar ID" value={integrations?.google_calendar_id} />
             <Field label="Twilio number" value={integrations?.twilio_number} />
             <Field label="Zadarma number" value={integrations?.zadarma_number} />
