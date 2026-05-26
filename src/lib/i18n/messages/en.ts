@@ -1,6 +1,6 @@
 export const en = {
   nav: {
-    phoneLine: "Phone line",
+    phoneLine: "How it works",
     services: "Services",
     serviceAi: "AI Receptionist",
     serviceVoc: "Voice of Customer",

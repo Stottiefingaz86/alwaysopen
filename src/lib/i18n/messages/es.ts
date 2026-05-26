@@ -1,6 +1,6 @@
 export const es = {
   nav: {
-    phoneLine: "Línea telefónica",
+    phoneLine: "Cómo funciona",
     services: "Servicios",
     serviceAi: "Recepcionista IA",
     serviceVoc: "Voz del Cliente",
