@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  ElevenLabsAccountUsageCard,
+  type ElevenLabsAccountUsage,
+} from "@/components/admin/elevenlabs-account-usage";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { Button } from "@/components/ui/button";
@@ -29,6 +33,7 @@ export function UsageClient({
   error,
   syncNote,
   elevenLabsConfigured,
+  accountUsage,
 }: {
   userEmail: string;
   month: string;
@@ -36,6 +41,7 @@ export function UsageClient({
   error?: string;
   syncNote?: string | null;
   elevenLabsConfigured: boolean;
+  accountUsage: ElevenLabsAccountUsage;
 }) {
   const router = useRouter();
   const [syncing, setSyncing] = useState(false);
@@ -62,9 +68,15 @@ export function UsageClient({
 
   return (
     <AdminShell userEmail={userEmail} title="Usage">
+      {accountUsage.poolMinutes > 0 ? (
+        <div className="mb-6">
+          <ElevenLabsAccountUsageCard month={month} account={accountUsage} compact />
+        </div>
+      ) : null}
+
       <p className="mb-4 rounded-xl border border-google-blue/20 bg-google-blue/5 px-4 py-3 text-sm text-google-gray-800">
-        Billable minutes are pulled only from the <strong>ElevenLabs API</strong> (current calendar
-        month). Rows without a sync timestamp are not counted toward usage or overage.
+        <strong>Account total</strong> (above) is all agents on your ElevenLabs login. Each row below
+        is that client&apos;s own allowance (e.g. 500 min) vs their agent usage.
       </p>
 
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">

@@ -1,5 +1,6 @@
 "use client";
 
+import { ElevenLabsAccountUsageCard } from "@/components/admin/elevenlabs-account-usage";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { Button } from "@/components/ui/button";
@@ -71,8 +72,16 @@ export function AdminOverviewClient({
     { label: "Reports due", value: t?.reportsDue ?? 0 },
   ];
 
+  const el = stats?.elevenLabsAccount;
+
   return (
     <AdminShell userEmail={userEmail} title="Overview">
+      {el && el.poolMinutes > 0 ? (
+        <div className="mb-6">
+          <ElevenLabsAccountUsageCard month={stats?.month ?? ""} account={el} />
+        </div>
+      ) : null}
+
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => (
           <div

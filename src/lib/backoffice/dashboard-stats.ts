@@ -1,5 +1,5 @@
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
-import { verifiedUsagePercent } from "@/lib/backoffice/usage";
+import { computeAccountElevenLabsUsage, verifiedUsagePercent } from "@/lib/backoffice/usage";
 import type { ClientBooking, UsageLog, WorkflowHealth } from "@/lib/backoffice/types";
 
 export async function fetchDashboardStats() {
@@ -14,7 +14,7 @@ export async function fetchDashboardStats() {
     bookingsRes,
     reportsRes,
   ] = await Promise.all([
-    db.from("clients").select("id, status, monthly_fee, payment_status"),
+    db.from("clients").select("id, status, monthly_fee, payment_status, included_minutes"),
     db.from("usage_logs").select("*").eq("month", month),
     db
       .from("workflow_health")
@@ -46,6 +46,8 @@ export async function fetchDashboardStats() {
     const pct = verifiedUsagePercent(u);
     return pct != null && pct >= 80;
   });
+
+  const elevenLabsAccount = computeAccountElevenLabsUsage(usage, clients);
   const unpaid = payments.filter((p) => p.status === "unpaid" || p.status === "overdue");
   const reportsDue = reports.filter((r) => r.status !== "sent" && r.status !== "ready").length;
 
@@ -60,6 +62,7 @@ export async function fetchDashboardStats() {
       unpaidInvoices: unpaid.length,
       reportsDue,
     },
+    elevenLabsAccount,
     recentWorkflows: workflows.slice(0, 8),
     recentBookings: bookings,
     usageWarnings: highUsage,

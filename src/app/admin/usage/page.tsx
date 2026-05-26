@@ -1,6 +1,6 @@
 import { UsageClient } from "@/app/admin/usage/usage-client";
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
-import { verifiedMinutesUsed, verifiedUsagePercent } from "@/lib/backoffice/usage";
+import { computeAccountElevenLabsUsage, verifiedMinutesUsed, verifiedUsagePercent } from "@/lib/backoffice/usage";
 import { syncElevenLabsUsage } from "@/lib/elevenlabs-usage";
 import { requireAdminSession } from "@/lib/admin/require-admin";
 import { redirect } from "next/navigation";
@@ -24,11 +24,16 @@ export default async function AdminUsagePage() {
   const db = getBackofficeDb();
   const month = currentMonthKey();
 
-  const { data, error } = await db
-    .from("usage_logs")
-    .select("*, clients ( business_name, overage_rate )")
-    .eq("month", month)
-    .order("elevenlabs_minutes", { ascending: false });
+  const [{ data, error }, { data: clients }] = await Promise.all([
+    db
+      .from("usage_logs")
+      .select("*, clients ( business_name, overage_rate )")
+      .eq("month", month)
+      .order("elevenlabs_minutes", { ascending: false }),
+    db.from("clients").select("status, included_minutes"),
+  ]);
+
+  const accountUsage = computeAccountElevenLabsUsage(data ?? [], clients ?? []);
 
   const rows = (data ?? []).map((u) => {
     const client = u.clients as { business_name: string; overage_rate: number } | null;
@@ -45,7 +50,7 @@ export default async function AdminUsagePage() {
       overage_minutes: used != null ? u.overage_minutes : null,
       overage_cost: used != null ? u.overage_cost : null,
       synced_at: u.elevenlabs_synced_at as string | null,
-      warn: pct != null && pct >= 80,
+      warn: pct != null && pct >= 70,
     };
   });
 
@@ -57,6 +62,7 @@ export default async function AdminUsagePage() {
       error={error?.message}
       syncNote={syncNote}
       elevenLabsConfigured={elevenLabsConfigured}
+      accountUsage={accountUsage}
     />
   );
 }

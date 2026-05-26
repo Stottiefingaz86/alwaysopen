@@ -84,6 +84,8 @@ Content-Type: application/json
 
 - Minutes are **never** seeded or manually editable. `usage_logs.elevenlabs_synced_at` is set only after a successful API sync.
 - Sync runs automatically when you open **Admin → Usage** or a **client detail** page (if `ELEVENLABS_API_KEY` is set).
+- **Overview** shows **total minutes across all agents** on your one ElevenLabs account. **Per client** shows their contract allowance (e.g. 500 min) vs that agent only.
+- Optional `ELEVENLABS_ACCOUNT_INCLUDED_MINUTES` overrides the account pool (default: sum of active clients’ `included_minutes`). Warning at **70%** of pool on Overview and Usage.
 - Each client needs `elevenlabs_agent_id` on **Integrations**. Usage is summed for the **current calendar month** via `GET /v1/convai/conversations` with date filters.
 - Run migration `20260523120000_usage_elevenlabs_only.sql` to clear old demo seed minutes and add `elevenlabs_synced_at`.
 

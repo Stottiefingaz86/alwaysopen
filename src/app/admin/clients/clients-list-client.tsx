@@ -103,8 +103,10 @@ export function ClientsListClient({
                 <td className="px-4 py-3">
                   {c.minutes_used != null ? (
                     <>
-                      {c.minutes_used}/{c.included_minutes} min
-                      {c.usage_pct != null ? ` (${c.usage_pct}%)` : null}
+                      <span className={c.usage_pct != null && c.usage_pct >= 70 ? "text-amber-800 font-medium" : ""}>
+                        {c.minutes_used}/{c.included_minutes} min
+                        {c.usage_pct != null ? ` (${c.usage_pct}%)` : null}
+                      </span>
                     </>
                   ) : (
                     <span className="text-google-gray-500">Not synced</span>
