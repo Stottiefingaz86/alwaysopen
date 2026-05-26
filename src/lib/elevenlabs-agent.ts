@@ -69,9 +69,7 @@ export const DEFAULT_ORB_COLORS = {
 export const ELEVENLABS_WIDGET_SCRIPT =
   "https://elevenlabs.io/convai-widget/index.js";
 
-/** Calendly / booking link — set in .env.local as NEXT_PUBLIC_BOOKING_URL */
-export const BOOKING_URL =
-  process.env.NEXT_PUBLIC_BOOKING_URL ?? "https://calendly.com";
+export { BOOKING_URL } from "@/lib/booking";
 
 export type BookingToolParams = {
   name?: string;

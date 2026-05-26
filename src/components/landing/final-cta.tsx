@@ -3,6 +3,7 @@
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
+import { BookDemoButton } from "@/components/landing/book-demo-button";
 import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 
 export function FinalCta() {
@@ -25,9 +26,9 @@ export function FinalCta() {
               <CtaButton href={contactHref} size="lg">
                 {getTalkOverCoffeeCta(locale)}
               </CtaButton>
-              <CtaButton href="#pricing" variant="secondary" size="lg">
-                {m.finalCta.viewPricing}
-              </CtaButton>
+              <BookDemoButton variant="secondary" size="lg">
+                {m.finalCta.bookDemo}
+              </BookDemoButton>
             </div>
           </div>
         </FadeIn>

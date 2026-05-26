@@ -8,6 +8,7 @@ export const es = {
     about: "Nosotros",
     news: "Noticias",
     ctaPricing: "Precios",
+    ctaBookDemo: "Reservar demo",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
   },
@@ -29,7 +30,7 @@ export const es = {
       "Mejora las reseñas en Google",
       "Informes mensuales de Voz del Cliente",
     ],
-    viewPricing: "Ver precios",
+    bookDemo: "Reservar demo",
     ctaMicro: "Una reserva perdida a menudo puede pagar RingsAway.",
   },
   agent: {
@@ -1210,6 +1211,23 @@ export const es = {
     title: "Una llamada perdida puede pagarse sola",
     subtitle:
       "Tu línea atendida a todas horas. Más consultas, mejores reseñas y un negocio que crece.",
+    bookDemo: "Reservar demo",
+  },
+  bookDemo: {
+    eyebrow: "Reservar demo",
+    title: "Elige la hora que te venga bien",
+    subtitle:
+      "Elige hora abajo. Recibirás invitación de Google Calendar con enlace de Google Meet.",
+    bullets: [
+      "Llamada de introducción de 30 minutos",
+      "Google Meet o teléfono",
+      "Inglés o español",
+    ],
+    openCalendarCta: "Elegir hora",
+    notConfigured:
+      "El calendario online estará listo pronto. Escríbenos y te enviamos una cita con enlace Meet.",
+    emailFallback: "Email para reservar demo",
+    meetNote: "Reserva con Google Calendar — enlace Meet al confirmar la cita.",
     viewPricing: "Ver precios",
   },
   footer: {

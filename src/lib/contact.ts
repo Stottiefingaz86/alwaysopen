@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/types";
 import { en } from "@/lib/i18n/messages/en";
 import { es } from "@/lib/i18n/messages/es";
+import { BOOK_DEMO_PATH } from "@/lib/booking";
 
 export const COMPANY_EMAIL = "hello@ringsaway.com";
 
@@ -34,6 +35,11 @@ export function getTalkOverCoffeeLink(locale: Locale = "en") {
 export const TALK_OVER_COFFEE_CTA = en.contact.talkCoffee;
 /** @deprecated Use getTalkOverCoffeeLink(locale) */
 export const TALK_OVER_COFFEE_LINK = en.contact.talkCoffeeLink;
+
+/** In-site book demo page (embeds Google Calendar when configured). */
+export function getBookDemoHref() {
+  return BOOK_DEMO_PATH;
+}
 
 export function getBookingMailto(locale: Locale = "en") {
   const c = mailCopy[locale].contact;

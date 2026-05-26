@@ -6,6 +6,7 @@ import { DotGrid } from "@/components/landing/decorations";
 import { cn } from "@/lib/utils";
 import { AgentShowcase } from "@/components/landing/agent-showcase";
 import { useLocale } from "@/components/providers/locale-provider";
+import { BookDemoButton } from "@/components/landing/book-demo-button";
 import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import { Check } from "lucide-react";
 
@@ -71,9 +72,9 @@ export function Hero() {
                 <CtaButton href={contactHref} size="lg">
                   {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
-                <CtaButton href="#pricing" variant="secondary" size="lg">
-                  {m.hero.viewPricing}
-                </CtaButton>
+                <BookDemoButton variant="secondary" size="lg">
+                  {m.hero.bookDemo}
+                </BookDemoButton>
               </div>
               <p className="mt-3 max-w-md text-sm text-google-gray-500">{m.hero.ctaMicro}</p>
             </FadeIn>

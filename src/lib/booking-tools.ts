@@ -1,16 +1,21 @@
 import {
-  BOOKING_URL,
   type BookingToolParams,
   formatBookingConfirmation,
 } from "@/lib/elevenlabs-agent";
+import { getPublicBookingUrl, openBookingPopup } from "@/lib/booking";
 import type { ClientTool } from "@elevenlabs/react";
 
 function openBookingPage(params: BookingToolParams) {
   if (typeof window === "undefined") return;
-  const url = new URL(BOOKING_URL);
+  const publicUrl = getPublicBookingUrl();
+  if (!publicUrl) {
+    window.open("/book-demo", "_blank", "noopener,noreferrer");
+    return;
+  }
+  const url = new URL(publicUrl);
   if (params.name) url.searchParams.set("name", params.name);
   if (params.email) url.searchParams.set("email", params.email);
-  window.open(url.toString(), "_blank", "noopener,noreferrer");
+  openBookingPopup(url.toString());
 }
 
 /** Client tools — names should match tools configured on agent Chris in ElevenLabs */

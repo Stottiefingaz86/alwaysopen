@@ -10,7 +10,8 @@ import {
 import { CtaButton } from "@/components/landing/cta-button";
 import { FadeIn, Section } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getBookingMailto } from "@/lib/contact";
+import { BookDemoButton } from "@/components/landing/book-demo-button";
+import { getContactHref } from "@/lib/contact";
 import type { Messages } from "@/lib/i18n/messages/en";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
@@ -44,9 +45,9 @@ function PlanPrice({
 }
 
 export function PricingSection() {
-  const { m, locale } = useLocale();
+  const { m } = useLocale();
   const p = m.pricing;
-  const mailto = getBookingMailto(locale);
+  const contactHref = getContactHref(true);
 
   const plans = PLAN_KEYS.map((key, i) => ({
     key,
@@ -149,14 +150,24 @@ export function PricingSection() {
                       </p>
                     ) : null}
 
-                    <CtaButton
-                      href={mailto}
-                      variant="primary"
-                      size="default"
-                      className="w-full"
-                    >
-                      {ctaLabel(plan.cta)}
-                    </CtaButton>
+                    {plan.cta === "contactUs" ? (
+                      <CtaButton
+                        href={contactHref}
+                        variant="primary"
+                        size="default"
+                        className="w-full"
+                      >
+                        {ctaLabel(plan.cta)}
+                      </CtaButton>
+                    ) : (
+                      <BookDemoButton
+                        variant="primary"
+                        size="default"
+                        className="w-full"
+                      >
+                        {ctaLabel(plan.cta)}
+                      </BookDemoButton>
+                    )}
                   </CardHeader>
 
                   <CardContent className="flex flex-1 flex-col space-y-4 pt-0">

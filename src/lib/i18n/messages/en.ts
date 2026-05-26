@@ -8,6 +8,7 @@ export const en = {
     about: "About",
     news: "News",
     ctaPricing: "Pricing",
+    ctaBookDemo: "Book a demo",
     openMenu: "Open menu",
     closeMenu: "Close menu",
   },
@@ -29,7 +30,7 @@ export const en = {
       "Improve Google reviews",
       "Monthly Voice of Customer reports",
     ],
-    viewPricing: "See pricing",
+    bookDemo: "Book a demo",
     ctaMicro: "One missed booking can often pay for RingsAway.",
   },
   agent: {
@@ -1210,7 +1211,24 @@ export const en = {
     title: "One missed call can pay for itself",
     subtitle:
       "Your phone line answered around the clock. Capture more enquiries, improve reviews, and grow your business.",
-    viewPricing: "View pricing",
+    bookDemo: "Book a demo",
+  },
+  bookDemo: {
+    eyebrow: "Book a demo",
+    title: "Pick a time that works for you",
+    subtitle:
+      "Pick a time below. You will get a Google Calendar invite with a Google Meet link.",
+    bullets: [
+      "30-minute intro call",
+      "Google Meet or phone — your choice",
+      "English or Spanish",
+    ],
+    openCalendarCta: "Choose a time",
+    notConfigured:
+      "Our online calendar is almost ready. Email us and we will send you a slot with a Google Meet link.",
+    emailFallback: "Email to book a demo",
+    meetNote: "Google Calendar booking — Meet link added when you confirm your slot.",
+    viewPricing: "See pricing",
   },
   footer: {
     description:

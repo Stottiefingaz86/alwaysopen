@@ -5,6 +5,7 @@ import { LanguageSelector } from "@/components/landing/language-selector";
 import { Logo } from "@/components/landing/logo";
 import { ServicesNavDropdown } from "@/components/landing/services-nav-dropdown";
 import { useLocale } from "@/components/providers/locale-provider";
+import { BookDemoButton } from "@/components/landing/book-demo-button";
 import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -76,9 +77,9 @@ export function Navbar() {
           ))}
         </ul>
         <div className="hidden items-center gap-3 md:flex">
-          <CtaButton href={sectionLink("#pricing")} variant="secondary" size="sm">
-            {m.nav.ctaPricing}
-          </CtaButton>
+          <BookDemoButton variant="secondary" size="sm">
+            {m.nav.ctaBookDemo}
+          </BookDemoButton>
           <CtaButton href={contactHref} size="sm">
             {talkCta}
           </CtaButton>
@@ -165,9 +166,9 @@ export function Navbar() {
                 </li>
               ))}
               <li className="flex flex-col gap-2 border-t border-google-gray-100 pt-4">
-                <CtaButton href={sectionLink("#pricing")} variant="secondary">
-                  {m.nav.ctaPricing}
-                </CtaButton>
+                <BookDemoButton variant="secondary">
+                  {m.nav.ctaBookDemo}
+                </BookDemoButton>
                 <CtaButton href={contactHref}>{talkCta}</CtaButton>
               </li>
             </ul>
