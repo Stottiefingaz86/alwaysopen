@@ -33,9 +33,14 @@ export default async function AdminSettingsPage() {
       env: "TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN",
     },
     {
-      name: "n8n",
-      ok: envPresent("N8N_WEBHOOK_BASE_URL") || envPresent("WORKFLOW_LOG_SECRET"),
-      env: "N8N_WEBHOOK_BASE_URL or WORKFLOW_LOG_SECRET",
+      name: "n8n API (workflow browser)",
+      ok: envPresent("N8N_API_BASE_URL") && envPresent("N8N_API_KEY"),
+      env: "N8N_API_BASE_URL, N8N_API_KEY",
+    },
+    {
+      name: "n8n logging",
+      ok: envPresent("WORKFLOW_LOG_SECRET"),
+      env: "WORKFLOW_LOG_SECRET → POST /api/workflow-log",
     },
     {
       name: "Resend",

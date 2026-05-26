@@ -1,6 +1,6 @@
 import { ClientsListClient } from "@/app/admin/clients/clients-list-client";
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
-import { usagePercent } from "@/lib/backoffice/format";
+import { verifiedMinutesUsed, verifiedUsagePercent } from "@/lib/backoffice/usage";
 import { requireAdminSession } from "@/lib/admin/require-admin";
 import { redirect } from "next/navigation";
 
@@ -17,19 +17,24 @@ export default async function AdminClientsPage() {
       `
       *,
       client_integrations ( elevenlabs_agent_id ),
-      usage_logs ( month, elevenlabs_minutes, included_minutes ),
+      usage_logs ( month, elevenlabs_minutes, included_minutes, elevenlabs_synced_at ),
       workflow_health ( health_status, status, updated_at )
     `
     )
     .order("business_name");
 
   const rows = (clients ?? []).map((c) => {
-    const usage = (c.usage_logs as { month: string; elevenlabs_minutes: number; included_minutes: number }[])?.find(
-      (u) => u.month === month
-    );
+    const usage = (
+      c.usage_logs as {
+        month: string;
+        elevenlabs_minutes: number;
+        included_minutes: number;
+        elevenlabs_synced_at: string | null;
+      }[]
+    )?.find((u) => u.month === month);
     const workflows = (c.workflow_health as { health_status: string | null; status: string | null }[]) ?? [];
     const lastWf = workflows[0];
-    const used = usage?.elevenlabs_minutes ?? 0;
+    const used = verifiedMinutesUsed(usage ?? null);
     const included = usage?.included_minutes ?? c.included_minutes ?? 0;
 
     return {
@@ -42,7 +47,7 @@ export default async function AdminClientsPage() {
       payment_status: c.payment_status,
       minutes_used: used,
       included_minutes: included,
-      usage_pct: usagePercent(used, included),
+      usage_pct: verifiedUsagePercent(usage ?? null),
       last_workflow_status: lastWf?.health_status ?? lastWf?.status ?? "—",
     };
   });

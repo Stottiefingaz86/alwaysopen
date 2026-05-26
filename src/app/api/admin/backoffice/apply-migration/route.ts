@@ -21,17 +21,19 @@ export async function POST() {
     );
   }
 
-  const sqlPath = join(
-    process.cwd(),
-    "supabase/migrations/20260522120000_backoffice.sql"
-  );
-  const sql = await readFile(sqlPath, "utf8");
+  const migrationFiles = [
+    "20260522120000_backoffice.sql",
+    "20260523120000_usage_elevenlabs_only.sql",
+  ];
 
   const client = new pg.Client({ connectionString: dbUrl });
   try {
     await client.connect();
-    await client.query(sql);
-    return NextResponse.json({ ok: true });
+    for (const file of migrationFiles) {
+      const sql = await readFile(join(process.cwd(), "supabase/migrations", file), "utf8");
+      await client.query(sql);
+    }
+    return NextResponse.json({ ok: true, applied: migrationFiles });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Migration failed";
     return NextResponse.json({ error: message }, { status: 500 });

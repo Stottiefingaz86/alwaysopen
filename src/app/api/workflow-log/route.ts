@@ -1,10 +1,14 @@
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
+import { n8nEditorUrl } from "@/lib/n8n-url";
+import { getN8nConfig } from "@/lib/n8n-api";
 import { NextResponse } from "next/server";
 
 type WorkflowLogBody = {
   client_id?: string;
   workflow_name?: string;
   workflow_type?: string;
+  workflow_url?: string;
+  n8n_workflow_id?: string;
   status?: string;
   error_message?: string | null;
   booking_created?: boolean;
@@ -41,10 +45,18 @@ export async function POST(request: Request) {
   const db = getBackofficeDb();
   const now = new Date().toISOString();
 
+  let workflowUrl = body.workflow_url?.trim() || null;
+  const n8nId = body.n8n_workflow_id?.trim();
+  if (!workflowUrl && n8nId) {
+    const { base } = getN8nConfig();
+    if (base) workflowUrl = n8nEditorUrl(base, n8nId);
+  }
+
   const row = {
     client_id: clientId,
     workflow_name: workflowName,
     workflow_type: body.workflow_type ?? null,
+    workflow_url: workflowUrl,
     last_run: now,
     status,
     error_message: body.error_message ?? null,

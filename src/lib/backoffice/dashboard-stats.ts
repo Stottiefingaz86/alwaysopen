@@ -1,5 +1,5 @@
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
-import { usagePercent } from "@/lib/backoffice/format";
+import { verifiedUsagePercent } from "@/lib/backoffice/usage";
 import type { ClientBooking, UsageLog, WorkflowHealth } from "@/lib/backoffice/types";
 
 export async function fetchDashboardStats() {
@@ -42,7 +42,10 @@ export async function fetchDashboardStats() {
   const failedWorkflows = workflows.filter(
     (w) => w.health_status === "failed" || w.status === "failed"
   ).length;
-  const highUsage = usage.filter((u) => usagePercent(u.elevenlabs_minutes, u.included_minutes) >= 80);
+  const highUsage = usage.filter((u) => {
+    const pct = verifiedUsagePercent(u);
+    return pct != null && pct >= 80;
+  });
   const unpaid = payments.filter((p) => p.status === "unpaid" || p.status === "overdue");
   const reportsDue = reports.filter((r) => r.status !== "sent" && r.status !== "ready").length;
 

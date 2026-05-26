@@ -1,12 +1,25 @@
 import { UsageClient } from "@/app/admin/usage/usage-client";
 import { currentMonthKey, getBackofficeDb } from "@/lib/backoffice/db";
-import { usagePercent } from "@/lib/backoffice/format";
+import { verifiedMinutesUsed, verifiedUsagePercent } from "@/lib/backoffice/usage";
+import { syncElevenLabsUsage } from "@/lib/elevenlabs-usage";
 import { requireAdminSession } from "@/lib/admin/require-admin";
 import { redirect } from "next/navigation";
 
 export default async function AdminUsagePage() {
   const session = await requireAdminSession();
   if (!session.ok) redirect("/login");
+
+  const elevenLabsConfigured = Boolean(process.env.ELEVENLABS_API_KEY?.trim());
+  let syncNote: string | null = null;
+
+  if (elevenLabsConfigured) {
+    const sync = await syncElevenLabsUsage();
+    if (!sync.ok) {
+      syncNote = sync.error;
+    } else if (sync.warnings?.length) {
+      syncNote = sync.warnings[0];
+    }
+  }
 
   const db = getBackofficeDb();
   const month = currentMonthKey();
@@ -19,18 +32,20 @@ export default async function AdminUsagePage() {
 
   const rows = (data ?? []).map((u) => {
     const client = u.clients as { business_name: string; overage_rate: number } | null;
-    const pct = usagePercent(u.elevenlabs_minutes, u.included_minutes);
+    const used = verifiedMinutesUsed(u);
+    const pct = verifiedUsagePercent(u);
     return {
       id: u.id,
       client_id: u.client_id,
       client_name: client?.business_name ?? "Unknown",
       agent_id: u.elevenlabs_agent_id,
-      minutes_used: u.elevenlabs_minutes,
+      minutes_used: used,
       included_minutes: u.included_minutes,
       usage_pct: pct,
-      overage_minutes: u.overage_minutes,
-      overage_cost: u.overage_cost,
-      warn: pct >= 80,
+      overage_minutes: used != null ? u.overage_minutes : null,
+      overage_cost: used != null ? u.overage_cost : null,
+      synced_at: u.elevenlabs_synced_at as string | null,
+      warn: pct != null && pct >= 80,
     };
   });
 
@@ -40,7 +55,8 @@ export default async function AdminUsagePage() {
       month={month}
       rows={rows}
       error={error?.message}
-      elevenLabsConfigured={Boolean(process.env.ELEVENLABS_API_KEY?.trim())}
+      syncNote={syncNote}
+      elevenLabsConfigured={elevenLabsConfigured}
     />
   );
 }

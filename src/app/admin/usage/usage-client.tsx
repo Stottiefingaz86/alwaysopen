@@ -13,11 +13,12 @@ type Row = {
   client_id: string;
   client_name: string;
   agent_id: string | null;
-  minutes_used: number;
+  minutes_used: number | null;
   included_minutes: number;
-  usage_pct: number;
-  overage_minutes: number;
-  overage_cost: number;
+  usage_pct: number | null;
+  overage_minutes: number | null;
+  overage_cost: number | null;
+  synced_at: string | null;
   warn: boolean;
 };
 
@@ -26,12 +27,14 @@ export function UsageClient({
   month,
   rows,
   error,
+  syncNote,
   elevenLabsConfigured,
 }: {
   userEmail: string;
   month: string;
   rows: Row[];
   error?: string;
+  syncNote?: string | null;
   elevenLabsConfigured: boolean;
 }) {
   const router = useRouter();
@@ -43,11 +46,12 @@ export function UsageClient({
     setSyncError(null);
     try {
       const res = await fetch("/api/admin/backoffice/sync-elevenlabs", { method: "POST" });
-      const json = (await res.json()) as { error?: string };
+      const json = (await res.json()) as { error?: string; warnings?: string[] };
       if (!res.ok) {
         setSyncError(json.error ?? "Sync failed");
         return;
       }
+      if (json.warnings?.[0]) setSyncError(json.warnings[0]);
       router.refresh();
     } catch {
       setSyncError("Sync failed");
@@ -58,16 +62,26 @@ export function UsageClient({
 
   return (
     <AdminShell userEmail={userEmail} title="Usage">
+      <p className="mb-4 rounded-xl border border-google-blue/20 bg-google-blue/5 px-4 py-3 text-sm text-google-gray-800">
+        Billable minutes are pulled only from the <strong>ElevenLabs API</strong> (current calendar
+        month). Rows without a sync timestamp are not counted toward usage or overage.
+      </p>
+
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-google-gray-500">Month: {month}</p>
         <Button type="button" onClick={syncUsage} disabled={syncing || !elevenLabsConfigured}>
-          {syncing ? "Syncing…" : "Sync ElevenLabs usage"}
+          {syncing ? "Syncing…" : "Refresh from ElevenLabs"}
         </Button>
       </div>
       {!elevenLabsConfigured ? (
         <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          Add <code className="rounded bg-white px-1">ELEVENLABS_API_KEY</code> to .env.local and Vercel,
-          then redeploy.
+          Add <code className="rounded bg-white px-1">ELEVENLABS_API_KEY</code> to .env.local and
+          Vercel. Without it, usage cannot be loaded.
+        </p>
+      ) : null}
+      {syncNote ? (
+        <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          {syncNote}
         </p>
       ) : null}
       {syncError ? <p className="mb-4 text-sm text-google-red">{syncError}</p> : null}
@@ -84,25 +98,40 @@ export function UsageClient({
               <th className="px-4 py-3">Usage %</th>
               <th className="px-4 py-3">Overage</th>
               <th className="px-4 py-3">Est. cost</th>
+              <th className="px-4 py-3">Last sync</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} className="border-b border-google-gray-50">
                 <td className="px-4 py-3">
-                  <Link href={`/admin/clients/${r.client_id}`} className="text-google-blue hover:underline">
+                  <Link
+                    href={`/admin/clients/${r.client_id}`}
+                    className="text-google-blue hover:underline"
+                  >
                     {r.client_name}
                   </Link>
-                  {r.warn ? (
-                    <StatusBadge status="warning" className="ml-2" />
-                  ) : null}
+                  {r.warn ? <StatusBadge status="warning" className="ml-2" /> : null}
                 </td>
                 <td className="px-4 py-3 font-mono text-xs">{r.agent_id ?? "—"}</td>
-                <td className="px-4 py-3">{r.minutes_used}</td>
+                <td className="px-4 py-3">
+                  {r.minutes_used != null ? r.minutes_used : (
+                    <span className="text-google-gray-500">Not synced</span>
+                  )}
+                </td>
                 <td className="px-4 py-3">{r.included_minutes}</td>
-                <td className="px-4 py-3">{r.usage_pct}%</td>
-                <td className="px-4 py-3">{r.overage_minutes}</td>
-                <td className="px-4 py-3">{formatEuro(Number(r.overage_cost))}</td>
+                <td className="px-4 py-3">
+                  {r.usage_pct != null ? `${r.usage_pct}%` : "—"}
+                </td>
+                <td className="px-4 py-3">
+                  {r.overage_minutes != null ? r.overage_minutes : "—"}
+                </td>
+                <td className="px-4 py-3">
+                  {r.overage_cost != null ? formatEuro(Number(r.overage_cost)) : "—"}
+                </td>
+                <td className="px-4 py-3 text-xs text-google-gray-600">
+                  {r.synced_at ? new Date(r.synced_at).toLocaleString() : "—"}
+                </td>
               </tr>
             ))}
           </tbody>

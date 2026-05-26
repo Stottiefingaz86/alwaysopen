@@ -1,10 +1,19 @@
 "use client";
 
 import { AdminShell } from "@/components/admin/admin-shell";
+import {
+  ClientFormFields,
+  type ClientFormValues,
+} from "@/components/admin/client-form-fields";
+import {
+  IntegrationFormFields,
+  type IntegrationFormValues,
+} from "@/components/admin/integration-form-fields";
 import { MaskedField } from "@/components/admin/masked-field";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { Button } from "@/components/ui/button";
-import { formatEuro, usagePercent } from "@/lib/backoffice/format";
+import { formatEuro } from "@/lib/backoffice/format";
+import { verifiedMinutesUsed, verifiedUsagePercent } from "@/lib/backoffice/usage";
 import type {
   Client,
   ClientCredential,
@@ -17,6 +26,7 @@ import type {
 } from "@/lib/backoffice/types";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const tabs = [
@@ -53,6 +63,42 @@ function Field({ label, value }: { label: string; value: string | null | undefin
   );
 }
 
+function clientToForm(c: Client): ClientFormValues {
+  return {
+    business_name: c.business_name,
+    contact_name: c.contact_name ?? "",
+    contact_email: c.contact_email ?? "",
+    contact_phone: c.contact_phone ?? "",
+    business_type: c.business_type ?? "",
+    package_name: c.package_name ?? "",
+    monthly_fee: String(c.monthly_fee),
+    setup_fee: String(c.setup_fee),
+    included_minutes: String(c.included_minutes),
+    overage_rate: String(c.overage_rate),
+    status: c.status,
+    payment_status: c.payment_status ?? "current",
+    notes: c.notes ?? "",
+    voc_enabled: c.voc_enabled,
+  };
+}
+
+function integrationsToForm(i: ClientIntegration | null): IntegrationFormValues {
+  return {
+    elevenlabs_agent_id: i?.elevenlabs_agent_id ?? "",
+    elevenlabs_agent_url: i?.elevenlabs_agent_url ?? "",
+    elevenlabs_phone_number_id: i?.elevenlabs_phone_number_id ?? "",
+    n8n_booking_workflow_url: i?.n8n_booking_workflow_url ?? "",
+    n8n_cancel_workflow_url: i?.n8n_cancel_workflow_url ?? "",
+    n8n_voc_workflow_url: i?.n8n_voc_workflow_url ?? "",
+    google_calendar_id: i?.google_calendar_id ?? "",
+    twilio_number: i?.twilio_number ?? "",
+    zadarma_number: i?.zadarma_number ?? "",
+    whatsapp_status: i?.whatsapp_status ?? "",
+    booking_platform: i?.booking_platform ?? "",
+    booking_platform_notes: i?.booking_platform_notes ?? "",
+  };
+}
+
 export function ClientDetailClient({
   userEmail,
   client,
@@ -62,6 +108,8 @@ export function ClientDetailClient({
   payments,
   workflows,
   reports,
+  elevenLabsConfigured,
+  usageSyncError,
 }: {
   userEmail: string;
   client: Client;
@@ -71,13 +119,26 @@ export function ClientDetailClient({
   payments: ClientPayment[];
   workflows: WorkflowHealth[];
   reports: ClientVocReport[];
+  elevenLabsConfigured: boolean;
+  usageSyncError?: string | null;
 }) {
+  const router = useRouter();
   const [tab, setTab] = useState<(typeof tabs)[number]>("Overview");
   const [generating, setGenerating] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [form, setForm] = useState<ClientFormValues>(() => clientToForm(client));
+  const [integrationForm, setIntegrationForm] = useState<IntegrationFormValues>(() =>
+    integrationsToForm(integrations)
+  );
+  const [checklist, setChecklist] = useState(client.onboarding_checklist);
 
-  const used = usage?.elevenlabs_minutes ?? 0;
+  const used = verifiedMinutesUsed(usage);
   const included = usage?.included_minutes ?? client.included_minutes;
-  const pct = usagePercent(used, included);
+  const pct = verifiedUsagePercent(usage);
+  const hasAgent = Boolean(integrations?.elevenlabs_agent_id?.trim());
+  const [usageSyncing, setUsageSyncing] = useState(false);
 
   async function generateReport() {
     setGenerating(true);
@@ -86,11 +147,70 @@ export function ClientDetailClient({
         method: "POST",
       });
       if (!res.ok) throw new Error("Failed");
-      window.location.reload();
+      router.refresh();
     } finally {
       setGenerating(false);
     }
   }
+
+  async function saveEdits() {
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const body: Record<string, unknown> = {
+        client: {
+          ...form,
+          monthly_fee: Number(form.monthly_fee),
+          setup_fee: Number(form.setup_fee),
+          included_minutes: Number(form.included_minutes),
+          overage_rate: Number(form.overage_rate),
+        },
+      };
+      if (tab === "Integrations") {
+        body.integrations = integrationForm;
+      }
+      const res = await fetch(`/api/admin/backoffice/clients/${client.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const json = (await res.json()) as { error?: string };
+      if (!res.ok) {
+        setSaveError(json.error ?? "Save failed");
+        return;
+      }
+      setEditing(false);
+      router.refresh();
+    } catch {
+      setSaveError("Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function refreshUsageFromElevenLabs() {
+    setUsageSyncing(true);
+    try {
+      const res = await fetch("/api/admin/backoffice/sync-elevenlabs", { method: "POST" });
+      if (!res.ok) throw new Error("Sync failed");
+      router.refresh();
+    } finally {
+      setUsageSyncing(false);
+    }
+  }
+
+  async function toggleChecklist(key: keyof OnboardingChecklist) {
+    const next = { ...checklist, [key]: !checklist[key] };
+    setChecklist(next);
+    await fetch(`/api/admin/backoffice/clients/${client.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ onboarding_checklist: next }),
+    });
+    router.refresh();
+  }
+
+  const canEdit = tab === "Overview" || tab === "Integrations";
 
   return (
     <AdminShell userEmail={userEmail} title={client.business_name}>
@@ -120,8 +240,56 @@ export function ClientDetailClient({
         ))}
       </div>
 
+      <p className="mb-4 rounded-xl border border-google-gray-200 bg-google-gray-50 px-4 py-3 text-sm text-google-gray-700">
+        Contract and integration fields are stored in Supabase. <strong>Billable minutes</strong>{" "}
+        are fetched only from the ElevenLabs API for the current month — never entered manually.
+        Set an agent ID under Integrations; usage syncs when you open this page or Admin → Usage.
+      </p>
+
       <div className="rounded-2xl border border-google-gray-200 bg-white p-6 shadow-google">
-        {tab === "Overview" && (
+        {canEdit ? (
+          <div className="mb-6 flex flex-wrap items-center justify-end gap-2">
+            {editing ? (
+              <>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={saving}
+                  onClick={() => {
+                    setEditing(false);
+                    setForm(clientToForm(client));
+                    setIntegrationForm(integrationsToForm(integrations));
+                    setSaveError(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button type="button" disabled={saving} onClick={saveEdits}>
+                  {saving ? "Saving…" : "Save"}
+                </Button>
+              </>
+            ) : (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setForm(clientToForm(client));
+                  setIntegrationForm(integrationsToForm(integrations));
+                  setEditing(true);
+                }}
+              >
+                Edit
+              </Button>
+            )}
+            {saveError ? <p className="w-full text-right text-sm text-google-red">{saveError}</p> : null}
+          </div>
+        ) : null}
+
+        {tab === "Overview" && editing ? (
+          <ClientFormFields values={form} onChange={setForm} disabled={saving} />
+        ) : null}
+
+        {tab === "Overview" && !editing && (
           <div className="grid gap-6 sm:grid-cols-2">
             <Field label="Business name" value={client.business_name} />
             <Field label="Contact name" value={client.contact_name} />
@@ -139,8 +307,21 @@ export function ClientDetailClient({
           </div>
         )}
 
-        {tab === "Integrations" && (
+        {tab === "Integrations" && editing ? (
+          <IntegrationFormFields
+            values={integrationForm}
+            onChange={setIntegrationForm}
+            disabled={saving}
+          />
+        ) : null}
+
+        {tab === "Integrations" && !editing && (
           <div className="grid gap-6 sm:grid-cols-2">
+            <p className="sm:col-span-2 text-sm text-google-gray-600">
+              n8n links are editor URLs (open workflow in n8n). Use <strong>Edit</strong> to browse
+              workflows from your instance or paste a URL like{" "}
+              <span className="font-mono text-xs">…/workflow/mzpH8ceGar3qjnuN</span>.
+            </p>
             <Field label="ElevenLabs agent ID" value={integrations?.elevenlabs_agent_id} />
             <Field label="ElevenLabs agent URL" value={integrations?.elevenlabs_agent_url} />
             <Field label="ElevenLabs phone number ID" value={integrations?.elevenlabs_phone_number_id} />
@@ -222,14 +403,56 @@ export function ClientDetailClient({
 
         {tab === "Usage" && (
           <div className="grid gap-6 sm:grid-cols-2">
-            <Field label="Minutes used (this month)" value={String(used)} />
+            <div className="sm:col-span-2 flex flex-wrap items-center justify-between gap-2">
+              <p className="text-sm text-google-gray-600">
+                Source: ElevenLabs API
+                {usage?.elevenlabs_synced_at
+                  ? ` · Last sync ${new Date(usage.elevenlabs_synced_at).toLocaleString()}`
+                  : ""}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={usageSyncing || !elevenLabsConfigured || !hasAgent}
+                onClick={refreshUsageFromElevenLabs}
+              >
+                {usageSyncing ? "Syncing…" : "Refresh from ElevenLabs"}
+              </Button>
+            </div>
+            {!elevenLabsConfigured ? (
+              <p className="sm:col-span-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                Set <code className="rounded bg-white px-1">ELEVENLABS_API_KEY</code> on the server to
+                load usage.
+              </p>
+            ) : null}
+            {!hasAgent ? (
+              <p className="sm:col-span-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                Add an ElevenLabs agent ID under Integrations to sync billable minutes.
+              </p>
+            ) : null}
+            {usageSyncError ? (
+              <p className="sm:col-span-2 rounded-xl border border-google-red/20 bg-google-red/5 px-4 py-3 text-sm text-google-red">
+                {usageSyncError}
+              </p>
+            ) : null}
+            <Field
+              label="Minutes used (this month)"
+              value={used != null ? String(used) : "Not synced — add agent ID or refresh"}
+            />
             <Field label="Included minutes" value={String(included)} />
-            <Field label="Remaining minutes" value={String(Math.max(0, included - used))} />
-            <Field label="Usage %" value={`${pct}%`} />
-            <Field label="Overage minutes" value={String(usage?.overage_minutes ?? 0)} />
+            <Field
+              label="Remaining minutes"
+              value={used != null ? String(Math.max(0, included - used)) : "—"}
+            />
+            <Field label="Usage %" value={pct != null ? `${pct}%` : "—"} />
+            <Field
+              label="Overage minutes"
+              value={used != null ? String(usage?.overage_minutes ?? 0) : "—"}
+            />
             <Field
               label="Estimated overage cost"
-              value={formatEuro(Number(usage?.overage_cost ?? 0))}
+              value={used != null ? formatEuro(Number(usage?.overage_cost ?? 0)) : "—"}
             />
             <Field label="SMS sent" value={String(usage?.sms_sent ?? 0)} />
             <Field label="Emails sent" value={String(usage?.emails_sent ?? 0)} />
@@ -260,27 +483,33 @@ export function ClientDetailClient({
         )}
 
         {tab === "Checklist" && (
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {(Object.keys(checklistLabels) as (keyof OnboardingChecklist)[]).map((key) => (
-              <li
-                key={key}
-                className={cn(
-                  "flex items-center gap-2 rounded-xl border px-3 py-2 text-sm",
-                  client.onboarding_checklist[key]
-                    ? "border-google-green/30 bg-google-green/5"
-                    : "border-google-gray-200"
-                )}
-              >
-                <span
-                  className={cn(
-                    "size-2 rounded-full",
-                    client.onboarding_checklist[key] ? "bg-google-green" : "bg-google-gray-300"
-                  )}
-                />
-                {checklistLabels[key]}
-              </li>
-            ))}
-          </ul>
+          <>
+            <p className="mb-4 text-sm text-google-gray-500">Click an item to toggle and save.</p>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {(Object.keys(checklistLabels) as (keyof OnboardingChecklist)[]).map((key) => (
+                <li key={key}>
+                  <button
+                    type="button"
+                    onClick={() => toggleChecklist(key)}
+                    className={cn(
+                      "flex w-full items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm transition-colors hover:border-google-blue/40",
+                      checklist[key]
+                        ? "border-google-green/30 bg-google-green/5"
+                        : "border-google-gray-200"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "size-2 shrink-0 rounded-full",
+                        checklist[key] ? "bg-google-green" : "bg-google-gray-300"
+                      )}
+                    />
+                    {checklistLabels[key]}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
 

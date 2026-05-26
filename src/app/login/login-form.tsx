@@ -3,9 +3,11 @@
 import {
   createClientWithConfig,
   getSupabaseBrowserConfig,
-  LOGIN_EMAIL_KEY,
-  LOGIN_REMEMBER_KEY,
 } from "@/lib/supabase/client";
+import {
+  persistLoginFields,
+  readSavedLoginFields,
+} from "@/lib/login-remember";
 import { withTimeout } from "@/lib/supabase/browser-config";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,17 +21,6 @@ const fieldClass = cn(
 );
 
 const SIGN_IN_TIMEOUT_MS = 20_000;
-
-function readRememberPreference(): boolean {
-  if (typeof window === "undefined") return true;
-  const stored = localStorage.getItem(LOGIN_REMEMBER_KEY);
-  return stored !== "false";
-}
-
-function readSavedEmail(): string {
-  if (typeof window === "undefined") return "";
-  return localStorage.getItem(LOGIN_EMAIL_KEY) ?? "";
-}
 
 export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean }) {
   const router = useRouter();
@@ -45,8 +36,10 @@ export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean })
   >>(null);
 
   useEffect(() => {
-    setRememberMe(readRememberPreference());
-    setEmail(readSavedEmail());
+    const saved = readSavedLoginFields();
+    setRememberMe(saved.rememberMe);
+    setEmail(saved.email);
+    setPassword(saved.password);
   }, []);
 
   useEffect(() => {
@@ -87,14 +80,7 @@ export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean })
     setLoading(true);
     let navigatingAway = false;
     try {
-      if (typeof window !== "undefined") {
-        localStorage.setItem(LOGIN_REMEMBER_KEY, rememberMe ? "true" : "false");
-        if (rememberMe) {
-          localStorage.setItem(LOGIN_EMAIL_KEY, email);
-        } else {
-          localStorage.removeItem(LOGIN_EMAIL_KEY);
-        }
-      }
+      persistLoginFields(email, password, rememberMe);
 
       const supabase = createClientWithConfig(cfg, { rememberMe });
 
@@ -151,16 +137,22 @@ export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean })
         : "Sign in";
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form
+      onSubmit={onSubmit}
+      className="space-y-4"
+      autoComplete="on"
+      name="ringsaway-admin-login"
+    >
       <div>
         <label htmlFor="email" className="text-sm font-medium text-foreground">
           Email
         </label>
         <input
           id="email"
+          name="email"
           type="email"
           className={fieldClass}
-          autoComplete="email"
+          autoComplete="username email"
           required
           disabled={isBusy}
           value={email}
@@ -173,6 +165,7 @@ export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean })
         </label>
         <input
           id="password"
+          name="password"
           type="password"
           className={fieldClass}
           autoComplete="current-password"
@@ -187,11 +180,17 @@ export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean })
           type="checkbox"
           checked={rememberMe}
           disabled={isBusy}
-          onChange={(e) => setRememberMe(e.target.checked)}
+          onChange={(e) => {
+            const checked = e.target.checked;
+            setRememberMe(checked);
+            if (!checked) {
+              persistLoginFields("", "", false);
+            }
+          }}
           className="size-4 rounded border-google-gray-300 text-google-blue focus-visible:ring-2 focus-visible:ring-google-blue/30 disabled:opacity-50"
         />
         <span className="text-sm text-google-gray-600">
-          Remember me for 30 days
+          Remember me for 30 days (email &amp; password on this device)
         </span>
       </label>
       {error ? (

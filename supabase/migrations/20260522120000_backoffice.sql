@@ -241,8 +241,9 @@ where c.business_name = 'RingsAway Demo / Internal Test Client'
     select 1 from public.client_payments p where p.client_id = c.id
   );
 
+-- Usage minutes: always zero until ElevenLabs API sync (see elevenlabs-usage.ts).
 insert into public.usage_logs (client_id, month, included_minutes, elevenlabs_minutes)
-select c.id, to_char(now(), 'YYYY-MM'), c.included_minutes, 42
+select c.id, to_char(now(), 'YYYY-MM'), c.included_minutes, 0
 from public.clients c
 where c.business_name = 'RingsAway Demo / Internal Test Client'
 on conflict (client_id, month) do nothing;

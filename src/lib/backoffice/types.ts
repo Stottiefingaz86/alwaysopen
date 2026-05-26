@@ -102,6 +102,7 @@ export type UsageLog = {
   month: string;
   elevenlabs_agent_id: string | null;
   elevenlabs_minutes: number;
+  elevenlabs_synced_at: string | null;
   included_minutes: number;
   overage_minutes: number;
   overage_cost: number;

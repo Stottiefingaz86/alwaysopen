@@ -1,5 +1,6 @@
 "use client";
 
+import { AddClientDialog } from "@/components/admin/add-client-dialog";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { formatEuro } from "@/lib/backoffice/format";
@@ -14,9 +15,9 @@ type ClientRow = {
   monthly_fee: number;
   status: string;
   payment_status: string | null;
-  minutes_used: number;
+  minutes_used: number | null;
   included_minutes: number;
-  usage_pct: number;
+  usage_pct: number | null;
   last_workflow_status: string;
 };
 
@@ -50,16 +51,19 @@ export function ClientsListClient({
           onChange={(e) => setQ(e.target.value)}
           className="w-full max-w-sm rounded-xl border border-google-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-google-blue focus:ring-2 focus:ring-google-blue/20"
         />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="rounded-xl border border-google-gray-200 bg-white px-3 py-2 text-sm"
-        >
-          <option value="all">All statuses</option>
-          <option value="active">Active</option>
-          <option value="paused">Paused</option>
-          <option value="prospect">Prospect</option>
-        </select>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="rounded-xl border border-google-gray-200 bg-white px-3 py-2 text-sm"
+          >
+            <option value="all">All statuses</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="prospect">Prospect</option>
+          </select>
+          <AddClientDialog />
+        </div>
       </div>
 
       {error ? (
@@ -97,7 +101,14 @@ export function ClientsListClient({
                   <StatusBadge status={c.payment_status} />
                 </td>
                 <td className="px-4 py-3">
-                  {c.minutes_used}/{c.included_minutes} min ({c.usage_pct}%)
+                  {c.minutes_used != null ? (
+                    <>
+                      {c.minutes_used}/{c.included_minutes} min
+                      {c.usage_pct != null ? ` (${c.usage_pct}%)` : null}
+                    </>
+                  ) : (
+                    <span className="text-google-gray-500">Not synced</span>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   <StatusBadge status={c.last_workflow_status} />

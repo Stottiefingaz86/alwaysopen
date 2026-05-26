@@ -4,8 +4,10 @@ import {
   type SupabaseBrowserConfig,
 } from "@/lib/supabase/browser-config";
 
-export const LOGIN_REMEMBER_KEY = "ringsaway-login-remember";
-export const LOGIN_EMAIL_KEY = "ringsaway-login-email";
+export {
+  LOGIN_EMAIL_KEY,
+  LOGIN_REMEMBER_KEY,
+} from "@/lib/login-remember";
 
 export { getSupabaseBrowserConfig, createBrowserSupabase };
 

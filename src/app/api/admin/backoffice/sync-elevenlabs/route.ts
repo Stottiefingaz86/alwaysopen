@@ -13,5 +13,10 @@ export async function POST() {
     return NextResponse.json({ error: result.error }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true, synced: result.synced, results: result.results });
+  return NextResponse.json({
+    ok: true,
+    synced: result.synced,
+    results: result.results,
+    warnings: result.warnings,
+  });
 }
