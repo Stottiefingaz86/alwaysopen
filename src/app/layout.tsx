@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Geist, Manjari } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
 import { LocaleProvider } from "@/components/providers/locale-provider";
@@ -80,6 +81,7 @@ export default function RootLayout({
           <JsonLd />
           {children}
         </LocaleProvider>
+        <Analytics />
       </body>
     </html>
   );
