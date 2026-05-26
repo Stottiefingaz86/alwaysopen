@@ -10,6 +10,20 @@ export const RESTAURANT_AGENT = {
   id: "agent_6001ks4pwkcgep3smf9jcfg9phvy",
 } as const;
 
+/** Brows by Sarah client demo */
+export const BROWS_BY_SARAH_AGENT = {
+  name: "Brows by Sarah",
+  id: "agent_2501ksj0adbneyrtd0j63xchjxzq",
+} as const;
+
+export const BROWS_BY_SARAH_ORB_COLORS = {
+  bg: "oklch(99% 0.02 350)",
+  c1: "oklch(62% 0.2 350)",
+  c2: "oklch(78% 0.16 330)",
+  c3: "oklch(55% 0.18 10)",
+  glow: "bg-pink-400/25",
+} as const;
+
 export type IndustryAgentKey = "restaurant" | "salon" | "estateAgency" | "clinic";
 
 export const INDUSTRY_AGENT_IDS: Partial<Record<IndustryAgentKey, string>> = {
