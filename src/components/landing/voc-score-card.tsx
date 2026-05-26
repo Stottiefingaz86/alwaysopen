@@ -39,21 +39,21 @@ export function VocScoreCard({
   return (
     <article
       className={cn(
-        "flex h-full min-h-[22rem] flex-col rounded-2xl border bg-white shadow-google-card sm:min-h-[23.5rem]",
+        "flex h-full min-h-0 flex-col rounded-2xl border bg-white shadow-google-card",
         isAvailable
           ? "border-google-gray-200"
           : "border-google-gray-200/80 opacity-55",
         className
       )}
     >
-      <div className="relative flex flex-1 flex-col gap-3 p-5">
+      <div className="relative flex flex-1 flex-col gap-2.5 p-4">
         {!isAvailable && (
           <span className="absolute right-3 top-3 rounded-full bg-google-gray-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-google-gray-500">
             {ui.comingSoon}
           </span>
         )}
 
-        <header className="space-y-1.5">
+        <header className="space-y-1">
           {card.tagLabels.length > 0 ? (
             <div className="flex flex-wrap gap-1">
               {card.tagLabels.slice(0, 4).map((label) => (
@@ -72,7 +72,7 @@ export function VocScoreCard({
           )}
           <p
             className={cn(
-              "line-clamp-2 min-h-[2.5rem] text-base font-medium leading-snug",
+              "line-clamp-2 text-sm font-medium leading-snug",
               isAvailable ? "text-foreground" : "text-google-gray-500"
             )}
           >
@@ -90,12 +90,12 @@ export function VocScoreCard({
 
         {isAvailable ? (
           <>
-            <div className="flex min-h-8 items-center gap-2">
+            <div className="flex items-center gap-2">
               <span className="flex size-6 shrink-0 items-center justify-center rounded border border-google-gray-200 bg-white">
                 <ReviewSourceIcon source={source} size={14} />
               </span>
-              <p className="line-clamp-2 text-[10px] leading-snug font-medium text-google-gray-500">
-                {sourceLabel}
+              <p className="line-clamp-2 text-[10px] leading-snug text-google-gray-500">
+                <span className="font-medium text-google-gray-600">{sourceLabel}</span>
                 <span className="text-google-gray-400">
                   {" · "}
                   {ui.reviewsAnalyzed.replace("{{count}}", String(card.reviewCount))}
@@ -109,21 +109,21 @@ export function VocScoreCard({
               qualityLabel={tierLabel}
             />
 
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col gap-2">
               {card.metrics.slice(0, 3).map((metric) => (
                 <li key={metric.key}>
                   <div className="mb-1 flex items-center justify-between gap-2 text-[10px]">
-                    <span className="min-w-0 truncate font-medium text-google-gray-600">
+                    <span className="min-w-0 truncate font-medium text-foreground">
                       {metric.label}
                     </span>
-                    <span className="shrink-0 tabular-nums text-google-gray-500">
+                    <span className="shrink-0 tabular-nums font-medium text-google-gray-600">
                       {metric.value}
                     </span>
                   </div>
                   <Progress
                     value={metric.value}
-                    className="h-1.5"
-                    indicatorClassName="bg-google-blue/75"
+                    className="h-1.5 bg-google-gray-100"
+                    indicatorClassName="bg-google-blue"
                   />
                 </li>
               ))}
@@ -140,7 +140,7 @@ export function VocScoreCard({
         )}
       </div>
 
-      <div className="mt-auto shrink-0 border-t border-google-gray-100 p-4">
+      <div className="mt-auto shrink-0 border-t border-google-gray-100 p-3">
         {isAvailable && onViewReport ? (
           <button type="button" onClick={onViewReport} className={ghostButtonClass}>
             {ui.viewReport}

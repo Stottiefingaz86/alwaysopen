@@ -311,7 +311,7 @@ export const en = {
     getMyReport: "Get my report — €89",
     comingSoon: "Coming soon",
     comingSoonBlurb: "VoC report for this industry is on the way.",
-    scoreLabel: "VoC score",
+    scoreLabel: "VOC score",
     tiers: {
       great: "Great",
       good: "Good",
