@@ -4,6 +4,7 @@ import { Geist, Manjari } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
