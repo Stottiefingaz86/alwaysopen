@@ -2,7 +2,8 @@
 
 import { Logo } from "@/components/landing/logo";
 import { useLocale } from "@/components/providers/locale-provider";
-import { getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
+import { BOOK_MEETING_EMAIL, getContactHref, getTalkOverCoffeeCta } from "@/lib/contact";
+import { Mail } from "lucide-react";
 
 export function Footer() {
   const { m, locale } = useLocale();
@@ -30,6 +31,13 @@ export function Footer() {
               {m.footer.description}
             </p>
             <p className="mt-3 text-sm text-google-gray-500">{m.footer.location}</p>
+            <a
+              href={`mailto:${BOOK_MEETING_EMAIL}`}
+              className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-google-blue transition-colors hover:text-[var(--pastel-blue-hover)]"
+            >
+              <Mail className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+              {BOOK_MEETING_EMAIL}
+            </a>
           </div>
           <nav>
             <ul className="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-3">

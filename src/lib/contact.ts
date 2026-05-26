@@ -2,11 +2,12 @@ import type { Locale } from "@/lib/i18n/types";
 import { en } from "@/lib/i18n/messages/en";
 import { es } from "@/lib/i18n/messages/es";
 
-export const BOOK_MEETING_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "christopher.hunt86@gmail.com";
+export const COMPANY_EMAIL = "hello@ringsaway.com";
 
-export const LEADS_TO_EMAIL =
-  process.env.LEADS_TO_EMAIL ?? "christopher.hunt86@gmail.com";
+export const BOOK_MEETING_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? COMPANY_EMAIL;
+
+export const LEADS_TO_EMAIL = process.env.LEADS_TO_EMAIL ?? COMPANY_EMAIL;
 
 export const CONTACT_SECTION_ID = "contact";
 

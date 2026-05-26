@@ -6,8 +6,7 @@ export type ContactFormPayload = {
   message: string;
 };
 
-const LEADS_TO_EMAIL =
-  process.env.LEADS_TO_EMAIL ?? "christopher.hunt86@gmail.com";
+import { LEADS_TO_EMAIL } from "@/lib/contact";
 
 /** Resend test mode only delivers to the account owner until a domain is verified */
 const LEADS_TO_EMAIL_FALLBACK =

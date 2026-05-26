@@ -1244,6 +1244,7 @@ export const en = {
     title: "Talk over coffee",
     subtitle:
       "Tell us about your business and what you need — AI reception, VoC reports, or both. We will get back to you by email.",
+    emailReach: "Email us at",
     nameLabel: "Name",
     namePlaceholder: "Your name",
     emailLabel: "Email",
@@ -1258,7 +1259,7 @@ export const en = {
     sending: "Sending…",
     success: "Thanks — your message is on its way. We will reply by email soon.",
     errorGeneric:
-      "We could not send your message. Please try again or email christopher.hunt86@gmail.com.",
+      "We could not send your message. Please try again or email hello@ringsaway.com.",
     privacy: "We only use your details to reply to this enquiry.",
   },
   contact: {

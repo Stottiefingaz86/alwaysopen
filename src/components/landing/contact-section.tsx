@@ -3,9 +3,9 @@
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/components/providers/locale-provider";
-import { CONTACT_SECTION_ID } from "@/lib/contact";
+import { BOOK_MEETING_EMAIL, CONTACT_SECTION_ID } from "@/lib/contact";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import { useState } from "react";
 
 const fieldClass = cn(
@@ -73,8 +73,21 @@ export function ContactSection() {
         subtitle={f.subtitle}
       />
 
+      <FadeIn delay={0.04}>
+        <p className="mx-auto mt-2 flex max-w-3xl flex-wrap items-center justify-center gap-2 text-sm text-google-gray-600">
+          <span>{f.emailReach}</span>
+          <a
+            href={`mailto:${BOOK_MEETING_EMAIL}`}
+            className="inline-flex items-center gap-1.5 font-medium text-google-blue transition-colors hover:text-[var(--pastel-blue-hover)]"
+          >
+            <Mail className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+            {BOOK_MEETING_EMAIL}
+          </a>
+        </p>
+      </FadeIn>
+
       <FadeIn delay={0.06}>
-        <div className="mx-auto mt-8 max-w-3xl">
+        <div className="mx-auto mt-6 max-w-3xl">
           <form
             onSubmit={onSubmit}
             className="rounded-3xl border border-google-gray-200 bg-white p-6 shadow-google-elevated sm:p-8"
