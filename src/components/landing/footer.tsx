@@ -10,7 +10,7 @@ export function Footer() {
   const contactHref = getContactHref(true);
 
   const links = [
-    { href: "/login", label: "Admin" },
+    { href: "/admin/start", label: "Admin" },
     { href: "#services", label: m.nav.services },
     { href: "#pricing", label: m.nav.pricing },
     { href: "/news", label: m.nav.news },

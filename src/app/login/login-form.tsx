@@ -128,7 +128,7 @@ export function LoginForm({ supabaseReady = true }: { supabaseReady?: boolean })
 
       navigatingAway = true;
       setRedirecting(true);
-      router.push("/dashboard");
+      router.push("/admin/start");
       router.refresh();
     } catch (err) {
       const message =
