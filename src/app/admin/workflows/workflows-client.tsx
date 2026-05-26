@@ -49,6 +49,7 @@ export function WorkflowsClient({
             {showClient ? <th className="px-4 py-3">Client</th> : null}
             <th className="px-4 py-3">Workflow</th>
             <th className="px-4 py-3">Type</th>
+            <th className="px-4 py-3">MCP</th>
             <th className="px-4 py-3">Active</th>
             <th className="px-4 py-3">Last run</th>
             <th className="px-4 py-3">Status</th>
@@ -76,6 +77,9 @@ export function WorkflowsClient({
               ) : null}
               <td className="px-4 py-3 font-medium">{w.workflowName}</td>
               <td className="px-4 py-3 capitalize">{w.workflowType ?? "—"}</td>
+              <td className="px-4 py-3">
+                <StatusBadge status={w.availableInMcp ? "active" : "paused"} />
+              </td>
               <td className="px-4 py-3">
                 <StatusBadge status={w.active ? "active" : "paused"} />
               </td>
@@ -114,9 +118,9 @@ export function WorkflowsClient({
   return (
     <AdminShell userEmail={userEmail} title="Workflows">
       <p className="mb-4 rounded-xl border border-google-blue/20 bg-google-blue/5 px-4 py-3 text-sm text-google-gray-800">
-        Live data from your <strong>n8n API</strong> (workflows + recent executions). Link workflows to
-        clients on each client&apos;s <strong>Integrations</strong> tab. Optional webhook logging still
-        works via <code className="rounded bg-white px-1 text-xs">POST /api/workflow-log</code>.
+        Live data from your <strong>n8n MCP server</strong> (or REST API). Enable{" "}
+        <strong>MCP access</strong> on each workflow in n8n for execution history. Link workflows on
+        each client&apos;s <strong>Integrations</strong> tab.
       </p>
 
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -130,8 +134,9 @@ export function WorkflowsClient({
 
       {!n8nConfigured ? (
         <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          Add <code className="rounded bg-white px-1">N8N_API_BASE_URL</code> and{" "}
-          <code className="rounded bg-white px-1">N8N_API_KEY</code> to Vercel (n8n → Settings → API).
+          Add <code className="rounded bg-white px-1">N8N_MCP_URL</code> and{" "}
+          <code className="rounded bg-white px-1">N8N_MCP_TOKEN</code> to Vercel (n8n → Settings → MCP).
+          Optional: <code className="rounded bg-white px-1">N8N_API_KEY</code> for REST execution sync.
         </p>
       ) : null}
       {syncNote ? (

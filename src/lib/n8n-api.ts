@@ -2,6 +2,7 @@
 
 import { getBackofficeDb } from "@/lib/backoffice/db";
 import { linksFromIntegration, type N8nClientWorkflowLink } from "@/lib/n8n-client-links";
+import { mcpSearchExecutions, mcpSearchWorkflows } from "@/lib/n8n-mcp";
 import { n8nEditorUrl } from "@/lib/n8n-url";
 
 export type N8nWorkflowSummary = {
@@ -9,6 +10,7 @@ export type N8nWorkflowSummary = {
   name: string;
   active: boolean;
   editorUrl: string;
+  availableInMcp?: boolean;
 };
 
 export type N8nExecutionSummary = {
@@ -34,13 +36,36 @@ export type N8nWorkflowHealthRow = {
   successRate: number | null;
   recentRuns: number;
   errorMessage: string | null;
+  availableInMcp: boolean;
   source: "n8n";
 };
 
+function inferN8nInstanceBase() {
+  const explicit = process.env.N8N_API_BASE_URL?.trim().replace(/\/$/, "");
+  if (explicit) return explicit;
+  const mcp = process.env.N8N_MCP_URL?.trim();
+  if (mcp) return mcp.replace(/\/mcp-server\/http\/?$/i, "");
+  return "";
+}
+
 export function getN8nConfig() {
-  const base = process.env.N8N_API_BASE_URL?.trim().replace(/\/$/, "");
+  const base = inferN8nInstanceBase();
   const apiKey = process.env.N8N_API_KEY?.trim();
-  return { base, apiKey, configured: Boolean(base && apiKey) };
+  const mcpUrl =
+    process.env.N8N_MCP_URL?.trim() ||
+    (base ? `${base}/mcp-server/http` : "");
+  const mcpToken = process.env.N8N_MCP_TOKEN?.trim();
+  const restConfigured = Boolean(base && apiKey);
+  const mcpConfigured = Boolean(mcpUrl && mcpToken);
+  return {
+    base,
+    apiKey,
+    mcpUrl,
+    mcpToken,
+    restConfigured,
+    mcpConfigured,
+    configured: restConfigured || mcpConfigured,
+  };
 }
 
 async function n8nFetch(path: string, init?: RequestInit) {
@@ -71,15 +96,32 @@ export async function listN8nWorkflows(): Promise<{
   workflows: N8nWorkflowSummary[];
   error?: string;
 }> {
-  const { base, configured } = getN8nConfig();
-  if (!configured || !base) {
+  const { base, restConfigured, mcpConfigured } = getN8nConfig();
+  if (!restConfigured && !mcpConfigured) {
     return {
       workflows: [],
-      error: "Set N8N_API_BASE_URL and N8N_API_KEY (n8n → Settings → API).",
+      error: "Set N8N_MCP_TOKEN or N8N_API_BASE_URL + N8N_API_KEY.",
     };
   }
 
   try {
+    if (mcpConfigured && base) {
+      const { data } = await mcpSearchWorkflows(200);
+      const workflows = data.map((row) => ({
+        id: row.id,
+        name: row.name ?? "Untitled",
+        active: Boolean(row.active),
+        editorUrl: n8nEditorUrl(base, row.id),
+        availableInMcp: row.availableInMCP,
+      }));
+      workflows.sort((a, b) => a.name.localeCompare(b.name));
+      return { workflows };
+    }
+
+    if (!restConfigured || !base) {
+      return { workflows: [], error: "MCP workflow list failed; REST API not configured." };
+    }
+
     const json = (await n8nFetch("/api/v1/workflows")) as { data?: unknown[] } | unknown[];
     const list = Array.isArray(json) ? json : (json.data ?? []);
 
@@ -108,7 +150,35 @@ export async function listN8nWorkflows(): Promise<{
   }
 }
 
+async function listN8nExecutionsViaMcp(workflows: N8nWorkflowSummary[]) {
+  const all: N8nExecutionSummary[] = [];
+  for (const wf of workflows) {
+    if (!wf.availableInMcp) continue;
+    try {
+      const { data } = await mcpSearchExecutions({ workflowId: wf.id, limit: 20 });
+      for (const ex of data) {
+        all.push({
+          id: ex.id,
+          workflowId: ex.workflowId,
+          status: ex.status,
+          startedAt: ex.startedAt ?? "",
+          stoppedAt: ex.stoppedAt,
+          finished: ex.stoppedAt != null,
+        });
+      }
+    } catch {
+      /* skip workflow */
+    }
+  }
+  return all.sort(
+    (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+  );
+}
+
 export async function listN8nExecutions(limit = 100): Promise<N8nExecutionSummary[]> {
+  const { restConfigured } = getN8nConfig();
+  if (!restConfigured) return [];
+
   const json = (await n8nFetch(`/api/v1/executions?limit=${limit}`)) as {
     data?: unknown[];
   } | unknown[];
@@ -208,8 +278,13 @@ export async function getN8nWorkflowHealthOverview(): Promise<{
   if (workflows.length === 0) return { rows: [] };
 
   let executions: N8nExecutionSummary[] = [];
+  const { restConfigured, mcpConfigured } = getN8nConfig();
   try {
-    executions = await listN8nExecutions(100);
+    if (restConfigured) {
+      executions = await listN8nExecutions(100);
+    } else if (mcpConfigured) {
+      executions = await listN8nExecutionsViaMcp(workflows);
+    }
   } catch (err) {
     return {
       rows: [],
@@ -230,6 +305,12 @@ export async function getN8nWorkflowHealthOverview(): Promise<{
     const wfExecutions = byWorkflowId.get(wf.id) ?? [];
     const health = computeWorkflowHealth(wfExecutions);
     const link = clientLinks.get(wf.id);
+    const availableInMcp = wf.availableInMcp ?? false;
+    let errorMessage = health.errorMessage;
+    if (wfExecutions.length === 0 && !availableInMcp && mcpConfigured && !restConfigured) {
+      errorMessage =
+        "Enable MCP access in this workflow’s n8n settings to show execution health.";
+    }
 
     return {
       workflowId: wf.id,
@@ -244,7 +325,8 @@ export async function getN8nWorkflowHealthOverview(): Promise<{
       healthStatus: health.healthStatus,
       successRate: health.successRate,
       recentRuns: wfExecutions.length,
-      errorMessage: health.errorMessage,
+      errorMessage,
+      availableInMcp,
       source: "n8n" as const,
     };
   });

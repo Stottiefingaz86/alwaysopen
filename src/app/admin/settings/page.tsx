@@ -33,7 +33,12 @@ export default async function AdminSettingsPage() {
       env: "TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN",
     },
     {
-      name: "n8n API (workflow browser)",
+      name: "n8n MCP (workflows + health)",
+      ok: envPresent("N8N_MCP_TOKEN"),
+      env: "N8N_MCP_URL, N8N_MCP_TOKEN",
+    },
+    {
+      name: "n8n REST API (optional)",
       ok: envPresent("N8N_API_BASE_URL") && envPresent("N8N_API_KEY"),
       env: "N8N_API_BASE_URL, N8N_API_KEY",
     },

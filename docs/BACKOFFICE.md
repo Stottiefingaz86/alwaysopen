@@ -39,7 +39,19 @@ On each page load, client-linked workflows are synced into `workflow_health` for
 
 `POST /api/admin/backoffice/n8n/sync-health` — manual refresh.
 
-Requires `N8N_API_BASE_URL` + `N8N_API_KEY` (same as Integrations workflow picker).
+**Preferred — n8n MCP** (Settings → MCP → Access Token):
+
+```bash
+N8N_MCP_URL=https://stottiefingaz.app.n8n.cloud/mcp-server/http
+N8N_MCP_TOKEN=your_mcp_access_token
+N8N_API_BASE_URL=https://stottiefingaz.app.n8n.cloud
+```
+
+In each workflow’s n8n settings, enable **MCP access** so execution history appears in Admin → Workflows.
+
+**Optional — REST API** (`N8N_API_KEY`) for execution sync without per-workflow MCP toggle.
+
+For **Cursor IDE**, copy `docs/n8n-mcp-cursor.example.json` into your Cursor MCP config (never commit tokens).
 
 ## Linking n8n workflows to clients
 
