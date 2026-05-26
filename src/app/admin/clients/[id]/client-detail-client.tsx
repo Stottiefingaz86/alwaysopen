@@ -365,7 +365,7 @@ export function ClientDetailClient({
         {tab === "Credentials" && (
           <div className="space-y-6">
             <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-              OAuth platforms (ElevenLabs, n8n) use Google sign-in — no password is stored here.
+              OAuth platforms (ElevenLabs, n8n, Google Calendar) use Google sign-in — no password is stored here.
               API keys for sync live in server env vars (<code className="rounded bg-white px-1 text-xs">ELEVENLABS_API_KEY</code>,{" "}
               <code className="rounded bg-white px-1 text-xs">N8N_API_KEY</code>).
             </p>

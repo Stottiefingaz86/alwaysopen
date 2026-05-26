@@ -68,5 +68,6 @@ Content-Type: application/json
 |----------|-------|-----|
 | ElevenLabs | christopher.hunt86@gmail.com (Google OAuth) | https://elevenlabs.io/app/sign-in |
 | n8n Cloud | christopher.hunt86@gmail.com (Google OAuth) | https://stottiefingaz.app.n8n.cloud/signin |
+| Google Calendar | christopher.hunt86@gmail.com (Google OAuth) | https://calendar.google.com |
 
 Recorded under the demo client **Credentials** tab. API automation uses env keys, not OAuth sessions.
