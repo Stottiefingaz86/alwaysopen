@@ -1299,6 +1299,12 @@ export const es = {
       "Con base en Manilva, La Chullera, España · Inglés y español · clientes en todo el mundo",
     copyright: "Todos los derechos reservados.",
     tagline: "Ayudando a negocios locales a conseguir más clientes.",
+    followUs: "Síguenos",
+    instagramLabel: "RingsAway en Instagram",
+    legalPrivacy: "Política de privacidad",
+    legalTerms: "Términos del servicio",
+    legalCookies: "Política de cookies",
+    legalLastUpdated: "Última actualización:",
   },
   reviewCard: {
     author: "Sarah M.",
