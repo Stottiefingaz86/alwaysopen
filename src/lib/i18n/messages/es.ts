@@ -1032,6 +1032,17 @@ export const es = {
       "Noticias del producto y consejos prácticos para negocios locales que viven del teléfono, desde nuestro equipo en Manilva, España.",
     items: [
       {
+        slug: "missed-calls-are-costing-local-businesses",
+        category: "article",
+        title: "Las llamadas perdidas cuestan más de lo que creen los negocios locales",
+        excerpt:
+          "Muchos negocios miden visitas web y reservas, pero las llamadas sin contestar suelen pasar desapercibidas. Por qué cada llamada perdida puede ser ingreso que se escapa.",
+        readTime: "5 min de lectura",
+        tags: ["Recepcionista IA", "IA", "Llamadas", "Negocio local", "Leads", "Automatización"],
+        imageAlt: "Llamada entrante en el teléfono del negocio mientras el equipo atiende clientes",
+        body: [],
+      },
+      {
         slug: "best-bars-sotogrande",
         category: "article",
         title:

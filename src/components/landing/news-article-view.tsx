@@ -75,6 +75,9 @@ export function NewsArticleView({
           <h1 className="mt-4 text-2xl font-medium leading-snug tracking-tight text-foreground sm:text-3xl md:text-4xl">
             {article.title}
           </h1>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-google-gray-500 sm:text-lg">
+            {article.excerpt}
+          </p>
           {article.tags && article.tags.length > 0 && (
             <ul className="mt-4 flex flex-wrap gap-1.5">
               {article.tags.map((tag) => (

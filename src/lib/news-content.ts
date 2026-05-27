@@ -9,10 +9,30 @@ export type NewsTextSegment =
   | { type: "text"; value: string }
   | { type: "link"; label: string; href: string };
 
+export type NewsStatGridIcon = "intent" | "phone" | "growth" | "loss";
+
 export type NewsBodyBlock =
   | { type: "paragraph"; segments: NewsTextSegment[] }
   | { type: "heading"; level: 2 | 3; text: string; href?: string }
-  | { type: "list"; items: { label: string; href: string }[] };
+  | { type: "list"; items: { label: string; href: string }[] }
+  | { type: "bullets"; items: string[] }
+  | {
+      type: "statGrid";
+      items: { title: string; description: string; icon: NewsStatGridIcon }[];
+    }
+  | {
+      type: "checklistWithCallout";
+      checklistTitle?: string;
+      checklist: string[];
+      callout: { title: string; body: string };
+    }
+  | {
+      type: "articleCta";
+      title: string;
+      body: string;
+      buttonLabel: string;
+      href: string;
+    };
 
 export type NewsItem = {
   id: string;
@@ -30,6 +50,11 @@ export type NewsItem = {
 };
 
 const NEWS_META = [
+  {
+    slug: "missed-calls-are-costing-local-businesses",
+    image: "/news/missedcalls_blog.png",
+    date: "2026-05-20",
+  },
   {
     slug: "best-bars-sotogrande",
     image: "/news/sotogrande-bars.jpg",

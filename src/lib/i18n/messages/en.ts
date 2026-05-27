@@ -1032,6 +1032,17 @@ export const en = {
       "Product news and practical tips for phone-first local businesses, from our team in Manilva, Spain.",
     items: [
       {
+        slug: "missed-calls-are-costing-local-businesses",
+        category: "article" as const,
+        title: "Missed Calls Are Costing Local Businesses More Than They Realise",
+        excerpt:
+          "Most local businesses track website visits and bookings — but missed calls often go unnoticed. Here's why every unanswered phone call could be lost revenue.",
+        readTime: "5 min read",
+        tags: ["AI Receptionist", "AI", "Phone Calls", "Local Business", "Leads", "Automation"],
+        imageAlt: "Incoming call on a business phone while staff are busy with customers",
+        body: [],
+      },
+      {
         slug: "best-bars-sotogrande",
         category: "article" as const,
         title:

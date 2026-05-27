@@ -1,5 +1,6 @@
 "use client";
 
+import { DemoLanguageAvatars } from "@/components/landing/demo-language-avatars";
 import { IndustryAgentDialog } from "@/components/landing/industry-agent-dialog";
 import { SalonWorkflowDialog } from "@/components/landing/salon-workflow-dialog";
 import { FadeIn } from "@/components/ui/section";
@@ -39,7 +40,8 @@ export function SalonDemoCard({
   return (
     <FadeIn delay={index * 0.05} className={cn("h-full", className)}>
       <li className="flex h-full list-none flex-col overflow-hidden rounded-2xl border border-google-gray-200 bg-white shadow-google-card">
-        <div className="flex flex-1 flex-col p-5">
+        <div className="relative flex flex-1 flex-col p-5">
+          <DemoLanguageAvatars primary="en" />
           <span className="flex size-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-700">
             <Scissors className="size-6" strokeWidth={1.5} />
           </span>
