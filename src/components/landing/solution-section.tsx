@@ -1,17 +1,15 @@
 "use client";
 
 import { BorderBeam } from "@/components/ui/border-beam";
-import { SiriOrb } from "@/components/ui/siri-orb";
 import { SectionAnchorCta } from "@/components/landing/section-anchor-cta";
 import { IndustryShowcase } from "@/components/landing/industry-showcase-section";
 import { VocIndustryShowcase } from "@/components/landing/voc-industry-showcase";
 import type { CaseStudyListItem } from "@/lib/voc/case-studies";
 import { VocFloatingReviewsVisual } from "@/components/landing/voc-floating-reviews-visual";
-import { PhoneRingPulse } from "@/components/landing/decorations";
-import { RingsAwayMark } from "@/components/landing/ringsaway-mark";
 import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { Messages } from "@/lib/i18n/messages/en";
+import { aiReceptionistVideoSrc } from "@/lib/brand-assets";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -19,7 +17,8 @@ import {
   Bot,
   Check,
   FileText,
-  Phone,
+  Play,
+  Square,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -28,7 +27,7 @@ import {
   serviceTabFromHash,
   type ServiceTab,
 } from "@/lib/hash-navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function CornerMarks() {
   return (
@@ -41,69 +40,71 @@ function CornerMarks() {
   );
 }
 
-function ReceptionistVisual({ ai }: { ai: Messages["solution"]["ai"] }) {
+function ReceptionistVisual() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const handlePlay = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    try {
+      await video.play();
+      setPlaying(true);
+    } catch {
+      video.pause();
+      video.muted = true;
+    }
+  };
+
+  const handleStop = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.pause();
+    video.currentTime = 0;
+    video.muted = true;
+    setPlaying(false);
+  };
+
   return (
-    <div className="relative flex h-full min-h-[220px] flex-col items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br from-pastel-blue/80 via-white to-google-gray-50 p-6 md:min-h-[280px]">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, var(--google-gray-200) 1px, transparent 0)",
-          backgroundSize: "20px 20px",
-        }}
-        aria-hidden
+    <div className="relative h-full min-h-[220px] overflow-hidden rounded-2xl bg-google-gray-900 md:min-h-[280px]">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 size-full object-cover"
+        src={aiReceptionistVideoSrc}
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        aria-label="AI receptionist on your business phone line"
       />
-      <motion.div
-        className="relative z-10 flex items-center justify-center"
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div
-          className="pointer-events-none absolute size-32 rounded-full bg-google-blue/20 blur-2xl sm:size-36"
-          aria-hidden
-        />
-        <SiriOrb
-          size="112px"
-          animationDuration={12}
-          colors={{
-            bg: "oklch(98% 0.008 240)",
-            c1: "oklch(55% 0.14 240)",
-            c2: "oklch(72% 0.12 220)",
-            c3: "oklch(65% 0.1 235)",
-          }}
-          className="relative shadow-google-elevated"
-        />
-      </motion.div>
-      <motion.div
-        className="absolute right-4 top-4 flex items-center gap-2 rounded-full border border-google-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-google-gray-700 shadow-google"
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-      >
-        <PhoneRingPulse />
-        {ai.liveOnLine}
-      </motion.div>
-      <motion.div
-        className="absolute bottom-5 left-5 flex items-center gap-2 rounded-xl border border-google-gray-200 bg-white/95 px-3 py-2 shadow-google-card"
-        initial={{ opacity: 0, x: -8 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-      >
-        <Phone className="size-4 text-google-blue" />
-        <span className="text-xs font-medium text-google-gray-700">{ai.pickup}</span>
-      </motion.div>
-      <motion.div
-        className="absolute bottom-5 right-5 flex items-center gap-1.5 rounded-xl border border-google-gray-200 bg-white/95 px-3 py-2 shadow-google-card"
-        initial={{ opacity: 0, x: 8 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.35 }}
-      >
-        <RingsAwayMark className="size-4" variant="brand" />
-        <span className="text-xs font-medium text-google-gray-700">{ai.aiTrained}</span>
-      </motion.div>
+      {!playing ? (
+        <button
+          type="button"
+          onClick={() => void handlePlay()}
+          className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-black/25 transition-colors hover:bg-black/35"
+          aria-label="Play video with sound"
+        >
+          <span className="flex size-16 items-center justify-center rounded-full border border-white/40 bg-white/95 shadow-google-elevated transition-transform hover:scale-105 sm:size-[4.5rem]">
+            <Play
+              className="size-7 translate-x-0.5 fill-google-blue text-google-blue sm:size-8"
+              aria-hidden
+            />
+          </span>
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={handleStop}
+          className="absolute bottom-4 right-4 z-10 inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/40 bg-white/95 px-4 py-2.5 text-sm font-medium text-google-gray-800 shadow-google-elevated transition-colors hover:bg-white"
+          aria-label="Stop video"
+        >
+          <Square className="size-3.5 fill-google-blue text-google-blue" aria-hidden />
+          Stop
+        </button>
+      )}
     </div>
   );
 }
@@ -288,7 +289,7 @@ export function SolutionSection({
                       </div>
                     </div>
                     <div className="border-t border-google-gray-100 p-4 lg:border-l lg:border-t-0 lg:p-6">
-                      <ReceptionistVisual ai={s.ai} />
+                      <ReceptionistVisual />
                     </div>
                   </div>
                   </div>

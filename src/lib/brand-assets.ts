@@ -31,3 +31,11 @@ export const statsSeparatorSrc = separatorSrc(
 );
 export const statsSeparatorWidth = STATS_SEPARATOR.width;
 export const statsSeparatorHeight = STATS_SEPARATOR.height;
+
+/** Bump `version` when replacing the AI receptionist demo video in `public/`. */
+const AI_RECEPTIONIST_VIDEO = {
+  path: "/runway-agent-already-got-you-20260602-180214.mp4",
+  version: "2026-06-02",
+} as const;
+
+export const aiReceptionistVideoSrc = `${AI_RECEPTIONIST_VIDEO.path}?v=${AI_RECEPTIONIST_VIDEO.version}`;
