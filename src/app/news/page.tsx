@@ -3,6 +3,7 @@ import { Navbar } from "@/components/landing/navbar";
 import { NewsIndexContent } from "@/components/landing/news-index-content";
 import { getNewsImageVersions } from "@/lib/news-image-versions";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "News & guides for local businesses",
@@ -20,7 +21,15 @@ export default function NewsIndexPage() {
     <>
       <Navbar />
       <main className="overflow-x-clip bg-white">
-        <NewsIndexContent imageVersions={imageVersions} />
+        <Suspense
+          fallback={
+            <div className="mx-auto max-w-6xl px-4 py-16 text-center text-sm text-google-gray-500">
+              Loading…
+            </div>
+          }
+        >
+          <NewsIndexContent imageVersions={imageVersions} />
+        </Suspense>
       </main>
       <Footer />
     </>

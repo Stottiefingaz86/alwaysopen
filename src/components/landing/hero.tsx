@@ -22,13 +22,6 @@ export function Hero() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_1.05fr] lg:items-center lg:gap-10">
           <div className="relative z-10 lg:pt-2">
             <FadeIn>
-              <p className="mb-4 text-sm text-google-gray-600">
-                <span aria-hidden>🟢 </span>
-                {m.hero.eyebrow}
-              </p>
-            </FadeIn>
-
-            <FadeIn delay={0.05}>
               <h1 className="max-w-xl text-balance text-[1.75rem] font-normal leading-[1.2] tracking-tight text-foreground sm:text-[2.125rem] lg:text-[2.5rem]">
                 {m.hero.titleLines.map((line, index) => (
                   <span

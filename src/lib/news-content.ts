@@ -34,6 +34,12 @@ export type NewsBodyBlock =
       href: string;
     };
 
+/** Articles per page on /news (pagination when total exceeds this). */
+export const NEWS_PAGE_SIZE = 7;
+
+/** Homepage news block: 1 featured + this many grid cards. */
+export const NEWS_HOME_PREVIEW = 2;
+
 export type NewsItem = {
   id: string;
   category: NewsCategory;
@@ -50,6 +56,11 @@ export type NewsItem = {
 };
 
 const NEWS_META = [
+  {
+    slug: "what-is-gsm-local-businesses",
+    image: "/news/GSM_POST.png",
+    date: "2026-06-02",
+  },
   {
     slug: "missed-calls-are-costing-local-businesses",
     image: "/news/missedcalls_blog.png",
@@ -131,4 +142,35 @@ export function getNewsItemBySlug(slug: string, locale: Locale = "en"): NewsItem
 
 export function getAllNewsSlugs(): string[] {
   return NEWS_META.map((m) => m.slug);
+}
+
+export type NewsPaginationResult = {
+  items: NewsItem[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  pageSize: number;
+};
+
+export function paginateNewsItems(
+  items: NewsItem[],
+  page: number,
+  pageSize: number = NEWS_PAGE_SIZE
+): NewsPaginationResult {
+  const totalItems = items.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const currentPage = Math.min(Math.max(1, Math.floor(page) || 1), totalPages);
+  const start = (currentPage - 1) * pageSize;
+
+  return {
+    items: items.slice(start, start + pageSize),
+    currentPage,
+    totalPages,
+    totalItems,
+    pageSize,
+  };
+}
+
+export function getNewsPageHref(page: number): string {
+  return page <= 1 ? "/news" : `/news?page=${page}`;
 }

@@ -1,15 +1,18 @@
 "use client";
 
+import { NewsPagination } from "@/components/landing/news-pagination";
 import { useLocale } from "@/components/providers/locale-provider";
 import {
   formatNewsDate,
   getCategoryLabel,
   getNewsItems,
+  paginateNewsItems,
 } from "@/lib/news-content";
 import { NewsCoverImage } from "@/components/landing/news-cover-image";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export function NewsIndexContent({
   imageVersions,
@@ -17,7 +20,14 @@ export function NewsIndexContent({
   imageVersions: Record<string, string>;
 }) {
   const { m, locale } = useLocale();
-  const newsItems = getNewsItems(locale);
+  const searchParams = useSearchParams();
+  const pageParam = Number.parseInt(searchParams.get("page") ?? "1", 10);
+  const requestedPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
+  const allItems = getNewsItems(locale);
+  const { items: newsItems, currentPage, totalPages } = paginateNewsItems(
+    allItems,
+    requestedPage
+  );
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -79,6 +89,15 @@ export function NewsIndexContent({
           </li>
         ))}
       </ul>
+
+      <NewsPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        prevLabel={m.news.paginationPrev}
+        nextLabel={m.news.paginationNext}
+        ariaLabel={m.news.paginationLabel}
+        pageLabel={m.news.paginationPage}
+      />
 
       <p className="mt-10 text-center text-sm text-google-gray-500">
         <Link href="/" className="font-medium text-google-blue hover:underline">

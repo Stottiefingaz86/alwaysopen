@@ -6,6 +6,7 @@ import {
   formatNewsDate,
   getCategoryLabel,
   getNewsItems,
+  NEWS_HOME_PREVIEW,
   type NewsItem,
 } from "@/lib/news-content";
 import { NewsCoverImage } from "@/components/landing/news-cover-image";
@@ -118,8 +119,8 @@ export function NewsSection({
   imageVersions: Record<string, string>;
 }) {
   const { m, locale } = useLocale();
-  const newsItems = getNewsItems(locale);
-  const [featured, ...rest] = newsItems;
+  const preview = getNewsItems(locale).slice(0, 1 + NEWS_HOME_PREVIEW);
+  const [featured, ...rest] = preview;
 
   return (
     <Section id="news" background="pattern">

@@ -14,7 +14,6 @@ export const en = {
   },
   logo: { ariaHome: "RingsAway home" },
   hero: {
-    eyebrow: "Built for restaurants, salons, clinics & local businesses",
     titleLines: [
       "Never miss opportunities.",
       "Keep customers coming back.",
@@ -174,7 +173,7 @@ export const en = {
         ],
       },
       salon: {
-        name: "Salon",
+        name: "Beautician",
         venue: "Brows by Sarah",
         description:
           "Appointment booking, stylist availability, and service questions while your team is with clients.",
@@ -1030,7 +1029,31 @@ export const en = {
     indexTitle: "Updates and guides",
     indexSubtitle:
       "Product news and practical tips for phone-first local businesses, from our team in Manilva, Spain.",
+    paginationPrev: "Previous",
+    paginationNext: "Next",
+    paginationLabel: "News pagination",
+    paginationPage: "Page {current} of {total}",
     items: [
+      {
+        slug: "what-is-gsm-local-businesses",
+        category: "article" as const,
+        title: "What Is GSM — And Why Does It Still Matter for Local Businesses?",
+        excerpt:
+          "GSM shaped mobile calls and SMS — the habits local businesses still rely on. Learn what GSM is, which call-forwarding codes matter, and how routing ties into AI receptionists and missed-call recovery.",
+        readTime: "14 min read",
+        tags: [
+          "GSM",
+          "Call Forwarding",
+          "AI Receptionist",
+          "SMS",
+          "Missed Calls",
+          "Local Business",
+          "Phone Calls",
+        ],
+        imageAlt:
+          "Business mobile phone showing call forwarding and SMS used for local customer communication",
+        body: [],
+      },
       {
         slug: "missed-calls-are-costing-local-businesses",
         category: "article" as const,

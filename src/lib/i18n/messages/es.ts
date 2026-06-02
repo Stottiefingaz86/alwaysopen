@@ -14,7 +14,6 @@ export const es = {
   },
   logo: { ariaHome: "Inicio RingsAway" },
   hero: {
-    eyebrow: "Pensado para restaurantes, salones, clínicas y negocios locales",
     titleLines: [
       "No pierdas oportunidades.",
       "Haz que los clientes vuelvan.",
@@ -174,7 +173,7 @@ export const es = {
         ],
       },
       salon: {
-        name: "Salón",
+        name: "Esteticista",
         venue: "Brows by Sarah",
         description:
           "Citas, disponibilidad de estilistas y consultas de servicios mientras el equipo atiende en sala.",
@@ -1030,7 +1029,32 @@ export const es = {
     indexTitle: "Actualizaciones y guías",
     indexSubtitle:
       "Noticias del producto y consejos prácticos para negocios locales que viven del teléfono, desde nuestro equipo en Manilva, España.",
+    paginationPrev: "Anterior",
+    paginationNext: "Siguiente",
+    paginationLabel: "Paginación de noticias",
+    paginationPage: "Página {current} de {total}",
     items: [
+      {
+        slug: "what-is-gsm-local-businesses",
+        category: "article",
+        title:
+          "¿Qué es GSM y por qué sigue importando para los negocios locales?",
+        excerpt:
+          "GSM marcó las llamadas móviles y los SMS que los negocios locales siguen usando. Qué es GSM, qué códigos de desvío conviene conocer y cómo enlazan con recepcionistas IA y recuperación de llamadas perdidas.",
+        readTime: "14 min de lectura",
+        tags: [
+          "GSM",
+          "Desvío de llamadas",
+          "Recepcionista IA",
+          "SMS",
+          "Llamadas perdidas",
+          "Negocio local",
+          "Teléfono",
+        ],
+        imageAlt:
+          "Teléfono móvil de negocio con desvío de llamadas y SMS para comunicación con clientes locales",
+        body: [],
+      },
       {
         slug: "missed-calls-are-costing-local-businesses",
         category: "article",
