@@ -23,10 +23,10 @@ export function FinalCta() {
             </p>
 
             <div className="mx-auto mt-10 flex max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
-              <CtaButton href={contactHref} size="lg">
+              <CtaButton href={contactHref} size="lg" analyticsLocation="final_cta">
                 {getTalkOverCoffeeCta(locale)}
               </CtaButton>
-              <BookDemoButton variant="secondary" size="lg">
+              <BookDemoButton variant="secondary" size="lg" analyticsLocation="final_cta">
                 {m.finalCta.bookDemo}
               </BookDemoButton>
             </div>

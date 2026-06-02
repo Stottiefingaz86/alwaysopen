@@ -77,10 +77,10 @@ export function Navbar() {
           ))}
         </ul>
         <div className="hidden items-center gap-3 md:flex">
-          <BookDemoButton variant="secondary" size="sm">
+          <BookDemoButton variant="secondary" size="sm" analyticsLocation="navbar">
             {m.nav.ctaBookDemo}
           </BookDemoButton>
-          <CtaButton href={contactHref} size="sm">
+          <CtaButton href={contactHref} size="sm" analyticsLocation="navbar">
             {talkCta}
           </CtaButton>
           <LanguageSelector />
@@ -166,10 +166,12 @@ export function Navbar() {
                 </li>
               ))}
               <li className="flex flex-col gap-2 border-t border-google-gray-100 pt-4">
-                <BookDemoButton variant="secondary">
+                <BookDemoButton variant="secondary" analyticsLocation="navbar_mobile">
                   {m.nav.ctaBookDemo}
                 </BookDemoButton>
-                <CtaButton href={contactHref}>{talkCta}</CtaButton>
+                <CtaButton href={contactHref} analyticsLocation="navbar_mobile">
+                  {talkCta}
+                </CtaButton>
               </li>
             </ul>
           </motion.div>

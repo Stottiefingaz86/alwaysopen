@@ -77,6 +77,8 @@ export function IndustryAgentDialog({
               orbColors={orbColors}
               orbGlowClassName={palette.glow}
               className="min-h-0 border-0 shadow-none"
+              demoIndustry={industry}
+              demoLocation="industry_demo_dialog"
             />
           </ConversationProvider>
         )}

@@ -65,10 +65,10 @@ export function Hero() {
 
             <FadeIn delay={0.1}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <CtaButton href={contactHref} size="lg">
+                <CtaButton href={contactHref} size="lg" analyticsLocation="hero">
                   {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
-                <BookDemoButton variant="secondary" size="lg">
+                <BookDemoButton variant="secondary" size="lg" analyticsLocation="hero">
                   {m.hero.bookDemo}
                 </BookDemoButton>
               </div>

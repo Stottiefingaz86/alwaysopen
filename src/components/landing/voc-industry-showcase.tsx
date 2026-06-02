@@ -11,6 +11,7 @@ import { formatTagLabel } from "@/lib/voc/business-tags";
 import { industryDemoToReportCard } from "@/lib/voc/demo-to-card";
 import { caseStudyToReportCard } from "@/lib/voc/report-card";
 import type { VocReportData } from "@/lib/voc/report-types";
+import { trackVocFilter, trackVocReportOpen } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -134,11 +135,24 @@ export function VocIndustryShowcase({
 
   const openSampleReport = (key: IndustryAgentKey) => {
     if (!ui.industries[key].available) return;
+    trackVocReportOpen({
+      reportType: "sample",
+      industry: key,
+      reportTitle: ui.industries[key].tabName,
+      location: embedded ? "voc_section_embedded" : "voc_demos",
+    });
     setActiveIndustry(key);
     setSampleDialogOpen(true);
   };
 
   async function openPublishedReport(id: string) {
+    const item = published.find((i) => i.id === id);
+    trackVocReportOpen({
+      reportType: "published",
+      reportId: id,
+      reportTitle: item?.title ?? item?.businessName,
+      location: embedded ? "voc_section_embedded" : "voc_demos",
+    });
     setActiveCaseId(id);
     setPreviewOpen(true);
     setReportLoading(true);
@@ -255,7 +269,10 @@ export function VocIndustryShowcase({
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={() => setFilterTag(null)}
+                onClick={() => {
+                  trackVocFilter(null, embedded ? "voc_section_embedded" : "voc_demos");
+                  setFilterTag(null);
+                }}
                 className={cn(
                   "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                   filterTag === null
@@ -269,7 +286,10 @@ export function VocIndustryShowcase({
                 <button
                   key={tag}
                   type="button"
-                  onClick={() => setFilterTag(tag)}
+                  onClick={() => {
+                    trackVocFilter(tag, embedded ? "voc_section_embedded" : "voc_demos");
+                    setFilterTag(tag);
+                  }}
                   className={cn(
                     "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                     filterTag === tag

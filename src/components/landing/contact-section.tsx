@@ -4,6 +4,7 @@ import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/components/providers/locale-provider";
 import { BOOK_MEETING_EMAIL, CONTACT_SECTION_ID } from "@/lib/contact";
+import { trackContactFormSubmit } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/utils";
 import { Loader2, Mail } from "lucide-react";
 import { useState } from "react";
@@ -49,14 +50,17 @@ export function ContactSection() {
       if (!res.ok) {
         setErrorMessage(json.error ?? f.errorGeneric);
         setState("error");
+        trackContactFormSubmit(false);
         return;
       }
 
       form.reset();
       setState("success");
+      trackContactFormSubmit(true);
     } catch {
       setErrorMessage(f.errorGeneric);
       setState("error");
+      trackContactFormSubmit(false);
     }
   }
 

@@ -9,6 +9,7 @@ import {
   INDUSTRY_AGENT_IDS,
   type IndustryAgentKey,
 } from "@/lib/elevenlabs-agent";
+import { trackLiveDemoOpen } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/utils";
 import {
   Building2,
@@ -66,6 +67,7 @@ export function IndustryShowcase({
   const openIndustry = (key: IndustryAgentKey) => {
     const agentId = INDUSTRY_AGENT_IDS[key];
     if (!agentId) return;
+    trackLiveDemoOpen(key, "industry_demos");
     setActiveIndustry(key);
     setDialogOpen(true);
   };

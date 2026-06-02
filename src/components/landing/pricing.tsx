@@ -156,6 +156,7 @@ export function PricingSection() {
                         variant="primary"
                         size="default"
                         className="w-full"
+                        analyticsLocation={`pricing_${plan.name.toLowerCase().replace(/\s+/g, "_")}_contact`}
                       >
                         {ctaLabel(plan.cta)}
                       </CtaButton>
@@ -164,6 +165,7 @@ export function PricingSection() {
                         variant="primary"
                         size="default"
                         className="w-full"
+                        analyticsLocation={`pricing_${plan.name.toLowerCase().replace(/\s+/g, "_")}_demo`}
                       >
                         {ctaLabel(plan.cta)}
                       </BookDemoButton>

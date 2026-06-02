@@ -8,6 +8,7 @@ type SectionAnchorCtaProps = {
   label: string;
   size?: "sm" | "default" | "lg";
   className?: string;
+  analyticsLocation?: string;
 };
 
 export function SectionAnchorCta({
@@ -15,6 +16,7 @@ export function SectionAnchorCta({
   label,
   size = "default",
   className,
+  analyticsLocation = "section_anchor",
 }: SectionAnchorCtaProps) {
   const hash = `#${targetId}`;
 
@@ -23,6 +25,7 @@ export function SectionAnchorCta({
       href={hash}
       size={size}
       className={className}
+      analyticsLocation={analyticsLocation}
       onClick={(e) => {
         e.preventDefault();
         scrollToAnchor(targetId);

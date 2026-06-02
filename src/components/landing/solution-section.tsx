@@ -10,6 +10,7 @@ import { FadeIn, Section, SectionHeader } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { Messages } from "@/lib/i18n/messages/en";
 import { aiReceptionistVideoSrc } from "@/lib/brand-assets";
+import { trackVideoPlay, trackVideoStop } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -51,6 +52,7 @@ function ReceptionistVisual() {
     try {
       await video.play();
       setPlaying(true);
+      trackVideoPlay("services_ai_receptionist");
     } catch {
       video.pause();
       video.muted = true;
@@ -64,6 +66,7 @@ function ReceptionistVisual() {
     video.currentTime = 0;
     video.muted = true;
     setPlaying(false);
+    trackVideoStop("services_ai_receptionist");
   };
 
   return (
@@ -85,6 +88,7 @@ function ReceptionistVisual() {
           type="button"
           onClick={() => void handlePlay()}
           className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-black/25 transition-colors hover:bg-black/35"
+          data-ga-skip-global
           aria-label="Play video with sound"
         >
           <span className="flex size-16 items-center justify-center rounded-full border border-white/40 bg-white/95 shadow-google-elevated transition-transform hover:scale-105 sm:size-[4.5rem]">
@@ -99,6 +103,7 @@ function ReceptionistVisual() {
           type="button"
           onClick={handleStop}
           className="absolute bottom-4 right-4 z-10 inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/40 bg-white/95 px-4 py-2.5 text-sm font-medium text-google-gray-800 shadow-google-elevated transition-colors hover:bg-white"
+          data-ga-skip-global
           aria-label="Stop video"
         >
           <Square className="size-3.5 fill-google-blue text-google-blue" aria-hidden />

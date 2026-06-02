@@ -55,10 +55,10 @@ export function AboutSection() {
               </div>
 
               <div className="mt-8 flex flex-row flex-wrap gap-3">
-                <CtaButton href={contactHref} size="default">
+                <CtaButton href={contactHref} size="default" analyticsLocation="about">
                   {getTalkOverCoffeeCta(locale)}
                 </CtaButton>
-                <CtaButton href="#faq" variant="secondary" size="default">
+                <CtaButton href="#faq" variant="secondary" size="default" analyticsLocation="about">
                   {m.about.commonQuestions}
                 </CtaButton>
               </div>

@@ -67,11 +67,21 @@ export function BookDemoSection() {
                 />
               </div>
             ) : canBook && bookingUrl ? (
-              <BookDemoButton variant="primary" size="lg" className="w-full max-w-sm">
+              <BookDemoButton
+                variant="primary"
+                size="lg"
+                className="w-full max-w-sm"
+                analyticsLocation="book_demo_page"
+              >
                 {b.openCalendarCta}
               </BookDemoButton>
             ) : (
-              <CtaButton href={mailto} size="lg" className="w-full max-w-sm">
+              <CtaButton
+                href={mailto}
+                size="lg"
+                className="w-full max-w-sm"
+                analyticsLocation="book_demo_page"
+              >
                 {b.emailFallback}
               </CtaButton>
             )}
@@ -80,7 +90,13 @@ export function BookDemoSection() {
               {canBook ? b.meetNote : b.notConfigured}
             </p>
 
-            <CtaButton href="/#pricing" variant="secondary" size="default" className="mt-2">
+            <CtaButton
+              href="/#pricing"
+              variant="secondary"
+              size="default"
+              className="mt-2"
+              analyticsLocation="book_demo_page"
+            >
               {b.viewPricing}
             </CtaButton>
           </div>

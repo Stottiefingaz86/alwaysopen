@@ -121,6 +121,7 @@ export function VocSection() {
               <CtaButton
                 href={demoReportsHref}
                 size="default"
+                analyticsLocation="voc_section"
                 onClick={navigateToDemoReports}
               >
                 {v.viewDemoReports}

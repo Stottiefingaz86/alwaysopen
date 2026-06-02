@@ -115,7 +115,7 @@ export function NewsArticleView({
             )}
             {m.news.fromTeam}
           </p>
-          <CtaButton href={contactHref} size="default">
+          <CtaButton href={contactHref} size="default" analyticsLocation="news_article_footer">
             {getTalkOverCoffeeCta(locale)}
           </CtaButton>
         </div>

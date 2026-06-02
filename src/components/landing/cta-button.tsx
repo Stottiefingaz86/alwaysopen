@@ -1,3 +1,6 @@
+"use client";
+
+import { trackCtaClick } from "@/lib/analytics/gtag";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -6,6 +9,10 @@ type CtaButtonProps = {
   variant?: "primary" | "secondary";
   size?: "sm" | "default" | "lg";
   className?: string;
+  /** Where on the site this CTA lives (hero, navbar, pricing, etc.). */
+  analyticsLocation?: string;
+  /** Set when a parent fires its own GA event (e.g. book_demo_click). */
+  skipCtaAnalytics?: boolean;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   children: React.ReactNode;
 };
@@ -32,11 +39,19 @@ const variants = {
   ],
 };
 
+function labelFromChildren(children: React.ReactNode): string {
+  if (typeof children === "string") return children;
+  if (typeof children === "number") return String(children);
+  return "CTA";
+}
+
 export function CtaButton({
   href,
   variant = "primary",
   size = "default",
   className,
+  analyticsLocation = "unknown",
+  skipCtaAnalytics = false,
   onClick,
   children,
 }: CtaButtonProps) {
@@ -47,20 +62,42 @@ export function CtaButton({
     className
   );
 
+  const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
+    if (!skipCtaAnalytics) {
+      trackCtaClick({
+        label: labelFromChildren(children),
+        href,
+        location: analyticsLocation,
+        variant,
+      });
+    }
+    onClick?.(event);
+  };
+
   if (
     href.startsWith("mailto:") ||
     href.startsWith("http") ||
     href.startsWith("#")
   ) {
     return (
-      <a href={href} className={classes} onClick={onClick}>
+      <a
+        href={href}
+        className={classes}
+        onClick={handleClick}
+        data-ga-skip-global
+      >
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={classes}>
+    <Link
+      href={href}
+      className={classes}
+      onClick={handleClick}
+      data-ga-skip-global
+    >
       {children}
     </Link>
   );

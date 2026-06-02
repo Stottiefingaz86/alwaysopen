@@ -1,6 +1,10 @@
 "use client";
 
 import { SiriOrb, type SiriOrbProps } from "@/components/ui/siri-orb";
+import {
+  trackLiveDemoCallEnd,
+  trackLiveDemoCallStart,
+} from "@/lib/analytics/gtag";
 import { useLocale } from "@/components/providers/locale-provider";
 import {
   AI_AGENT_PHONE_DISPLAY,
@@ -31,6 +35,8 @@ type AgentCallPanelProps = {
   orbColors?: SiriOrbProps["colors"];
   orbGlowClassName?: string;
   className?: string;
+  demoIndustry?: string;
+  demoLocation?: string;
 };
 
 export function AgentCallPanel({
@@ -41,6 +47,8 @@ export function AgentCallPanel({
   orbColors,
   orbGlowClassName = "bg-google-blue/10",
   className,
+  demoIndustry = "hero",
+  demoLocation = "hero_agent",
 }: AgentCallPanelProps) {
   const { m } = useLocale();
   const [error, setError] = useState<string | null>(null);
@@ -56,21 +64,30 @@ export function AgentCallPanel({
   const isConnecting = status === "connecting";
   const orbSpeed = isSpeaking ? 6 : isListening ? 10 : isConnected ? 14 : 20;
 
-  useEffect(() => {
-    if (!active && (isConnected || isConnecting)) {
-      endSession();
-    }
-  }, [active, isConnected, isConnecting, endSession]);
-
   const startCall = async () => {
     setError(null);
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       startSession({ connectionType: "webrtc" });
+      trackLiveDemoCallStart(demoIndustry, demoLocation);
     } catch {
       setError(m.agent.errorMic);
     }
   };
+
+  const endCall = () => {
+    if (isConnected || isConnecting) {
+      trackLiveDemoCallEnd(demoIndustry, demoLocation);
+    }
+    endSession();
+  };
+
+  useEffect(() => {
+    if (!active && (isConnected || isConnecting)) {
+      endCall();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- endCall wraps endSession
+  }, [active, isConnected, isConnecting]);
 
   return (
     <div
@@ -179,7 +196,7 @@ export function AgentCallPanel({
         ) : (
           <button
             type="button"
-            onClick={() => endSession()}
+            onClick={endCall}
             className="btn-call inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-medium transition-all"
           >
             <PhoneOff className="size-4" />

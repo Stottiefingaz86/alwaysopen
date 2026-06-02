@@ -6,6 +6,10 @@ import { RestaurantWorkflowDialog } from "@/components/landing/restaurant-workfl
 import { FadeIn } from "@/components/ui/section";
 import { useLocale } from "@/components/providers/locale-provider";
 import { INDUSTRY_AGENT_IDS } from "@/lib/elevenlabs-agent";
+import {
+  trackLiveDemoOpen,
+  trackLiveDemoWorkflow,
+} from "@/lib/analytics/gtag";
 import { cn } from "@/lib/utils";
 import { GitBranch, Phone, UtensilsCrossed } from "lucide-react";
 import { useState } from "react";
@@ -53,7 +57,10 @@ export function RestaurantDemoCard({
           <div className="flex flex-col gap-2 border-t border-google-gray-100 p-4">
             <button
               type="button"
-              onClick={() => setCallOpen(true)}
+              onClick={() => {
+                trackLiveDemoOpen("restaurant", "industry_demos");
+                setCallOpen(true);
+              }}
               className={cn("btn-call", demoFooterButtonClass)}
             >
               <Phone className="size-4 shrink-0" aria-hidden />
@@ -61,7 +68,10 @@ export function RestaurantDemoCard({
             </button>
             <button
               type="button"
-              onClick={() => setWorkflowOpen(true)}
+              onClick={() => {
+                trackLiveDemoWorkflow("restaurant", "industry_demos");
+                setWorkflowOpen(true);
+              }}
               className={workflowButtonClass}
             >
               <GitBranch className="size-4 shrink-0" aria-hidden />
