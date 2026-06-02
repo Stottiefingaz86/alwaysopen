@@ -3,16 +3,23 @@ import { SITE_URL } from "@/lib/site";
 import type { MetadataRoute } from "next";
 
 export function getSitemapEntries(): MetadataRoute.Sitemap {
+  const now = new Date();
   const home: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
+      url: `${SITE_URL}/book-demo`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: `${SITE_URL}/news`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.85,
     },

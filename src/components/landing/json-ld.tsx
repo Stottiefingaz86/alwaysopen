@@ -1,7 +1,9 @@
+import { COMPANY_EMAIL } from "@/lib/contact";
 import { en } from "@/lib/i18n/messages/en";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const faqItems = en.faq.items;
+const INSTAGRAM_URL = "https://www.instagram.com/ringsaway_com/";
 
 export function JsonLd() {
   const schema = {
@@ -16,6 +18,13 @@ export function JsonLd() {
           "RingsAway provides 24/7 AI phone receptionists and hand-prepared Voice of Customer reports for local businesses, with Google Business guidance and industry-specific demos.",
         areaServed: "Worldwide",
         knowsLanguage: ["en", "es"],
+        sameAs: [INSTAGRAM_URL],
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          email: COMPANY_EMAIL,
+          availableLanguage: ["English", "Spanish"],
+        },
       },
       {
         "@type": "LocalBusiness",
@@ -41,6 +50,8 @@ export function JsonLd() {
           { "@type": "Place", name: "Worldwide" },
         ],
         priceRange: "€€",
+        telephone: "+34919935238",
+        email: COMPANY_EMAIL,
       },
       {
         "@type": "WebSite",
@@ -49,6 +60,26 @@ export function JsonLd() {
         url: SITE_URL,
         publisher: { "@id": `${SITE_URL}/#organization` },
         inLanguage: ["en", "es"],
+        description:
+          "Managed AI receptionist and booking automation for salons, restaurants, clinics, estate agents, trades, and local service businesses.",
+        potentialAction: [
+          {
+            "@type": "ReadAction",
+            target: `${SITE_URL}/news`,
+          },
+          {
+            "@type": "ReserveAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: `${SITE_URL}/book-demo`,
+              actionPlatform: [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/mobileWebPlatform",
+              ],
+            },
+            name: "Book a demo",
+          },
+        ],
       },
       {
         "@type": "Service",
@@ -68,6 +99,42 @@ export function JsonLd() {
         serviceType: "Voice of the Customer reporting",
         description:
           "Hand-prepared monthly reports covering top complaints, praise themes, customer sentiment trends, competitor comparisons, suggested Google review replies, and a prioritised action plan.",
+      },
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/#missed-call-recovery`,
+        name: "Missed Call Recovery",
+        provider: { "@id": `${SITE_URL}/#organization` },
+        serviceType: "Missed call automation",
+        description:
+          "Routes unanswered or busy calls to an AI receptionist, sends SMS follow-ups, and captures enquiries so local businesses do not lose customers who hang up.",
+      },
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/#booking-automation`,
+        name: "Booking Automation",
+        provider: { "@id": `${SITE_URL}/#organization` },
+        serviceType: "Appointment and reservation automation",
+        description:
+          "Captures booking details on calls, syncs with calendars where configured, and automates confirmations for salons, restaurants, clinics, and other local businesses.",
+      },
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/#sms-reminders`,
+        name: "SMS Confirmations and Reminders",
+        provider: { "@id": `${SITE_URL}/#organization` },
+        serviceType: "SMS appointment notifications",
+        description:
+          "Sends booking confirmations and appointment reminders by SMS to reduce no-shows and manual follow-up for local service businesses.",
+      },
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/#bilingual-receptionist`,
+        name: "Bilingual AI Receptionist",
+        provider: { "@id": `${SITE_URL}/#organization` },
+        serviceType: "English and Spanish phone answering",
+        description:
+          "Detects caller language and handles enquiries in English or Spanish on one business phone number.",
       },
       {
         "@type": "SoftwareApplication",

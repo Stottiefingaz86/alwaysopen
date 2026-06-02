@@ -1,0 +1,41 @@
+# RingsAway
+
+RingsAway is an AI receptionist and booking automation service for local businesses.
+
+Website: https://ringsaway.com
+Contact: hello@ringsaway.com
+Location: Manilva, Málaga, Spain (serving Costa del Sol, Spain, Gibraltar, and remote onboarding worldwide)
+
+Core services:
+- AI Receptionist (24/7 phone answering on your existing business number)
+- Missed Call Recovery
+- Booking Automation
+- SMS and Email Confirmations
+- Appointment Reminders
+- Follow-up Campaigns
+- Review Intelligence
+- Voice of Customer (VoC) Reports
+
+Target customers:
+- Salons and beauticians
+- Restaurants
+- Clinics
+- Estate agents
+- Trades and local service businesses
+- Padel clubs, golf clubs, and hospitality
+
+Languages: English and Spanish (bilingual AI receptionist)
+
+Primary message: Never miss a customer.
+Alternative message: Turn missed calls into customers.
+
+Primary CTA: Talk Over Coffee
+
+Key pages:
+- https://ringsaway.com/
+- https://ringsaway.com/news
+- https://ringsaway.com/book-demo
+- https://ringsaway.com/news/what-is-gsm-local-businesses
+- https://ringsaway.com/news/missed-calls-are-costing-local-businesses
+
+Live industry demos (restaurant and beautician) are on the homepage.

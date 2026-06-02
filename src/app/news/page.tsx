@@ -1,7 +1,9 @@
 import { Footer } from "@/components/landing/footer";
 import { Navbar } from "@/components/landing/navbar";
 import { NewsIndexContent } from "@/components/landing/news-index-content";
+import { NewsIndexJsonLd } from "@/components/landing/news-index-json-ld";
 import { getNewsImageVersions } from "@/lib/news-image-versions";
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -12,6 +14,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/news",
   },
+  openGraph: {
+    url: `${SITE_URL}/news`,
+    type: "website",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function NewsIndexPage() {
@@ -19,6 +26,7 @@ export default function NewsIndexPage() {
 
   return (
     <>
+      <NewsIndexJsonLd />
       <Navbar />
       <main className="overflow-x-clip bg-white">
         <Suspense

@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: article.title,
     description: article.excerpt,
+    keywords: article.tags,
     alternates: { canonical },
     openGraph: {
       title: article.title,
@@ -34,8 +35,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: article.date,
       url: `${SITE_URL}${canonical}`,
       siteName: SITE_NAME,
-      images: [{ url: article.image, alt: article.imageAlt }],
+      images: [{ url: `${SITE_URL}${article.image}`, alt: article.imageAlt }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [`${SITE_URL}${article.image}`],
+    },
+    robots: { index: true, follow: true },
   };
 }
 
