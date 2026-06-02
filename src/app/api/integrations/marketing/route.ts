@@ -58,16 +58,16 @@ export async function POST(request: Request) {
       skipped: true,
       reason: "no_customer_email",
       campaign,
-      message: "Marketing follow-up skipped — no email on file. Collect email in the voice flow for email campaigns.",
+      message: "Marketing follow-up skipped, no email on file. Collect email in the voice flow for email campaigns.",
     });
   }
 
-  const subject = `We'd love to see you again — ${business}`;
+  const subject = `We'd love to see you again, ${business}`;
   const text = [
     `Hi ${name},`,
     "",
     `It's been about a month since your last visit at ${business}.`,
-    "Would you like to book your next appointment? Reply to this email or call us — we're happy to find a time that works.",
+    "Would you like to book your next appointment? Reply to this email or call us, we're happy to find a time that works.",
     "",
     body.event_id ? `Your previous booking reference: ${body.event_id}` : "",
   ]

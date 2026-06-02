@@ -20,7 +20,7 @@ export const en = {
       "Understand your customers.",
     ],
     subtitle:
-      "RingsAway answers your business phone, captures bookings, follows up with customers and turns feedback into actions — helping local businesses grow without adding more admin.",
+      "RingsAway answers your business phone, captures bookings, follows up with customers and turns feedback into actions, helping local businesses grow without adding more admin.",
     bullets: [
       "Answer your business phone 24/7",
       "Capture bookings automatically",
@@ -63,11 +63,11 @@ export const en = {
     restaurantWorkflow: {
       packageLabel: "AI Receptionist",
       viewWorkflow: "Workflow",
-      modalTitle: "La Vista Marina — AI Receptionist workflow",
+      modalTitle: "La Vista Marina: AI Receptionist workflow",
       modalDescription:
         "How calls reach your AI receptionist, then how bookings and cancellations sync to Google Calendar and email.",
       caption:
-        "Customers call your real number. When you are busy, the call forwards to a virtual line where the AI receptionist answers using your knowledge base — then booking actions run automatically.",
+        "Customers call your real number. When you are busy, the call forwards to a virtual line where the AI receptionist answers using your knowledge base, then booking actions run automatically.",
       callPathTitle: "How the call reaches your AI",
       callPathBadge: "Phone line",
       automationTitle: "After the AI takes the booking action",
@@ -104,11 +104,11 @@ export const en = {
     salonWorkflow: {
       packageLabel: "AI Receptionist",
       viewWorkflow: "Workflow",
-      modalTitle: "Brows by Sarah — AI Receptionist workflow",
+      modalTitle: "Brows by Sarah: AI Receptionist workflow",
       modalDescription:
         "How the ElevenLabs agent triggers RingsAway: Timely for availability, booking and cancellation, then email or WhatsApp confirmation and optional 30-day marketing follow-up.",
       caption:
-        "Customers call your business number. The AI answers, then automation runs in n8n — synced to your Timely calendar.",
+        "Customers call your business number. The AI answers, then automation runs in n8n, synced to your Timely calendar.",
       callPathTitle: "How the call reaches your AI",
       callPathBadge: "Phone line",
       automationTitle: "After the AI takes the action",
@@ -136,12 +136,12 @@ export const en = {
         branchBook: "Book appointment",
         branchCancel: "Cancel appointment",
         branchFallback: "Fallback",
-        timelyCheck: "Timely — check availability",
-        timelyBook: "Timely — book appointment",
-        timelyCancel: "Timely — cancel appointment",
-        bookConfirmIf: "Book — email confirmation?",
+        timelyCheck: "Timely: check availability",
+        timelyBook: "Timely: book appointment",
+        timelyCancel: "Timely: cancel appointment",
+        bookConfirmIf: "Book: email confirmation?",
         bookConfirmHint: "whatsapp or email",
-        cancelConfirmIf: "Cancel — email confirmation?",
+        cancelConfirmIf: "Cancel: email confirmation?",
         cancelConfirmHint: "whatsapp or email",
         emailBookConfirm: "Email booking confirmation",
         whatsappBookConfirm: "WhatsApp booking confirmation",
@@ -151,7 +151,7 @@ export const en = {
         respondBooked: "Respond booked",
         respondCancelled: "Respond cancelled",
         respondUnknown: "Respond unknown action",
-        waitMarketing: "Wait 30 days — marketing",
+        waitMarketing: "Wait 30 days: marketing",
         triggerMarketing: "Trigger 30-day rebook campaign",
         parallelLabel: "Also runs in parallel",
       },
@@ -226,19 +226,19 @@ export const en = {
     subtitle: "From the first enquiry to repeat customers and customer insights.",
     badge: "Always on",
     lineLabel: "Where customers reach you",
-    lineCaption: "Phone, WhatsApp, website & email — one connected experience",
+    lineCaption: "Phone, WhatsApp, website & email, one connected experience",
     flowChannels: ["Phone", "WhatsApp", "Web"],
     flowBrand: "RingsAway",
     flowBadge: "🟢 Connected 24/7",
     clarifiers: [
       "Works with your existing phone number and channels",
-      "Customers use what they already know — no new app to install",
+      "Customers use what they already know, no new app to install",
       "Automation from enquiry through follow-up and insight",
     ],
     steps: [
       {
         title: "Customers contact your business",
-        text: "Customers contact you through the same channels they already use — phone calls, WhatsApp, website enquiries or messages.",
+        text: "Customers contact you through the same channels they already use, phone calls, WhatsApp, website enquiries or messages.",
         badge: "Phone • WhatsApp • Email",
       },
       {
@@ -314,9 +314,9 @@ export const en = {
       priceOneOff: "€89 per report",
       priceShort: "€89",
       description:
-        "A separate monthly report built by our UX research agent. We read Google Reviews, Trustpilot, and TripAdvisor — additional review sites can be added on request — plus website feedback and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan. One-off reports are €89.",
+        "A separate monthly report built by our UX research agent. We read Google Reviews, Trustpilot, and TripAdvisor, additional review sites can be added on request, plus website feedback and surveys, then deliver complaints, praise, sentiment trends, competitor mentions, reply ideas, and a prioritised action plan. One-off reports are €89.",
       highlights: [
-        "Google Reviews, Trustpilot, TripAdvisor — more sources on request",
+        "Google Reviews, Trustpilot, TripAdvisor, more sources on request",
         "Top complaints and praise themes",
         "Sentiment trends month to month",
         "Suggested Google review replies",
@@ -331,7 +331,7 @@ export const en = {
       floatingReviews: [
         {
           quote:
-            "Best paella we've had on the coast — staff even remembered our anniversary.",
+            "Best paella we've had on the coast, staff even remembered our anniversary.",
           author: "Claire M.",
           stars: 5,
           source: "google",
@@ -355,11 +355,11 @@ export const en = {
     eyebrow: "Client reports",
     title: "Real VoC reports from Google reviews",
     subtitle:
-      "Scores and themes from real businesses we analyse. Open a report to see sentiment, complaints, praise, and monthly actions — the same deliverable you receive.",
+      "Scores and themes from real businesses we analyse. Open a report to see sentiment, complaints, praise, and monthly actions, the same deliverable you receive.",
     tabsLabel: "Industry",
     viewReport: "View report",
     hideReport: "Hide report",
-    getMyReport: "Get my report — €89",
+    getMyReport: "Get my report for €89",
     comingSoon: "Coming soon",
     comingSoonBlurb: "VoC report for this industry is on the way.",
     scoreLabel: "VOC score",
@@ -416,7 +416,7 @@ export const en = {
         ],
         positives: [
           "Fresh seafood and daily catch praised in 31 reviews",
-          "Friendly team — phone bookings described as effortless",
+          "Friendly team, phone bookings described as effortless",
           "Marina views mentioned repeatedly as a reason to return",
         ],
         negatives: [
@@ -477,7 +477,7 @@ export const en = {
               "Waited 25 minutes for a table we had booked. Staff were polite but clearly overwhelmed.",
             replyLabel: "Suggested Google reply",
             replyText:
-              "Thank you for telling us, James. We missed your booking slot on Friday and that is on us. Please call us — we will reserve your next visit and include a complimentary starter.",
+              "Thank you for telling us, James. We missed your booking slot on Friday and that is on us. Please call us, we will reserve your next visit and include a complimentary starter.",
           },
           googleStrategy: [
             "Prioritise replies to 3-star reviews from the last 30 days",
@@ -523,7 +523,7 @@ export const en = {
         ],
         positives: [
           "Colour and balayage work praised in 22 reviews",
-          "Same stylist requests — clients trust the team",
+          "Same stylist requests, clients trust the team",
           "Clean, relaxed salon atmosphere mentioned often",
         ],
         negatives: [
@@ -584,7 +584,7 @@ export const en = {
               "Love my colour but waited 40 minutes past my appointment time on Saturday.",
             replyLabel: "Suggested Google reply",
             replyText:
-              "Thank you, Elena — waiting that long is not acceptable. Please message us with your next preferred slot and we will prioritise you with a complimentary treatment add-on.",
+              "Thank you, Elena, waiting that long is not acceptable. Please message us with your next preferred slot and we will prioritise you with a complimentary treatment add-on.",
           },
           googleStrategy: [
             "Publish full price list and bridal services on the listing",
@@ -691,7 +691,7 @@ export const en = {
               "Interested in a sea-view rental but took three days to hear back. Viewing was then moved twice.",
             replyLabel: "Suggested reply",
             replyText:
-              "David, thank you for your patience — our response should have been same day. We have assigned a dedicated contact for your search and will confirm your next viewing by SMS.",
+              "David, thank you for your patience, our response should have been same day. We have assigned a dedicated contact for your search and will confirm your next viewing by SMS.",
           },
           googleStrategy: [
             "Highlight English-speaking team on TripAdvisor profile",
@@ -798,7 +798,7 @@ export const en = {
               "Nurses were lovely but could not get a GP slot for two weeks. Felt stuck for a simple issue.",
             replyLabel: "Suggested Google reply",
             replyText:
-              "Robert, we are sorry you struggled to book. We have opened extra GP telephone slots this month — please call reception and we will fit you in or direct you to the right urgent pathway.",
+              "Robert, we are sorry you struggled to book. We have opened extra GP telephone slots this month, please call reception and we will fit you in or direct you to the right urgent pathway.",
           },
           googleStrategy: [
             "List accepted insurers and urgent-care hours prominently",
@@ -826,7 +826,7 @@ export const en = {
       "Complaints, praise, competitor benchmarks, reply drafts, and your action plan for {{business}} are in the complete monthly deliverable.",
     getFullReport: "Get full report",
     reportPrice: "€89 per report",
-    reportPriceCta: "Get full report — €89",
+    reportPriceCta: "Get full report for €89",
     getInTouch: "Get in touch",
     emptyGridHint:
       "Publish a ready report from the dashboard (Landing case study → VoC reports row) to show it here.",
@@ -839,7 +839,7 @@ export const en = {
     subtitle:
       "Connect calendars, booking platforms, messaging, and CRMs. We wire RingsAway to your stack during setup.",
     footnote:
-      "Need something else? Tell us on the contact form — custom integrations are available on Enterprise.",
+      "Need something else? Tell us on the contact form, custom integrations are available on Enterprise.",
     categories: {
       restaurants: {
         title: "Restaurants",
@@ -997,7 +997,7 @@ export const en = {
           "Waited 25 minutes for a table we had booked. Staff were polite but clearly overwhelmed.",
         replyLabel: "Suggested Google reply",
         replyText:
-          "Thank you for telling us, James. We missed your booking slot on Friday and that is on us. Please message us or call — we will reserve your next visit and include a complimentary starter.",
+          "Thank you for telling us, James. We missed your booking slot on Friday and that is on us. Please message us or call, we will reserve your next visit and include a complimentary starter.",
       },
       actions: {
         title: "March priorities",
@@ -1037,9 +1037,9 @@ export const en = {
       {
         slug: "what-is-gsm-local-businesses",
         category: "article" as const,
-        title: "What Is GSM — And Why Does It Still Matter for Local Businesses?",
+        title: "What Is GSM, and Why Does It Still Matter for Local Businesses?",
         excerpt:
-          "GSM shaped mobile calls and SMS — the habits local businesses still rely on. Learn what GSM is, which call-forwarding codes matter, and how routing ties into AI receptionists and missed-call recovery.",
+          "GSM shaped mobile calls and SMS, the habits local businesses still rely on. Learn what GSM is, which call-forwarding codes matter, and how routing ties into AI receptionists and missed-call recovery.",
         readTime: "14 min read",
         tags: [
           "GSM",
@@ -1059,7 +1059,7 @@ export const en = {
         category: "article" as const,
         title: "Missed Calls Are Costing Local Businesses More Than They Realise",
         excerpt:
-          "Most local businesses track website visits and bookings — but missed calls often go unnoticed. Here's why every unanswered phone call could be lost revenue.",
+          "Most local businesses track website visits and bookings, but missed calls often go unnoticed. Here's why every unanswered phone call could be lost revenue.",
         readTime: "5 min read",
         tags: ["AI Receptionist", "AI", "Phone Calls", "Local Business", "Leads", "Automation"],
         imageAlt: "Incoming call on a business phone while staff are busy with customers",
@@ -1138,7 +1138,7 @@ export const en = {
     subtitle:
       "Start with an AI receptionist, then add customer insight as your business grows.",
     flexNote:
-      "Month-to-month only — not a subscription lock-in. Cancel anytime, add or remove services, and turn on features as you need them.",
+      "Month-to-month only, not a subscription lock-in. Cancel anytime, add or remove services, and turn on features as you need them.",
     popular: "MOST POPULAR",
     setupLabel: "Setup",
     monthlyLabel: "Monthly",
@@ -1305,14 +1305,14 @@ export const en = {
       "Pick a time below. You will get a Google Calendar invite with a Google Meet link.",
     bullets: [
       "30-minute intro call",
-      "Google Meet or phone — your choice",
+      "Google Meet or phone, your choice",
       "English or Spanish",
     ],
     openCalendarCta: "Choose a time",
     notConfigured:
       "Our online calendar is almost ready. Email us and we will send you a slot with a Google Meet link.",
     emailFallback: "Email to book a demo",
-    meetNote: "Google Calendar booking — Meet link added when you confirm your slot.",
+    meetNote: "Google Calendar booking, Meet link added when you confirm your slot.",
     viewPricing: "See pricing",
   },
   footer: {
@@ -1340,7 +1340,7 @@ export const en = {
     eyebrow: "Contact",
     title: "Talk over coffee",
     subtitle:
-      "Tell us about your business and what you need — AI reception, VoC reports, or both. We will get back to you by email.",
+      "Tell us about your business and what you need, AI reception, VoC reports, or both. We will get back to you by email.",
     emailReach: "Email us at",
     nameLabel: "Name",
     namePlaceholder: "Your name",
@@ -1354,7 +1354,7 @@ export const en = {
     messagePlaceholder: "What would you like to discuss?",
     submit: "Send message",
     sending: "Sending…",
-    success: "Thanks — your message is on its way. We will reply by email soon.",
+    success: "Thanks. Your message is on its way. We will reply by email soon.",
     errorGeneric:
       "We could not send your message. Please try again or email hello@ringsaway.com.",
     privacy: "We only use your details to reply to this enquiry.",

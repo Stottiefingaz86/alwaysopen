@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${SITE_NAME} | 24/7 AI receptionist & VoC reports`,
     description:
-      "AI phone answering on your real number, monthly VoC reports, and live industry demos. Based in Manilva, Spain — English and Spanish.",
+      "AI phone answering on your real number, monthly VoC reports, and live industry demos. Based in Manilva, Spain, English and Spanish.",
     url: SITE_URL,
   },
 };

@@ -20,7 +20,7 @@ export const es = {
       "Entiende a tus clientes.",
     ],
     subtitle:
-      "RingsAway contesta el teléfono de tu negocio, captura reservas, hace seguimiento a los clientes y convierte el feedback en acciones — para que crezcas sin más carga administrativa.",
+      "RingsAway contesta el teléfono de tu negocio, captura reservas, hace seguimiento a los clientes y convierte el feedback en acciones, para que crezcas sin más carga administrativa.",
     bullets: [
       "Atiende el teléfono de tu negocio 24/7",
       "Captura reservas automáticamente",
@@ -63,11 +63,11 @@ export const es = {
     restaurantWorkflow: {
       packageLabel: "Recepcionista IA",
       viewWorkflow: "Flujo",
-      modalTitle: "La Vista Marina — flujo Recepcionista IA",
+      modalTitle: "La Vista Marina: flujo Recepcionista IA",
       modalDescription:
         "Cómo llegan las llamadas a tu recepcionista IA y cómo las reservas y cancelaciones se sincronizan con Google Calendar y email.",
       caption:
-        "El cliente llama a tu número real. Si estás ocupado, la llamada se desvía a una línea virtual donde la recepcionista IA responde con tu base de conocimiento — y luego las acciones de reserva se automatizan.",
+        "El cliente llama a tu número real. Si estás ocupado, la llamada se desvía a una línea virtual donde la recepcionista IA responde con tu base de conocimiento, y luego las acciones de reserva se automatizan.",
       callPathTitle: "Cómo llega la llamada a tu IA",
       callPathBadge: "Línea telefónica",
       automationTitle: "Cuando la IA confirma la acción de reserva",
@@ -104,11 +104,11 @@ export const es = {
     salonWorkflow: {
       packageLabel: "Recepcionista IA",
       viewWorkflow: "Flujo",
-      modalTitle: "Brows by Sarah — flujo recepcionista IA",
+      modalTitle: "Brows by Sarah: flujo recepcionista IA",
       modalDescription:
         "Cómo el agente ElevenLabs activa RingsAway: Timely para disponibilidad, reserva y cancelación; luego confirmación por email o WhatsApp y seguimiento de marketing a 30 días.",
       caption:
-        "El cliente llama a tu número. La IA responde y la automatización corre en n8n — sincronizado con Timely.",
+        "El cliente llama a tu número. La IA responde y la automatización corre en n8n, sincronizado con Timely.",
       callPathTitle: "Cómo llega la llamada a tu IA",
       callPathBadge: "Línea telefónica",
       automationTitle: "Después de la acción de la IA",
@@ -136,9 +136,9 @@ export const es = {
         branchBook: "Reservar cita",
         branchCancel: "Cancelar cita",
         branchFallback: "Fallback",
-        timelyCheck: "Timely — consultar disponibilidad",
-        timelyBook: "Timely — reservar cita",
-        timelyCancel: "Timely — cancelar cita",
+        timelyCheck: "Timely: consultar disponibilidad",
+        timelyBook: "Timely: reservar cita",
+        timelyCancel: "Timely: cancelar cita",
         bookConfirmIf: "¿Confirmación por email?",
         bookConfirmHint: "whatsapp o email",
         cancelConfirmIf: "¿Aviso cancelación por email?",
@@ -151,7 +151,7 @@ export const es = {
         respondBooked: "Responder reservado",
         respondCancelled: "Responder cancelado",
         respondUnknown: "Responder acción desconocida",
-        waitMarketing: "Espera 30 días — marketing",
+        waitMarketing: "Espera 30 días: marketing",
         triggerMarketing: "Campaña rebooking 30 días",
         parallelLabel: "También en paralelo",
       },
@@ -226,19 +226,19 @@ export const es = {
     subtitle: "Desde la primera consulta hasta clientes recurrentes e información del cliente.",
     badge: "Siempre activo",
     lineLabel: "Dónde te contactan los clientes",
-    lineCaption: "Teléfono, WhatsApp, web y email — una experiencia conectada",
+    lineCaption: "Teléfono, WhatsApp, web y email, una experiencia conectada",
     flowChannels: ["Teléfono", "WhatsApp", "Web"],
     flowBrand: "RingsAway",
     flowBadge: "🟢 Conectado 24/7",
     clarifiers: [
       "Funciona con tu número y canales actuales",
-      "Los clientes usan lo que ya conocen — sin instalar otra app",
+      "Los clientes usan lo que ya conocen, sin instalar otra app",
       "Automatización desde la consulta hasta el seguimiento y el análisis",
     ],
     steps: [
       {
         title: "Los clientes contactan tu negocio",
-        text: "Te contactan por los mismos canales de siempre — llamadas, WhatsApp, consultas en la web o mensajes.",
+        text: "Te contactan por los mismos canales de siempre, llamadas, WhatsApp, consultas en la web o mensajes.",
         badge: "Teléfono • WhatsApp • Email",
       },
       {
@@ -314,9 +314,9 @@ export const es = {
       priceOneOff: "89 € por informe",
       priceShort: "89 €",
       description:
-        "Un informe mensual aparte elaborado por nuestro agente de investigación UX. Leemos Google Reviews, Trustpilot y TripAdvisor — podemos añadir otras fuentes de reseñas bajo petición — además de feedback web y encuestas, y entregamos quejas, elogios, tendencias de sentimiento, competencia, ideas de respuesta y un plan de acción priorizado. Informes puntuales: 89 €.",
+        "Un informe mensual aparte elaborado por nuestro agente de investigación UX. Leemos Google Reviews, Trustpilot y TripAdvisor, podemos añadir otras fuentes de reseñas bajo petición, además de feedback web y encuestas, y entregamos quejas, elogios, tendencias de sentimiento, competencia, ideas de respuesta y un plan de acción priorizado. Informes puntuales: 89 €.",
       highlights: [
-        "Google Reviews, Trustpilot, TripAdvisor — más fuentes bajo petición",
+        "Google Reviews, Trustpilot, TripAdvisor, más fuentes bajo petición",
         "Principales quejas y temas de elogio",
         "Tendencias de sentimiento mes a mes",
         "Respuestas sugeridas para Google",
@@ -331,7 +331,7 @@ export const es = {
       floatingReviews: [
         {
           quote:
-            "La mejor paella de la zona — el personal recordó nuestro aniversario.",
+            "La mejor paella de la zona, el personal recordó nuestro aniversario.",
           author: "Claire M.",
           stars: 5,
           source: "google",
@@ -355,11 +355,11 @@ export const es = {
     eyebrow: "Informes de clientes",
     title: "Informes VoC reales de reseñas de Google",
     subtitle:
-      "Puntuaciones y temas de negocios reales que analizamos. Abra un informe para ver sentimiento, quejas, elogios y acciones mensuales — el mismo entregable que recibe usted.",
+      "Puntuaciones y temas de negocios reales que analizamos. Abra un informe para ver sentimiento, quejas, elogios y acciones mensuales, el mismo entregable que recibe usted.",
     tabsLabel: "Sector",
     viewReport: "Ver informe",
     hideReport: "Ocultar informe",
-    getMyReport: "Quiero mi informe — 89 €",
+    getMyReport: "Quiero mi informe por 89 €",
     comingSoon: "Próximamente",
     comingSoonBlurb: "Informe VoC para este sector en camino.",
     scoreLabel: "Puntuación VoC",
@@ -416,7 +416,7 @@ export const es = {
         ],
         positives: [
           "Marisco fresco y pesca del día elogiados en 31 reseñas",
-          "Equipo amable — reservas por teléfono descritas como muy fáciles",
+          "Equipo amable, reservas por teléfono descritas como muy fáciles",
           "Vistas al puerto mencionadas como motivo para volver",
         ],
         negatives: [
@@ -523,7 +523,7 @@ export const es = {
         ],
         positives: [
           "Color y balayage elogiados en 22 reseñas",
-          "Clientes piden la misma estilista — confianza en el equipo",
+          "Clientes piden la misma estilista, confianza en el equipo",
           "Ambiente limpio y relajado mencionado con frecuencia",
         ],
         negatives: [
@@ -584,7 +584,7 @@ export const es = {
               "Me encanta el color pero esperé 40 minutos más allá de mi cita del sábado.",
             replyLabel: "Respuesta sugerida para Google",
             replyText:
-              "Gracias, Elena — esperar tanto no es aceptable. Escríbenos con tu próxima franja preferida y te priorizamos con un tratamiento de cortesía.",
+              "Gracias, Elena, esperar tanto no es aceptable. Escríbenos con tu próxima franja preferida y te priorizamos con un tratamiento de cortesía.",
           },
           googleStrategy: [
             "Publicar lista de precios y servicios de novias en la ficha",
@@ -691,7 +691,7 @@ export const es = {
               "Interesado en un alquiler con vistas al mar pero tardaron tres días en responder. La visita se movió dos veces.",
             replyLabel: "Respuesta sugerida",
             replyText:
-              "David, gracias por tu paciencia — debimos responder el mismo día. Te asignamos un contacto dedicado y confirmaremos la próxima visita por SMS.",
+              "David, gracias por tu paciencia, debimos responder el mismo día. Te asignamos un contacto dedicado y confirmaremos la próxima visita por SMS.",
           },
           googleStrategy: [
             "Destacar equipo angloparlante en el perfil de TripAdvisor",
@@ -798,7 +798,7 @@ export const es = {
               "Las enfermeras fueron encantadoras pero no pude cita con el médico en dos semanas.",
             replyLabel: "Respuesta sugerida para Google",
             replyText:
-              "Robert, lamentamos las dificultades para reservar. Hemos abierto más huecos telefónicos de médico de cabecera — llama a recepción y te orientamos o te derivamos a la vía urgente adecuada.",
+              "Robert, lamentamos las dificultades para reservar. Hemos abierto más huecos telefónicos de médico de cabecera, llama a recepción y te orientamos o te derivamos a la vía urgente adecuada.",
           },
           googleStrategy: [
             "Listar seguros aceptados y horario de urgencias de forma visible",
@@ -826,7 +826,7 @@ export const es = {
       "Quejas, elogios, competencia, borradores de respuesta y el plan de acción de {{business}} están en el informe mensual completo.",
     getFullReport: "Obtener informe completo",
     reportPrice: "89 € por informe",
-    reportPriceCta: "Informe completo — 89 €",
+    reportPriceCta: "Informe completo por 89 €",
     getInTouch: "Contactar",
     emptyGridHint:
       "Publique un informe listo desde el panel (Caso de estudio → fila de informes VoC) para mostrarlo aquí.",
@@ -839,7 +839,7 @@ export const es = {
     subtitle:
       "Conecta calendarios, plataformas de reservas, mensajería y CRM. Integramos RingsAway con tu stack en la configuración.",
     footnote:
-      "¿Necesitas otra cosa? Cuéntanos en el formulario de contacto — integraciones a medida en Enterprise.",
+      "¿Necesitas otra cosa? Cuéntanos en el formulario de contacto, integraciones a medida en Enterprise.",
     categories: {
       restaurants: {
         title: "Restaurantes",
@@ -1139,7 +1139,7 @@ export const es = {
     subtitle:
       "Empieza con una recepcionista IA y añade insight del cliente a medida que creces.",
     flexNote:
-      "Solo mes a mes — sin atarte a una suscripción. Cancela cuando quieras, añade o quita servicios y activa funciones según las necesites.",
+      "Solo mes a mes, sin atarte a una suscripción. Cancela cuando quieras, añade o quita servicios y activa funciones según las necesites.",
     popular: "MÁS POPULAR",
     setupLabel: "Configuración",
     monthlyLabel: "Mensual",
@@ -1313,7 +1313,7 @@ export const es = {
     notConfigured:
       "El calendario online estará listo pronto. Escríbenos y te enviamos una cita con enlace Meet.",
     emailFallback: "Email para reservar demo",
-    meetNote: "Reserva con Google Calendar — enlace Meet al confirmar la cita.",
+    meetNote: "Reserva con Google Calendar, enlace Meet al confirmar la cita.",
     viewPricing: "Ver precios",
   },
   footer: {
@@ -1341,7 +1341,7 @@ export const es = {
     eyebrow: "Contacto",
     title: "Hablemos con un café",
     subtitle:
-      "Cuéntanos tu negocio y qué necesitas — recepción IA, informes VoC o ambos. Te responderemos por email.",
+      "Cuéntanos tu negocio y qué necesitas, recepción IA, informes VoC o ambos. Te responderemos por email.",
     emailReach: "Escríbenos a",
     nameLabel: "Nombre",
     namePlaceholder: "Tu nombre",
@@ -1355,7 +1355,7 @@ export const es = {
     messagePlaceholder: "¿De qué te gustaría hablar?",
     submit: "Enviar mensaje",
     sending: "Enviando…",
-    success: "Gracias — tu mensaje se ha enviado. Te responderemos por email pronto.",
+    success: "Gracias, tu mensaje se ha enviado. Te responderemos por email pronto.",
     errorGeneric:
       "No pudimos enviar tu mensaje. Inténtalo de nuevo o escribe a hello@ringsaway.com.",
     privacy: "Solo usamos tus datos para responder a esta consulta.",

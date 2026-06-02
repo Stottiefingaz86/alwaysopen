@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "RingsAway — 24/7 AI receptionist and customer feedback reports";
+export const alt = "RingsAway, 24/7 AI receptionist and customer feedback reports";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

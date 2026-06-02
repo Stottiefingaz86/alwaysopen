@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "RingsAway is a managed AI receptionist and booking automation service for local businesses. 24/7 phone answering on your real number, missed-call recovery, SMS confirmations and reminders, follow-ups, review intelligence, and monthly Voice of Customer reports. English and Spanish. Based in Manilva, Spain — Costa del Sol and worldwide remote onboarding.",
+    "RingsAway is a managed AI receptionist and booking automation service for local businesses. 24/7 phone answering on your real number, missed-call recovery, SMS confirmations and reminders, follow-ups, review intelligence, and monthly Voice of Customer reports. English and Spanish. Based in Manilva, Spain, Costa del Sol and worldwide remote onboarding.",
   keywords: [
     "AI receptionist",
     "AI receptionist for salons",

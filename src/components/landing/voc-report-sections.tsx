@@ -138,7 +138,7 @@ export function ThemeList({
   );
 }
 
-/** Clickable theme chips — expand reviews that match each theme from the scrape. */
+/** Clickable theme chips, expand reviews that match each theme from the scrape. */
 export function ThemeReviewsBlock({
   themes,
   tone,
@@ -196,7 +196,7 @@ export function ThemeReviewsBlock({
       <ul className="flex flex-wrap gap-2">
         {visibleThemes.length === 0 ? (
           <li className="text-xs text-google-gray-500">
-            No verified themes in this sample — regenerate the report to refresh counts.
+            No verified themes in this sample, regenerate the report to refresh counts.
           </li>
         ) : null}
         {visibleThemes.map(({ theme, count }) => {
@@ -230,13 +230,13 @@ export function ThemeReviewsBlock({
             Reviews matching &ldquo;{themeLabelWithoutCount(selectedTheme)}&rdquo;
             <span className="font-normal text-google-gray-500">
               {" "}
-              — {matching.length} of {pool.length} matching review
+             , {matching.length} of {pool.length} matching review
               {pool.length === 1 ? "" : "s"} ({poolLabel}
               {reviewsInPeriod != null && reviewsInPeriod > 0
                 ? ` · ${reviewsInPeriod} published in report month`
                 : ""}
               )
-              {hasCorpus ? "" : " — regenerate report for full corpus"}
+              {hasCorpus ? "" : ", regenerate report for full corpus"}
             </span>
           </p>
           {matching.length > 0 ? (
@@ -252,7 +252,7 @@ export function ThemeReviewsBlock({
             <p className="text-sm text-google-gray-500">
               No reviews in this scrape matched this theme with our text matcher.
               {verifiedCount === 0
-                ? " The mention count on the label is recounted from your scraped reviews — if this still shows 0, reviewers may describe the issue with different words (e.g. “slow” rather than “service speed”)."
+                ? " The mention count on the label is recounted from your scraped reviews, if this still shows 0, reviewers may describe the issue with different words (e.g. “slow” rather than “service speed”)."
                 : ""}{" "}
               {!hasCorpus
                 ? "Regenerate this report to attach all scraped quotes to theme filters."
@@ -408,7 +408,7 @@ export function CompetitorBlock({ data }: { data: CompetitorData }) {
       <p className="mt-0.5 text-[10px] text-google-gray-500">{data.note}</p>
       {"areaBenchmark" in data && data.areaBenchmark ? (
         <p className="mt-1 text-[10px] text-google-blue">
-          Portfolio benchmark — scores derived from VoC reports for businesses you manage
+          Portfolio benchmark, scores derived from VoC reports for businesses you manage
           with the same tag and location.
         </p>
       ) : null}
@@ -450,7 +450,7 @@ export function CompetitorBlock({ data }: { data: CompetitorData }) {
             What reviewers said when comparing venues
           </p>
           <p className="mt-0.5 text-[10px] text-google-gray-500">
-            Verbatim quotes from scraped Google reviews — not generated.
+            Verbatim quotes from scraped Google reviews, not generated.
           </p>
           <ul className="mt-3 space-y-3">
             {visible.map((m, idx) => (
@@ -526,7 +526,7 @@ export function SuggestionBlock({
   if (!items.length) {
     return (
       <p className="text-sm text-google-gray-500">
-        No unreplied 3-star or below reviews in this scrape — great job staying on top of Google
+        No unreplied 3-star or below reviews in this scrape, great job staying on top of Google
         replies.
       </p>
     );

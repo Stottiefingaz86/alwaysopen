@@ -173,7 +173,7 @@ export function applyPortfolioBenchmarkToReport(
       competitors: {
         ...existing,
         chartLabel: "Area benchmark (your portfolio)",
-        note: `Compared with ${peerCount} other ${tagLabel}${peerCount === 1 ? "" : "s"} in ${input.location} — Google-equivalent scores from latest VoC reports in your account.`,
+        note: `Compared with ${peerCount} other ${tagLabel}${peerCount === 1 ? "" : "s"} in ${input.location}, Google-equivalent scores from latest VoC reports in your account.`,
         rows: [...areaRows, ...fromReviews].slice(0, 8),
         areaBenchmark: true,
       },

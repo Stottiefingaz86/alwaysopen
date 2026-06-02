@@ -53,7 +53,7 @@ export function starReviewLabel(stars: number | null | undefined): string {
 export function fallbackGoogleReply(author: string): string {
   const first = author.trim().split(/\s+/)[0];
   const name = first && first !== "Reviewer" && first !== "Anonymous" ? `, ${first}` : "";
-  return `Thank you for your feedback${name}. We are sorry your visit did not meet expectations. We are reviewing what happened and would welcome the chance to make this right — please contact us directly.`;
+  return `Thank you for your feedback${name}. We are sorry your visit did not meet expectations. We are reviewing what happened and would welcome the chance to make this right, please contact us directly.`;
 }
 
 export function formatReviewDate(dateStr: string | null): string | null {

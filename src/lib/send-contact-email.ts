@@ -124,7 +124,7 @@ export async function sendContactEmail(payload: ContactFormPayload) {
           from,
           [LEADS_TO_EMAIL_FALLBACK],
           payload,
-          `Intended inbox: ${LEADS_TO_EMAIL} (Resend test mode — verify ringsaway.com to deliver there directly).`
+          `Intended inbox: ${LEADS_TO_EMAIL} (Resend test mode, verify ringsaway.com to deliver there directly).`
         );
         return;
       }

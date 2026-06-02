@@ -57,7 +57,7 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
     "These codes can be used for things like checking whether call forwarding is active, sending calls to another number, turning off call diverts, checking your IMEI number, or managing call waiting."
   ),
   p(
-    "Most people never think about them. But for local businesses, they can be extremely useful — because GSM codes can help control what happens when someone calls your business number. And that is exactly where missed-call recovery begins."
+    "Most people never think about them. But for local businesses, they can be extremely useful, because GSM codes can help control what happens when someone calls your business number. And that is exactly where missed-call recovery begins."
   ),
   h2("Common GSM codes local businesses should know"),
   p(
@@ -89,12 +89,12 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
   h3("Forward calls when busy"),
   p("Dial: **67*NUMBER#"),
   p(
-    "This forwards calls when the line is busy — useful when you are already on a call. For example, a restaurant taking one reservation can route a second caller to an AI receptionist instead of a busy tone."
+    "This forwards calls when the line is busy, useful when you are already on a call. For example, a restaurant taking one reservation can route a second caller to an AI receptionist instead of a busy tone."
   ),
   h3("Forward calls when unreachable"),
   p("Dial: **62*NUMBER#"),
   p(
-    "This forwards calls when the phone is switched off, out of signal, or unreachable — helpful for trades, mobile teams, and estate agents."
+    "This forwards calls when the phone is switched off, out of signal, or unreachable, helpful for trades, mobile teams, and estate agents."
   ),
   h3("Cancel all call forwarding"),
   p("Dial: ##002#"),
@@ -117,14 +117,14 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
   ),
   h3("4. Route calls outside business hours"),
   p(
-    "After-hours calls can be valuable — table bookings, appointments, availability, quotes. With the right routing, an AI receptionist can capture those opportunities."
+    "After-hours calls can be valuable, table bookings, appointments, availability, quotes. With the right routing, an AI receptionist can capture those opportunities."
   ),
   h2("GSM codes and missed-call recovery"),
   p(
     "Missed-call recovery is one of the simplest ways for a local business to protect revenue. The old journey: customer calls → nobody answers → customer gives up."
   ),
   p(
-    "The smarter journey: customer calls → team misses the call → call routes to AI receptionist → customer gives details → SMS confirmation is sent → booking or follow-up is created. That can turn a missed call into a customer — and sometimes one recovered customer pays for the entire system."
+    "The smarter journey: customer calls → team misses the call → call routes to AI receptionist → customer gives details → SMS confirmation is sent → booking or follow-up is created. That can turn a missed call into a customer, and sometimes one recovered customer pays for the entire system."
   ),
   h2("A simple example for a salon"),
   p(
@@ -143,11 +143,11 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
   ),
   h2("A simple example for a restaurant"),
   p(
-    "A restaurant is in the middle of lunch service. The phone rings while staff are serving customers. Instead of missing the call, unanswered or busy calls can route to an AI receptionist that handles reservation requests, opening hours, menu questions, allergens, outdoor seating, group bookings, directions, and follow-up messages — while service keeps flowing."
+    "A restaurant is in the middle of lunch service. The phone rings while staff are serving customers. Instead of missing the call, unanswered or busy calls can route to an AI receptionist that handles reservation requests, opening hours, menu questions, allergens, outdoor seating, group bookings, directions, and follow-up messages, while service keeps flowing."
   ),
   h2("Important safety note about GSM codes"),
   p(
-    "GSM codes are powerful because they change how your calls are routed. Use them carefully. Never enter codes sent by unknown callers or random messages — some scams trick people into forwarding calls to a number they do not control."
+    "GSM codes are powerful because they change how your calls are routed. Use them carefully. Never enter codes sent by unknown callers or random messages, some scams trick people into forwarding calls to a number they do not control."
   ),
   p(
     "Before using call-forwarding codes, confirm the correct setup with your mobile provider, telecoms provider, or trusted technical partner. If something looks wrong, a reset code such as ##002# can often cancel active forwarding, depending on the network."
@@ -161,11 +161,11 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
     "Appointment reminders remain one of the most effective ways to reduce no-shows. Salons, clinics, restaurants, trades, estate agents, and local services rely on SMS to keep customers informed."
   ),
   p(
-    'Example: "Hi Sarah, your appointment is tomorrow at 10:30. Reply YES to confirm." — small message, big impact on time, money, and lost revenue.'
+    'Example: "Hi Sarah, your appointment is tomorrow at 10:30. Reply YES to confirm.", small message, big impact on time, money, and lost revenue.'
   ),
   h3("2. Booking confirmations"),
   p(
-    "When a customer books, they want reassurance. SMS confirmations give instant confidence and close the loop — fewer manual follow-up calls for the team."
+    "When a customer books, they want reassurance. SMS confirmations give instant confidence and close the loop, fewer manual follow-up calls for the team."
   ),
   p(
     'Example: "Thanks for booking with Brows by Sarah. Your appointment with Jess is confirmed for Tuesday at 14:00."'
@@ -176,15 +176,15 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
   ),
   h3("4. AI receptionists"),
   p(
-    "AI receptionists answer calls, ask questions, take details, qualify enquiries, handle FAQs, and route customers to the right next step — the next evolution of business phone systems, built on the same habit GSM helped create: customers calling the business."
+    "AI receptionists answer calls, ask questions, take details, qualify enquiries, handle FAQs, and route customers to the right next step, the next evolution of business phone systems, built on the same habit GSM helped create: customers calling the business."
   ),
   h3("5. Call forwarding and mobile backup"),
   p(
-    "Many businesses forward calls from a main number to a mobile, receptionist, team member, or AI system — especially useful for small teams where overflow, after-hours, and on-site work would otherwise mean missed enquiries."
+    "Many businesses forward calls from a main number to a mobile, receptionist, team member, or AI system, especially useful for small teams where overflow, after-hours, and on-site work would otherwise mean missed enquiries."
   ),
   h2("Why this matters more than ever"),
   p(
-    "Customers are impatient. If they call and nobody answers, they often move on — to the next salon, restaurant, clinic, or tradesperson on Google. That missed call could be worth €50, €100, €500, or more."
+    "Customers are impatient. If they call and nobody answers, they often move on, to the next salon, restaurant, clinic, or tradesperson on Google. That missed call could be worth €50, €100, €500, or more."
   ),
   p(
     "The goal of modern call automation is not to replace the human touch. It is to make sure every customer gets a response when the team is busy."
@@ -211,10 +211,10 @@ export const whatIsGsmEn: NewsBodyBlock[] = [
   ),
   h2("The future of business calls"),
   p(
-    "The future is not just about having a phone number — it is about what happens when someone uses it. A business line should connect to a system that can answer, respond, book, remind, follow up, and learn."
+    "The future is not just about having a phone number, it is about what happens when someone uses it. A business line should connect to a system that can answer, respond, book, remind, follow up, and learn."
   ),
   p(
-    "At RingsAway, we help local businesses turn missed calls into customers through AI receptionists, booking automation, SMS confirmations, appointment reminders, follow-up campaigns, and customer insight reports. Because one missed call can pay for itself — and with the right system, your business never has to miss a customer again."
+    "At RingsAway, we help local businesses turn missed calls into customers through AI receptionists, booking automation, SMS confirmations, appointment reminders, follow-up campaigns, and customer insight reports. Because one missed call can pay for itself, and with the right system, your business never has to miss a customer again."
   ),
   h2("Ready to stop missing customers?"),
   p(
@@ -303,7 +303,7 @@ export const whatIsGsmEs: NewsBodyBlock[] = [
   h3("Desviar si no hay cobertura"),
   p("Marcar: **62*NUMERO#"),
   p(
-    "Desvía si el teléfono está apagado o sin señal — útil para oficios, equipos móviles e inmobiliarias."
+    "Desvía si el teléfono está apagado o sin señal, útil para oficios, equipos móviles e inmobiliarias."
   ),
   h3("Cancelar todos los desvíos"),
   p("Marcar: ##002#"),
@@ -326,7 +326,7 @@ export const whatIsGsmEs: NewsBodyBlock[] = [
   ),
   h3("4. Fuera del horario comercial"),
   p(
-    "Las llamadas fuera de horario pueden valer oro — mesa, cita, disponibilidad, presupuesto. Con el desvío adecuado, la IA las captura."
+    "Las llamadas fuera de horario pueden valer oro, mesa, cita, disponibilidad, presupuesto. Con el desvío adecuado, la IA las captura."
   ),
   h2("Códigos GSM y recuperación de llamadas perdidas"),
   p(
@@ -352,7 +352,7 @@ export const whatIsGsmEs: NewsBodyBlock[] = [
   ),
   h2("Ejemplo sencillo: un restaurante"),
   p(
-    "Servicio de comidas, teléfono suena. Las llamadas sin contestar u ocupadas pueden ir a una IA que gestiona reservas, horarios, carta, alérgenos, terraza, grupos, direcciones y seguimiento — sin frenar el servicio en sala."
+    "Servicio de comidas, teléfono suena. Las llamadas sin contestar u ocupadas pueden ir a una IA que gestiona reservas, horarios, carta, alérgenos, terraza, grupos, direcciones y seguimiento, sin frenar el servicio en sala."
   ),
   h2("Nota de seguridad sobre códigos GSM"),
   p(
@@ -385,11 +385,11 @@ export const whatIsGsmEs: NewsBodyBlock[] = [
   ),
   h3("4. Recepcionistas IA"),
   p(
-    "Contestan, preguntan, cualifican, resuelven FAQs y enrutan — la evolución del teléfono del negocio sobre el mismo hábito que GSM popularizó: llamar al negocio."
+    "Contestan, preguntan, cualifican, resuelven FAQs y enrutan, la evolución del teléfono del negocio sobre el mismo hábito que GSM popularizó: llamar al negocio."
   ),
   h3("5. Desvío y respaldo móvil"),
   p(
-    "Muchos desvían del número principal al móvil, recepción, equipo o IA — clave para equipos pequeños con overflow, fuera de horario o trabajo en obra."
+    "Muchos desvían del número principal al móvil, recepción, equipo o IA, clave para equipos pequeños con overflow, fuera de horario o trabajo en obra."
   ),
   h2("Por qué importa más que nunca"),
   p(

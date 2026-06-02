@@ -91,7 +91,7 @@ export function buildStubVocReport(input: {
 
   return {
     businessName,
-    location: location || "—",
+    location: location || ", ",
     listingGapsTitle: "Listing gaps (stub)",
     source: "google",
     reviewCount: count,
@@ -132,10 +132,10 @@ export function buildStubVocReport(input: {
         Math.max(50, score - 4),
         score,
       ],
-      explanation: `Bars show estimated monthly sentiment from star ratings in this scrape (${count} reviews). Overall score ${score}. Recent months trend ${score >= 65 ? "upward" : "flat"} — enable OpenAI for a narrative tied to real review dates.`,
+      explanation: `Bars show estimated monthly sentiment from star ratings in this scrape (${count} reviews). Overall score ${score}. Recent months trend ${score >= 65 ? "upward" : "flat"}, enable OpenAI for a narrative tied to real review dates.`,
     },
     menuGaps: [
-      "Stub report — add OpenAI key for listing & menu gap analysis",
+      "Stub report, add OpenAI key for listing & menu gap analysis",
       "Verify hours and photos on Google Business Profile",
     ],
     trending: [
@@ -171,7 +171,7 @@ export function buildStubVocReport(input: {
     ],
     monthlyReport: {
       complaints: {
-        summary: `Across low-star and negative reviews, themes cluster around: ${negBullets.join("; ")}. Example quote below — not an isolated case.`,
+        summary: `Across low-star and negative reviews, themes cluster around: ${negBullets.join("; ")}. Example quote below, not an isolated case.`,
         themes: complaintThemes.length
           ? complaintThemes
           : ["Insufficient negative review text in sample"],

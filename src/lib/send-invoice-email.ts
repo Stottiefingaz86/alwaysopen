@@ -56,9 +56,9 @@ export async function sendInvoiceEmail(payload: InvoiceEmailPayload) {
       ? "Pay or view your invoice online:\n" + payload.invoiceUrl
       : `Pay by bank transfer or reply to this email (${COMPANY_EMAIL}) and we will send payment details.`,
     "",
-    "Questions? Reply to this email — we're happy to help.",
+    "Questions? Reply to this email, we're happy to help.",
     "",
-    "— RingsAway",
+    "RingsAway",
     COMPANY_EMAIL,
   ].filter((line): line is string => line != null);
 
@@ -76,12 +76,12 @@ export async function sendInvoiceEmail(payload: InvoiceEmailPayload) {
         : `<p>Pay by bank transfer or reply to <a href="mailto:${COMPANY_EMAIL}">${COMPANY_EMAIL}</a> for payment details.</p>`
     }
     <p>Questions? Reply to this email.</p>
-    <p>— RingsAway<br/><a href="mailto:${COMPANY_EMAIL}">${COMPANY_EMAIL}</a></p>
+    <p>RingsAway<br/><a href="mailto:${COMPANY_EMAIL}">${COMPANY_EMAIL}</a></p>
   `.trim();
 
   const subject = isSetup
-    ? `RingsAway setup invoice — ${payload.clientName}`
-    : `RingsAway invoice — ${payload.clientName}`;
+    ? `RingsAway setup invoice for ${payload.clientName}`
+    : `RingsAway invoice for ${payload.clientName}`;
 
   return sendResendEmail({
     to: [payload.contactEmail],

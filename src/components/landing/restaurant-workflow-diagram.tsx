@@ -205,7 +205,7 @@ export function RestaurantWorkflowDiagram({ className }: { className?: string })
     <div className={cn("space-y-4", className)}>
       <p className="text-[11px] leading-relaxed text-google-gray-600">
         <span className="font-semibold text-amber-900">{w.packageLabel}</span>
-        {" — "}
+        {", "}
         {w.caption}
       </p>
 

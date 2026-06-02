@@ -28,7 +28,7 @@ export const missedCallsEn: NewsBodyBlock[] = [
       {
         type: "text",
         value:
-          "For salons, clinics, restaurants, trades, property services, and many other local businesses, the phone is still one of the highest-intent channels available. People who call are usually ready to act — they're not browsing or researching. They're trying to book. And if nobody answers, they often move on.",
+          "For salons, clinics, restaurants, trades, property services, and many other local businesses, the phone is still one of the highest-intent channels available. People who call are usually ready to act, they're not browsing or researching. They're trying to book. And if nobody answers, they often move on.",
       },
     ],
   },
@@ -53,7 +53,7 @@ export const missedCallsEn: NewsBodyBlock[] = [
       {
         icon: "phone",
         title: "Immediate need",
-        description: "They want an answer now — not an email back tomorrow.",
+        description: "They want an answer now, not an email back tomorrow.",
       },
       {
         icon: "growth",
@@ -100,7 +100,7 @@ export const missedCallsEn: NewsBodyBlock[] = [
     ],
     callout: {
       title: "RingsAway answers every call, every time",
-      body: "An AI receptionist on your real business number — bookings, FAQs, and confirmations without hiring another full-time receptionist.",
+      body: "An AI receptionist on your real business number, bookings, FAQs, and confirmations without hiring another full-time receptionist.",
     },
   },
   {
@@ -119,7 +119,7 @@ export const missedCallsEn: NewsBodyBlock[] = [
     segments: [
       {
         type: "text",
-        value: "People rarely leave voicemails anymore. When someone doesn't answer, they hang up, search again, and call a competitor — often in less than sixty seconds.",
+        value: "People rarely leave voicemails anymore. When someone doesn't answer, they hang up, search again, and call a competitor, often in less than sixty seconds.",
       },
     ],
   },
@@ -231,7 +231,7 @@ export const missedCallsEs: NewsBodyBlock[] = [
       {
         type: "text",
         value:
-          "Para salones, clínicas, restaurantes, oficios, inmobiliarias y muchos otros negocios locales, el teléfono sigue siendo uno de los canales de mayor intención. Quien llama suele estar listo para actuar — no está navegando. Quiere reservar. Y si nadie contesta, muchas veces sigue con otro.",
+          "Para salones, clínicas, restaurantes, oficios, inmobiliarias y muchos otros negocios locales, el teléfono sigue siendo uno de los canales de mayor intención. Quien llama suele estar listo para actuar, no está navegando. Quiere reservar. Y si nadie contesta, muchas veces sigue con otro.",
       },
     ],
   },
@@ -256,7 +256,7 @@ export const missedCallsEs: NewsBodyBlock[] = [
       {
         icon: "phone",
         title: "Necesidad inmediata",
-        description: "Quieren respuesta ahora — no un email mañana.",
+        description: "Quieren respuesta ahora, no un email mañana.",
       },
       {
         icon: "growth",
@@ -303,7 +303,7 @@ export const missedCallsEs: NewsBodyBlock[] = [
     ],
     callout: {
       title: "RingsAway contesta cada llamada",
-      body: "Una recepcionista IA en tu número real — reservas, FAQs y confirmaciones sin contratar otra persona a jornada completa.",
+      body: "Una recepcionista IA en tu número real, reservas, FAQs y confirmaciones sin contratar otra persona a jornada completa.",
     },
   },
   {
@@ -323,7 +323,7 @@ export const missedCallsEs: NewsBodyBlock[] = [
       {
         type: "text",
         value:
-          "Casi nadie deja buzón de voz. Si no contestan, cuelgan, buscan de nuevo y llaman a un competidor — a menudo en menos de un minuto.",
+          "Casi nadie deja buzón de voz. Si no contestan, cuelgan, buscan de nuevo y llaman a un competidor, a menudo en menos de un minuto.",
       },
     ],
   },

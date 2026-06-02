@@ -41,8 +41,8 @@ export async function POST(request: Request) {
 
   const isCancel = body.type === "cancellation";
   const subject = isCancel
-    ? `Appointment cancelled — ${business}`
-    : `Appointment confirmed — ${business}`;
+    ? `Appointment cancelled, ${business}`
+    : `Appointment confirmed, ${business}`;
 
   const text = isCancel
     ? `Hi ${name},\n\nYour appointment with ${business} has been cancelled.${ref}\n\nWe hope to see you again soon.`

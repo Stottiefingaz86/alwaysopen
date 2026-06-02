@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-/** ~lg:grid-cols-4 column width — carousel uses fixed slides, not full row stretch */
+/** ~lg:grid-cols-4 column width, carousel uses fixed slides, not full row stretch */
 const CAROUSEL_CARD_CLASS =
   "w-[min(72vw,240px)] shrink-0 snap-start sm:w-[260px]";
 
@@ -31,7 +31,7 @@ const LANDING_PLACEMENTS = "voc-demos,voc-carousel";
 type VocIndustryShowcaseProps = {
   className?: string;
   embedded?: boolean;
-  /** SSR from homepage — avoids empty grid when client fetch fails */
+  /** SSR from homepage, avoids empty grid when client fetch fails */
   initialPublished?: CaseStudyListItem[];
 };
 
@@ -79,11 +79,11 @@ export function VocIndustryShowcase({
       setPublished(json.items ?? []);
       if (json.configMissing) {
         setLoadIssue(
-          "Reports cannot load on this deployment — set SUPABASE_SERVICE_ROLE_KEY in Vercel and redeploy."
+          "Reports cannot load on this deployment, set SUPABASE_SERVICE_ROLE_KEY in Vercel and redeploy."
         );
       } else if (json.tableMissing) {
         setLoadIssue(
-          "Database table missing — run the voc_case_studies migration from the dashboard setup box."
+          "Database table missing, run the voc_case_studies migration from the dashboard setup box."
         );
       } else if (!json.items?.length && json.error) {
         setLoadIssue(json.error);

@@ -111,7 +111,7 @@ export async function listPublishedCaseStudies(options?: {
       id: row.id,
       title: caseStudyDisplayTitle(row.title, biz.name),
       businessName: biz.name,
-      location: biz.location ?? data.location ?? "—",
+      location: biz.location ?? data.location ?? "",
       slug: biz.slug,
       period: rep.period,
       tags,
