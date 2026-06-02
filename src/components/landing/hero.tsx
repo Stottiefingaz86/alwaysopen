@@ -15,7 +15,10 @@ export function Hero() {
   const contactHref = getContactHref(true);
 
   return (
-    <section className="relative overflow-hidden bg-white pb-6 pt-4 md:pb-12 md:pt-8">
+    <section
+      id="hero"
+      className="relative overflow-hidden bg-white pb-6 pt-4 md:pb-12 md:pt-8"
+    >
       <DotGrid className="opacity-35" />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

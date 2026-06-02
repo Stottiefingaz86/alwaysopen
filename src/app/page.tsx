@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HomePageAnalytics } from "@/components/analytics/home-page-analytics";
 import { Navbar } from "@/components/landing/navbar";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { Hero } from "@/components/landing/hero";
@@ -42,6 +43,7 @@ export default async function Home() {
 
   return (
     <>
+      <HomePageAnalytics />
       <Navbar />
       <main className="overflow-x-clip">
         <Hero />

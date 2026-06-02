@@ -11,7 +11,7 @@ export function FinalCta() {
   const contactHref = getContactHref(true);
 
   return (
-    <section className="py-16 md:py-28">
+    <section id="final-cta" className="py-16 md:py-28">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">

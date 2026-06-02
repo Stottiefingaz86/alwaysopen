@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { Geist, Manjari } from "next/font/google";
 import { JsonLd } from "@/components/landing/json-ld";
 import { LocaleProvider } from "@/components/providers/locale-provider";
@@ -79,6 +80,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable, manjari.variable)}>
+      <GoogleAnalytics />
       <body className="min-h-screen overflow-x-clip bg-background font-sans text-foreground antialiased">
         <LocaleProvider>
           <JsonLd />

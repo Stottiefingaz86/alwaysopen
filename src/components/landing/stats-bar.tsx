@@ -19,7 +19,10 @@ export function StatsBar() {
 
   return (
     <>
-    <section className="flow-root overflow-visible border-t border-google-gray-200 bg-white pt-16 md:pt-24">
+    <section
+      id="stats"
+      className="flow-root overflow-visible border-t border-google-gray-200 bg-white pt-16 md:pt-24"
+    >
       <div className="mx-auto max-w-5xl space-y-10 px-4 pb-0 sm:px-6 md:space-y-14">
         <FadeIn>
           <div className="max-w-xl space-y-4">
